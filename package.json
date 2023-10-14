@@ -1,0 +1,83 @@
+{
+  "name": "park-n-share-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend application of the Park'N'Share Project - ASE 2023 Course",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASE2023-blue/thingy-client-blue.git"
+  },
+  "contributors": [
+    {
+      "name": "werner94fribourg",
+      "url": "https://github.com/werner94fribourg"
+    },
+    {
+      "name": "mdeliso97",
+      "url": "https://github.com/mdeliso97"
+    },
+    {
+      "name": "ahonongobi",
+      "url": "https://github.com/ahonongobi"
+    },
+    {
+      "name": "aimenfahmi98",
+      "url": "https://github.com/aimenfahmi98"
+    }
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@loadable/component": "^5.15.3",
+    "@reduxjs/toolkit": "^1.9.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-async": "^10.0.1",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "react-router": "^6.16.0",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
+    "sass": "^1.69.3",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "prettier": "^3.0.3",
+    "react-styleguidist": "^13.1.1",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "url-loader": "^4.1.1"
+  }
+}

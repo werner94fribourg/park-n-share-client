@@ -1,0 +1,22 @@
+@import './abstracts/mixins';
+@import './abstracts/variables';
+
+* {
+  box-sizing: border-box;
+  &::after,
+  &::before {
+    box-sizing: border-box;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+html {
+  font-family: 'Poppins', sans-serif;
+  font-size: 62.5%; // 1rem : 10px since 10px/16px = 0.625
+  color: $black-1;
+  @include respond(tab-portrait) {
+    font-size: 50%;
+  }
+}
