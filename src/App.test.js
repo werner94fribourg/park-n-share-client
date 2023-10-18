@@ -8,3 +8,5 @@ test('renders base app paragraph', () => {
 });
 
 // Dev creation
+
+// Authentication creation
