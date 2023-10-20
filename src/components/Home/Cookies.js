@@ -32,10 +32,10 @@ const Cookies = () => {
   return (
     <div>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle variant='h4'>Gestion des cookies</DialogTitle>
+        <DialogTitle variant='h4'>Cookie Management</DialogTitle>
         <DialogContent>
           <DialogContentText variant='h4'>
-            Ce site utilise des cookies pour améliorer votre expérience en personnalisant le contenu et les publicités, en fournissant des fonctionnalités de médias sociaux et en analysant notre trafic. Acceptez-vous l'utilisation de cookies ?
+          This site uses cookies to enhance your experience by personalizing content and advertisements, providing social media features, and analyzing our traffic. Do you accept the use of cookies?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
