@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={selectedTheme === 'dark' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={selectedTheme === 'light' ? lightTheme : darkTheme}>
       <CssBaseline />
       <AppRouter />
       {/* You can add a button or any other UI element to toggle the theme */}

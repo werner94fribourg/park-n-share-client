@@ -20,7 +20,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Free Parking
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -39,6 +39,9 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    // go to otp page
+    window.location.href = "/otp";
+
   };
 
   return (
@@ -105,9 +108,9 @@ export default function SignIn() {
                 style={{ width: '100% !important', margin: 10 }} // Set the width to 100%
                 fullWidth
                 />
-            <Grid container>
+            <Grid container style={{margin: 10}}>
               <Grid item xs>
-                <Link to={'/'} variant="body2">
+                <Link to={'/passwordReset'} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
