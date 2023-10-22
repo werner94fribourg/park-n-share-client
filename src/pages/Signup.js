@@ -98,8 +98,31 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  name="telephone"
+                  label="Phone Number"
+                  type="number"
+                  id="telephone"
+                  autoComplete="tel"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="password"
                   label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password Confirmation"
                   type="password"
                   id="password"
                   autoComplete="new-password"
