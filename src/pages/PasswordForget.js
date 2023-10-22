@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// TODO: handle password. Backend task
 function PasswordReset() {
   const handleSubmit = (event) => {
     event.preventDefault();
