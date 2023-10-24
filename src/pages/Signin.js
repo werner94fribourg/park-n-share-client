@@ -6,46 +6,58 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
-//import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from 'react-google-login'; // Ajout du composant GoogleLogin
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" to={'/'}>
-        Free Parking
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+function SignIn() {
+  const [formData, setFormData] = React.useState({
+    email: '',
+    password: '',
+  });
 
+  const [error, setError] = React.useState(null);
 
-const defaultTheme = createTheme();
-
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
-    // go to otp page
-    window.location.href = "/otp";
+  };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+
+    try {
+      // Send a POST request to sign-in API endpoint
+      const response = await fetch('http://localhost:8080/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Successful sign-in, redirect to OTP page
+        window.location.href = '/otp';
+      } else {
+        const data = await response.json();
+        setError(data.message);
+      }
+    } catch (error) {
+      setError('An error occurred while signing in.');
+    }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={createTheme()}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -72,6 +84,11 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={formData.email}
+              onChange={handleInputChange}
+              sx={{
+                fontSize: '30px',
+              }}
             />
             <TextField
               margin="normal"
@@ -82,11 +99,18 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={formData.password}
+              onChange={handleInputChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && (
+              <Typography variant="body2" color="error" sx={{ fontSize: '20px' }}>
+                {error}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -95,20 +119,21 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            {/* Bouton de connexion Google */}
             <GoogleLogin
-                clientId="YOUR_GOOGLE_CLIENT_ID"
-                buttonText="Sign up with Google"
-                onSuccess={responseGoogle => {
-                    console.log(responseGoogle);
-                }}
-                onFailure={responseGoogle => {
-                    console.log(responseGoogle);
-                }}
-                cookiePolicy="single_host_origin"
-                style={{ width: '100% !important', margin: 10 }} // Set the width to 100%
-                fullWidth
-                />
-            <Grid container style={{margin: 10}}>
+              clientId="YOUR_GOOGLE_CLIENT_ID"
+              buttonText="Sign in with Google"
+              onSuccess={responseGoogle => {
+                console.log(responseGoogle);
+              }}
+              onFailure={responseGoogle => {
+                console.log(responseGoogle);
+              }}
+              cookiePolicy="single_host_origin"
+              fullWidth
+              style={{ marginTop: '10px' }}
+            />
+            <Grid container style={{ margin: 10 }}>
               <Grid item xs>
                 <Link to={'/passwordReset'} variant="body2">
                   Forgot password?
@@ -122,8 +147,9 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
 }
+
+export default SignIn;
