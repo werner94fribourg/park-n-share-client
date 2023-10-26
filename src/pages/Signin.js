@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Link } from 'react-router-dom';
+import { Link, Routes } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,8 +13,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GoogleLogin } from 'react-google-login'; // Ajout du composant GoogleLogin
+import { useDispatch, useSelector } from 'react-redux';
+import { connect } from '../store/slices/auth';
+import {Route, useNavigate} from 'react-router';
 
 function SignIn() {
+   const dispatch = useDispatch();
+   const correctCredentials = useSelector((state) => state.auth.correctCredentials);
+   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     email: '',
     password: '',
@@ -29,31 +35,23 @@ function SignIn() {
       [name]: value,
     });
   };
+ React.useEffect(() => {
+    if (correctCredentials) {
+      navigate('/otp');
+    }
+ }, [correctCredentials]);
+
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError(null);
+     event.preventDefault();
+     const conneted = await connect(formData, dispatch);
 
-    try {
-      // Send a POST request to sign-in API endpoint
-      const response = await fetch('http://localhost:8080/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        // Successful sign-in, redirect to OTP page
-        window.location.href = '/otp';
-      } else {
-        const data = await response.json();
-        setError(data.message);
+     if(conneted){
+       navigate('/otp')
+      }else{
+        setError('Invalid Credentials');
       }
-    } catch (error) {
-      setError('An error occurred while signing in.');
-    }
+     
   };
 
   return (

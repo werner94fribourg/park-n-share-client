@@ -117,8 +117,19 @@ function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            <a
+              href="/"
+              style={{
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                color: 'blue',
+              }}
+            >
+              Back to Home
+            </a> - Sign up
           </Typography>
+
+
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -246,7 +257,7 @@ function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign Up 
             </Button>
             <GoogleLogin
               clientId="YOUR_GOOGLE_CLIENT_ID"
