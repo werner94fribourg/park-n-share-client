@@ -21,6 +21,4 @@ export const confirmPin = async (data) => {
     } else {
      // TODO: Handle error
     }
-   
- 
  }

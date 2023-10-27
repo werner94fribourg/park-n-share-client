@@ -16,9 +16,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Banner from './Banner';
 import Section_0 from '../Home/Section_0';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About Us','Princing', 'Login', 'Sign Up'];
+const isAuth = false;
+const navItems = isAuth ? ['Home', 'About Us', 'Pricing', 'Sign Out', 'My Account'] : ['Home', 'About Us', 'Pricing', 'Sign In', 'Sign Up'];
+
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -33,13 +36,17 @@ function DrawerAppBar(props) {
     <img src="https://i.postimg.cc/Sxv4FcFj/default-monochrome.png" alt="Logo" style={{ width: 90, height: 100 }} />
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+      {navItems.map((item) => (
+        <ListItem key={item} disablePadding>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <Link to={`/${item.toLowerCase().replace(/ /g, '')}`} style={{ textDecoration: 'none' }}>
               <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+            </Link>
+          </ListItemButton>
+        </ListItem>
+      ))}
+
+
       </List>
     </Box>
   );
@@ -69,12 +76,16 @@ function DrawerAppBar(props) {
 
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff', fontSize: '15px' }}>
-                  {item}
-                </Button>
-              ))}
+            {navItems.map((item) => {
+              const cleanedItem = item.toLowerCase().replace(/ /g, ''); // Supprime les espaces
+              return (
+                <Link key={item} to={`/${cleanedItem}`} style={{ textDecoration: 'none', color: '#fff' }}>
+                  <Button sx={{ fontSize: '15px' }}>{item}</Button>
+                </Link>
+              );
+            })}
           </Box>
+
         </Toolbar>
       </AppBar>
       

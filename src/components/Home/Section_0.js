@@ -1,13 +1,12 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Flex from '../FlexDiv/Flex';
 
 const Section_0 = () => {
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center">
-      <div style={{ flex: 1 }}>
-        <Typography variant="h4" sx={{ p: 5, textAlign: 'justify'}}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
+      <Flex title="" text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
           fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,
           aliquam dolore excepturi quae. Distinctio enim at eligendi perferendis in
           cum quibusdam sed quae, accusantium et aperiam? Quod itaque exercitationem,
@@ -28,12 +27,9 @@ const Section_0 = () => {
           fugiat praesentium doloremque architecto laborum aliquid. Quae, maxime
           recusandae? Eveniet dolore molestiae dicta blanditiis est expedita eius
           debitis cupiditate porro sed aspernatur quidem, repellat nihil quasi
-          praesentium quia eos, quibusdam provident.
-        </Typography>
-      </div>
-      <div style={{ flex: 1 }}>
-        <Typography variant="h4" sx={{ p: 5, textAlign: 'justify' }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
+          praesentium quia eos, quibusdam provident."  />
+      
+      <Flex title="" text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
           fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,
           aliquam dolore excepturi quae. Distinctio enim at eligendi perferendis in
           cum quibusdam sed quae, accusantium et aperiam? Quod itaque exercitationem,
@@ -54,9 +50,7 @@ const Section_0 = () => {
           fugiat praesentium doloremque architecto laborum aliquid. Quae, maxime
           recusandae? Eveniet dolore molestiae dicta blanditiis est expedita eius
           debitis cupiditate porro sed aspernatur quidem, repellat nihil quasi
-          praesentium quia eos, quibusdam provident.
-        </Typography>
-      </div>
+          praesentium quia eos, quibusdam provident." />
     </Box>
   );
 };

@@ -1,6 +1,9 @@
 import React from 'react';
 import { withStyles } from '@mui/styles';
 import { MuiOtpInput } from 'mui-one-time-password-input';
+import CustomTextField from '../components/General/Input';
+import { Box, Container } from '@mui/material';
+import SimpleButton from '../components/Boutton/SimpleButton';
 
 const styles = {
   otpContainer: {
@@ -41,17 +44,29 @@ const Otp = ({ classes }) => {
   }, [secondsRemaining]);
 
   return (
+    <Container component="main" maxWidth="xs">
     <div className={classes.otpContainer}>
       <div className={classes.otpLabel}>
-        PIN CODE (End in {secondsRemaining} seconds)
+        PIN CODE (End in {secondsRemaining} sec)
       </div>
-      <MuiOtpInput
-        className={classes.otpInput}
-        value={otp}
-        onChange={handleChange}
-        // You can also pass additional props here.
+      
+      <CustomTextField 
+        required
+        fullWidth
+        id="otp"
+        label="Pin code"
+        name="pin"
+        autoComplete="pin"
+        autoFocus
+        />
+      <SimpleButton
+        type="submit"
+        fullWidth
+        variant="contained"
+        text = "Submit Otp"
       />
     </div>
+    </Container>
   );
 };
 
