@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import Button  from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import React, { Component } from 'react';
+import React, { Component } from 'react'; //
 
 export default class RectangularButton extends Component {
      constructor(props) {
