@@ -22,10 +22,12 @@ const Banner = () => {
             <Typography variant="h2" sx={{ marginTop: '10%' , color: 'white'}}>
             Find Your Parking at an affordable price in Switzerland
             </Typography>
+           <Link to="/parking">
            <RectangularButton text="BOOK FREE PARKING" />
+           </Link>
           </Grid>
         </Grid>
-      </Container>
+      </Container> 
     </section>
   );
 };

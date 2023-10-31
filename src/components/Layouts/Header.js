@@ -17,11 +17,15 @@ import Button from '@mui/material/Button';
 import Banner from './Banner';
 import Section_0 from '../Home/Section_0';
 import { Link } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
 
 const drawerWidth = 240;
-const isAuth = false;
-const navItems = isAuth ? ['Home', 'About Us', 'Pricing', 'Sign Out', 'My Account'] : ['Home', 'About Us', 'Pricing', 'Sign In', 'Sign Up'];
-
+const isAuth = true;
+const navItems = isAuth ? ['Home', 'About Us', 'Become a provider', 'My Account', 'Sign Out'] : ['Home', 'About Us', 'Pricing', 'Sign In', 'Sign Up'];
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -33,7 +37,9 @@ function DrawerAppBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-    <img src="https://i.postimg.cc/Sxv4FcFj/default-monochrome.png" alt="Logo" style={{ width: 90, height: 100 }} />
+       <Link to="/" style={{ textDecoration: 'none' }}>
+       <img src="https://i.postimg.cc/Sxv4FcFj/default-monochrome.png" alt="Logo" style={{ width: 90, height: 100 }} />
+        </Link>
       <Divider />
       <List>
       {navItems.map((item) => (
@@ -52,7 +58,15 @@ function DrawerAppBar(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  const [anchorEl, setAnchorEl] = useState(null);
 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -72,8 +86,9 @@ function DrawerAppBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
+        <Link to="/" style={{ textDecoration: 'none' }}>
         <img src="https://i.postimg.cc/FzzbqYMb/default-monochrome-white.png" alt="Logo" style={{ width: '20%'}}   />
-
+        </Link>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => {
@@ -84,7 +99,29 @@ function DrawerAppBar(props) {
                 </Link>
               );
             })}
+            
           </Box>
+          {isAuth && (
+          <Avatar 
+          sx={{ bgcolor: deepOrange[500] }}
+          onClick={handleMenuOpen}
+          >
+            GA
+          </Avatar> 
+          )}
+
+          {/* Menu déroulant */}
+        <Menu
+          id="profile-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <Link to="/myprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <MenuItem onClick={handleMenuClose} sx={{fontSize: 18}}>My Profile</MenuItem>
+          </Link>
+          <MenuItem onClick={handleMenuClose} sx={{fontSize: 18}}>Logout</MenuItem>
+        </Menu>
 
         </Toolbar>
       </AppBar>
@@ -106,16 +143,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </nav>
-      
-      <Box component="main" sx={{ p: 0 }}>
-        <Toolbar />
-        
-        <Banner />
-        <Section_0 />
-      </Box>
-
-      
-      
+         //TODO: Add a banner component and Section_0 component
     </Box>
     
   );
