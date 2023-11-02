@@ -1,3 +1,4 @@
+import Typographys from '../components/Signup/Typographys';
 import GoogleLoginButton from '../components/signin/GoogleLoginButton';
 import PasswordResetLink from '../components/signin/PasswordResetLink';
 import SignInForm from '../components/signin/SignInForm';
@@ -6,22 +7,15 @@ import { connect } from '../store/slices/auth';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { GoogleLogin } from 'react-google-login';
+//import { GoogleLogin } from 'react-google-login';
 // Ajout du composant GoogleLogin
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, useNavigate } from 'react-router';
-import { Link, Routes } from 'react-router-dom';
-import Typographys from '../components/Signup/Typographys';
+import { useNavigate } from 'react-router';
 
 function SignIn() {
   const dispatch = useDispatch();
@@ -47,16 +41,16 @@ function SignIn() {
     if (correctCredentials) {
       navigate('/otp');
     }
-  }, [correctCredentials]);
+  }, [correctCredentials, navigate]);
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const conneted = await connect(formData, dispatch);
+    const data = await connect(formData, dispatch);
 
-    if (conneted) {
+    if (data.valid) {
       navigate('/otp');
     } else {
-      setError('Invalid Credentials');
+      setError(data.message);
     }
   };
 

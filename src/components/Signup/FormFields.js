@@ -1,12 +1,12 @@
 // FormFields.js component
-import React from 'react';
-import TextField from '@mui/material/TextField';
+import { Box, Grid } from '@mui/material';
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import React from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { Box, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function FormFields({ formData, error, handleInputChange, handleSubmit }) {
@@ -135,10 +135,10 @@ function FormFields({ formData, error, handleInputChange, handleSubmit }) {
       <GoogleLogin
         clientId="YOUR_GOOGLE_CLIENT_ID"
         buttonText="Sign up with Google"
-        onSuccess={(responseGoogle) => {
+        onSuccess={responseGoogle => {
           console.log(responseGoogle);
         }}
-        onFailure={(responseGoogle) => {
+        onFailure={responseGoogle => {
           console.log(responseGoogle);
         }}
         cookiePolicy="single_host_origin"

@@ -1,6 +1,5 @@
-import React from 'react'
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React from 'react';
 
 export default function Flex({ title, text }) {
   return (
@@ -16,5 +15,5 @@ export default function Flex({ title, text }) {
         </Typography>
       </div>
     </div>
-  )
+  );
 }

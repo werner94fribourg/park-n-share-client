@@ -1,66 +1,113 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import DrawerNavItem from './Header/DrawerNavItem';
+import NavItem from './Header/NavItem';
+import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Banner from './Banner';
-import Section_0 from '../Home/Section_0';
-import { Link } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
-import { deepOrange, deepPurple } from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { deepOrange } from '@mui/material/colors';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
-const isAuth = true;
-const navItems = isAuth ? ['Home', 'About Us', 'Become a provider', 'My Account', 'Sign Out'] : ['Home', 'About Us', 'Pricing', 'Sign In', 'Sign Up'];
+const navItems = [
+  {
+    title: 'Home',
+    url: '/home',
+  },
+  {
+    title: 'Parkings',
+    url: '/parkings',
+  },
+  {
+    title: 'About Us',
+    url: '/about-us',
+  },
+];
 
-function DrawerAppBar(props) {
+const loggedItems = [
+  {
+    title: 'Become a provider',
+    url: '/provider',
+  },
+  {
+    title: 'Signout',
+    url: '/signout',
+  },
+];
+
+const nonLoggedItems = [
+  {
+    title: 'Signin',
+    url: '/signin',
+  },
+  {
+    title: 'Signup',
+    url: '/signup',
+  },
+];
+
+function Header(props) {
+  const isAuth = useSelector(state => state.auth.isAuth);
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+    setMobileOpen(prevState => !prevState);
   };
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-       <Link to="/" style={{ textDecoration: 'none' }}>
-       <img src="https://i.postimg.cc/Sxv4FcFj/default-monochrome.png" alt="Logo" style={{ width: 90, height: 100 }} />
-        </Link>
+      <NavLink to="/" style={{ textDecoration: 'none' }}>
+        <img
+          src="https://i.postimg.cc/Sxv4FcFj/default-monochrome.png"
+          alt="Logo"
+          style={{ width: 90, height: 100 }}
+        />
+      </NavLink>
       <Divider />
       <List>
-      {navItems.map((item) => (
-        <ListItem key={item} disablePadding>
-          <ListItemButton sx={{ textAlign: 'center' }}>
-            <Link to={`/${item.toLowerCase().replace(/ /g, '')}`} style={{ textDecoration: 'none' }}>
-              <ListItemText primary={item} />
-            </Link>
-          </ListItemButton>
-        </ListItem>
-      ))}
-
-
+        {isAuth && (
+          <DrawerNavItem
+            item={{ url: '/profile', title: 'My Account' }}
+            text={false}
+          >
+            <Avatar sx={{ bgcolor: deepOrange[500], textDecoration: 'none' }}>
+              GA
+            </Avatar>
+          </DrawerNavItem>
+        )}
+        {navItems.map(item => (
+          <DrawerNavItem key={item.url} item={item} text={true} />
+        ))}
+        {isAuth &&
+          loggedItems.map(item => (
+            <DrawerNavItem key={item.url} item={item} text={true} />
+          ))}
+        {!isAuth &&
+          nonLoggedItems.map(item => (
+            <DrawerNavItem key={item.url} item={item} text={true} />
+          ))}
       </List>
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenuOpen = (event) => {
+  const handleMenuOpen = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -77,7 +124,7 @@ function DrawerAppBar(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' }, flexBasis: 0 }}
           >
             <MenuIcon />
           </IconButton>
@@ -86,46 +133,61 @@ function DrawerAppBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-        <Link to="/" style={{ textDecoration: 'none' }}>
-        <img src="https://i.postimg.cc/FzzbqYMb/default-monochrome-white.png" alt="Logo" style={{ width: '20%'}}   />
-        </Link>
+            <NavLink to="/" style={{ textDecoration: 'none' }}>
+              <img
+                src="https://i.postimg.cc/FzzbqYMb/default-monochrome-white.png"
+                alt="Logo"
+                style={{ width: '20%' }}
+              />
+            </NavLink>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => {
-              const cleanedItem = item.toLowerCase().replace(/ /g, ''); // Supprime les espaces
-              return (
-                <Link key={item} to={`/${cleanedItem}`} style={{ textDecoration: 'none', color: '#fff' }}>
-                  <Button sx={{ fontSize: '15px' }}>{item}</Button>
-                </Link>
-              );
+            {navItems.map(item => {
+              return <NavItem key={item.url} item={item} text={true} />;
             })}
-            
+            {isAuth &&
+              loggedItems.map(item => {
+                return <NavItem key={item.url} item={item} text={true} />;
+              })}
+            {isAuth && (
+              <NavItem
+                item={{ url: '/profile', title: 'My Account' }}
+                text={false}
+              >
+                <Avatar
+                  sx={{ bgcolor: deepOrange[500], textDecoration: 'inherit' }}
+                  onClick={handleMenuOpen}
+                >
+                  GA
+                </Avatar>
+              </NavItem>
+            )}
+            {!isAuth &&
+              nonLoggedItems.map(item => {
+                return <NavItem key={item.url} item={item} text={true} />;
+              })}
           </Box>
-          {isAuth && (
-          <Avatar 
-          sx={{ bgcolor: deepOrange[500] }}
-          onClick={handleMenuOpen}
-          >
-            GA
-          </Avatar> 
-          )}
-
           {/* Menu déroulant */}
-        <Menu
-          id="profile-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
-          <Link to="/myprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <MenuItem onClick={handleMenuClose} sx={{fontSize: 18}}>My Profile</MenuItem>
-          </Link>
-          <MenuItem onClick={handleMenuClose} sx={{fontSize: 18}}>Logout</MenuItem>
-        </Menu>
-
+          <Menu
+            id="profile-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <NavLink
+              to="/profile"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <MenuItem onClick={handleMenuClose} sx={{ fontSize: 18 }}>
+                My Account
+              </MenuItem>
+            </NavLink>
+            <MenuItem onClick={handleMenuClose} sx={{ fontSize: 18 }}>
+              Logout
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
-      
       <nav>
         <Drawer
           container={container}
@@ -137,21 +199,22 @@ function DrawerAppBar(props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-         //TODO: Add a banner component and Section_0 component
+      {/*TODO: Add a banner component and Section0 component*/}
     </Box>
-    
   );
 }
 
-DrawerAppBar.propTypes = {
- 
+Header.propTypes = {
   window: PropTypes.func,
 };
 
-export default DrawerAppBar;
+export default Header;

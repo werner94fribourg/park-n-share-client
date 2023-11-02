@@ -1,9 +1,11 @@
-import React from 'react';
-import { withStyles } from '@mui/styles';
-import { MuiOtpInput } from 'mui-one-time-password-input';
+import SimpleButton from '../components/Button/SimpleButton';
 import CustomTextField from '../components/General/Input';
-import { Box, Container } from '@mui/material';
-import SimpleButton from '../components/Boutton/SimpleButton';
+import { outputExpirationTime } from '../utils/utils';
+import { Container } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const styles = {
   otpContainer: {
@@ -23,49 +25,40 @@ const styles = {
 };
 
 const Otp = ({ classes }) => {
-  const [otp, setOtp] = React.useState('');
-  const [secondsRemaining, setSecondsRemaining] = React.useState(120);
+  const { timeout, correctCredentials } = useSelector(state => state.auth);
+  const navigate = useNavigate();
 
-  const handleChange = (newValue) => {
-    setOtp(newValue);
-  };
+  useEffect(() => {
+    if (!correctCredentials) {
+      navigate('/signin');
+    }
+  }, [correctCredentials, navigate]);
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      if (secondsRemaining > 0) {
-        setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        // Redirect to the home page when the timer reaches zero
-        window.location.href = '/'; // You can replace this with your actual home page URL
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [secondsRemaining]);
+  if (!correctCredentials) return <div></div>;
 
   return (
     <Container component="main" maxWidth="xs">
-    <div className={classes.otpContainer}>
-      <div className={classes.otpLabel}>
-        PIN CODE (End in {secondsRemaining} sec)
-      </div>
-      
-      <CustomTextField 
-        required
-        fullWidth
-        id="otp"
-        label="Pin code"
-        name="pin"
-        autoComplete="pin"
-        autoFocus
+      <div className={classes.otpContainer}>
+        <div className={classes.otpLabel}>
+          PIN CODE (End after {outputExpirationTime(timeout)})
+        </div>
+
+        <CustomTextField
+          required
+          fullWidth
+          id="otp"
+          label="Pin code"
+          name="pin"
+          autoComplete="pin"
+          autoFocus
         />
-      <SimpleButton
-        type="submit"
-        fullWidth
-        variant="contained"
-        text = "Submit Otp"
-      />
-    </div>
+        <SimpleButton
+          type="submit"
+          fullWidth
+          variant="contained"
+          text="Submit Otp"
+        />
+      </div>
     </Container>
   );
 };

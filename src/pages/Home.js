@@ -1,17 +1,18 @@
-import React from 'react';
-import Header from '../components/Layouts/Header';
-import Section_1 from '../components/Home/Section_1';
-import Cookies from '../components/Home/Cookies';
-import Section_0 from '../components/Home/Section_0';
+import Section0 from '../components/Home/Section0';
+import Section1 from '../components/Home/Section1';
 import Banner from '../components/Layouts/Banner';
+import Header from '../components/Layouts/Header';
+import React from 'react';
 
 const Home = () => {
-  return <React.Fragment>
+  return (
+    <React.Fragment>
       <Header />
       <Banner />
-      <Section_0 />
-      <Section_1 />
-  </React.Fragment>
+      <Section0 />
+      <Section1 />
+    </React.Fragment>
+  );
 };
 
 Home.propTypes = {};

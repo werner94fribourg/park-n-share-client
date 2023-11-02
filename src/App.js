@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import AppRouter from './routers/AppRouter';
-import { IconButton } from '@mui/material';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { getPinValidity, updateTimeout } from './store/slices/auth';
 import { LightMode } from '@mui/icons-material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { IconButton } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 function App() {
+  const { pinExpirationDate, correctCredentials } = useSelector(
+    state => state.auth,
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedTheme, setSelectedTheme] = useState('light'); // Initialize with 'light'
+
+  useEffect(() => {
+    const email = localStorage.getItem('email');
+    if (!correctCredentials && email) {
+      getPinValidity(email, dispatch);
+      navigate('/otp');
+    }
+    if (pinExpirationDate !== '') {
+      updateTimeout(pinExpirationDate, dispatch);
+      navigate('/otp');
+    }
+  }, [dispatch, pinExpirationDate, correctCredentials, navigate]);
+
+  if (!correctCredentials && localStorage.getItem('email')) return <div></div>;
 
   // Define light theme
   const lightTheme = createTheme({
@@ -28,19 +50,17 @@ function App() {
         default: '#000', // Set your default dark background
         paper: '#000', // Set your default paper background
       },
-      
+
       // text to white to everything that has black text
       text: {
         primary: '#fff', // Set your default dark text color
         secondary: '#fff', // Set your default secondary dark text color
       },
-      
-
     },
   });
 
   const toggleTheme = () => {
-    setSelectedTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setSelectedTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   return (
@@ -57,7 +77,11 @@ function App() {
         }}
       >
         <IconButton color="inherit" onClick={toggleTheme}>
-          {selectedTheme === 'light' ? <LightMode sx={{fontSize: 30}}  /> : <DarkModeIcon sx={{fontSize: 30}} />}
+          {selectedTheme === 'light' ? (
+            <LightMode sx={{ fontSize: 30 }} />
+          ) : (
+            <DarkModeIcon sx={{ fontSize: 30 }} />
+          )}
         </IconButton>
       </div>
     </ThemeProvider>

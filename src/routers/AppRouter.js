@@ -7,41 +7,43 @@ import Profile from '../pages/Profile';
 import SignIn from '../pages/Signin';
 import SignUp from '../pages/Signup';
 import RegistrationSuccess from '../pages/templates/emails/Confirmation';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
-      <Route
-        path="/signin"
-        element={
-          <Layout>
-            <SignIn />
-          </Layout>
-        }
-      />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/otp" element={<Otp />} />
       <Route path="/passwordReset" element={<PasswordReset />} />
       <Route path="/successfully" element={<RegistrationSuccess />} />
-      <Route path="/myprofile" element={
-        <Layout>
-          <Profile />
-        </Layout>
-      } />
-      <Route path="/myAccount" element={
-              <Layout>
-                <Profile />
-              </Layout>
-      } />
+      <Route
+        path="/myprofile"
+        element={
+          <Layout>
+            <Profile />
+          </Layout>
+        }
+      />
+      <Route
+        path="/myAccount"
+        element={
+          <Layout>
+            <Profile />
+          </Layout>
+        }
+      />
 
-      <Route path="/parking" element={
-              <Layout>
-                <ParkingPage />
-              </Layout>
-      } />
+      <Route
+        path="/parking"
+        element={
+          <Layout>
+            <ParkingPage />
+          </Layout>
+        }
+      />
     </Routes>
   );
 };

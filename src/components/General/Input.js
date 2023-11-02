@@ -1,8 +1,7 @@
-import React from 'react';
 import TextField from '@mui/material/TextField';
+import React from 'react';
 
-const CustomTextField = (props) => {
-    
+const CustomTextField = props => {
   const {
     fullWidth = true,
     required = true,

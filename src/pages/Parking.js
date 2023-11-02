@@ -1,5 +1,15 @@
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Modal,
+  Skeleton,
+  Typography,
+  Button,
+} from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, Container, Grid, Modal, Skeleton, Typography, Button } from '@mui/material';
 
 const ParkingPageSkeleton = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +34,7 @@ const ParkingPageSkeleton = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleOpen = (spot) => {
+  const handleOpen = spot => {
     setSelectedSpot(spot);
     setOpen(true);
   };
@@ -61,10 +71,13 @@ const ParkingPageSkeleton = () => {
                   </Card>
                 </Grid>
               ))
-            : spots.map((spot) => (
+            : spots.map(spot => (
                 <Grid item xs={12} sm={6} md={4} key={spot.id}>
                   <Card>
-                    <CardContent onClick={() => handleOpen(spot)} style={{ cursor: 'pointer' }}>
+                    <CardContent
+                      onClick={() => handleOpen(spot)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <Typography variant="h5">{spot.name}</Typography>
                       <Typography variant="h6">{spot.description}</Typography>
                       <Typography variant="h6" color="textSecondary">

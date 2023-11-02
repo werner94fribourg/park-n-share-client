@@ -1,9 +1,8 @@
 // SignUpForm.js component
-import React from 'react';
+import FormFields from './FormFields';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import FormFields from './FormFields';
+import React from 'react';
 
 function SignUpForm({ formData, error, handleInputChange, handleSubmit }) {
   return (
