@@ -1,6 +1,5 @@
-import { API_URL, PIN_EXPIRATION_URL, SIGNIN_URL } from './globals';
+import { CONFIRM_PIN_URL, PIN_EXPIRATION_URL, SIGNIN_URL } from './globals';
 import { makeApiCall } from './utils';
-import axios from 'axios';
 
 export const signin = async credentials => {
   const data = await makeApiCall(SIGNIN_URL, 'post', credentials, data => {
@@ -25,12 +24,18 @@ export const getPinExpiration = async email => {
   return data;
 };
 
-export const confirmPin = async data => {
-  const response = await axios.post(`${API_URL}/users/confirm-pin`, data);
-  const { status } = response;
-  if (status === 200) {
-    return response;
-  } else {
-    // TODO: Handle error
-  }
+export const confirmPin = async pinData => {
+  const data = await makeApiCall(
+    CONFIRM_PIN_URL,
+    'post',
+    pinData,
+    data => {
+      const { token, message } = data;
+
+      return { valid: true, token, message };
+    },
+    200,
+  );
+
+  return data;
 };

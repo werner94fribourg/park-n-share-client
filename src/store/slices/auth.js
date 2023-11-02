@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment-timezone';
 
 const initialState = {
-  isAuth: true,
+  isAuth: false,
   jwt: '',
   correctCredentials: false,
   pinExpirationDate: '',
@@ -57,12 +57,11 @@ export const connect = async (credentials, dispatch) => {
   return data;
 };
 
-export const sendPin = async (pin, email, dispatch) => {
-  const response = await confirmPin({ pin, email });
-  if (response.status === 200) {
-    dispatch(authActions.logUser(response.data.token));
-    return;
-  }
+export const sendPin = async (pinCode, email, dispatch) => {
+  const data = await confirmPin({ pinCode, email });
+  if (data.valid) dispatch(authActions.logUser(data.token));
+
+  return data;
 };
 
 export const getPinValidity = async (email, dispatch) => {
