@@ -78,3 +78,16 @@ export const sleep = time =>
       resolve();
     }, time);
   });
+
+export const splitInHalf = text => {
+  let middle = Math.floor(text.length / 2);
+  const precedingSpace = text.lastIndexOf(' ', middle);
+  const succeedindSpace = text.indexOf(' ', middle + 1);
+
+  middle =
+    middle - precedingSpace < succeedindSpace - middle
+      ? precedingSpace
+      : succeedindSpace;
+
+  return [text.substring(0, middle), text.substring(middle + 1)];
+};

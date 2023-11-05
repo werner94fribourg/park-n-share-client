@@ -1,4 +1,9 @@
-import { CONFIRM_PIN_URL, PIN_EXPIRATION_URL, SIGNIN_URL } from './globals';
+import {
+  CONFIRM_PIN_URL,
+  ME_URL,
+  PIN_EXPIRATION_URL,
+  SIGNIN_URL,
+} from './globals';
 import { makeApiCall } from './utils';
 
 export const signin = async credentials => {
@@ -35,6 +40,25 @@ export const confirmPin = async pinData => {
       return { valid: true, token, message };
     },
     200,
+  );
+
+  return data;
+};
+
+export const getConnectedUser = async token => {
+  const data = await makeApiCall(
+    ME_URL,
+    'get',
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+    data => {
+      const {
+        data: { user },
+      } = data;
+
+      return { valid: true, authorized: true, user };
+    },
   );
 
   return data;

@@ -1,9 +1,7 @@
 import App from './App';
-import './normalize.css';
 import reportWebVitals from './reportWebVitals';
 import './scss/index.scss';
 import store from './store/store';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';

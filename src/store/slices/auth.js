@@ -29,11 +29,17 @@ const authSlice = createSlice({
       state.pinExpirationDate = '';
       state.timeout = 0;
     },
-    logUser: (state, action) => {
+    logUser(state, action) {
       const token = action.payload;
       state.isAuth = true;
       state.jwt = token;
       state.pinExpirationDate = 0;
+      localStorage.removeItem('email');
+      localStorage.setItem('jwt', token);
+    },
+    logout(state) {
+      state.isAuth = false;
+      state.jwt = '';
     },
     setPinTimeout: (state, action) => {
       state.timeout = action.payload;
@@ -62,6 +68,16 @@ export const sendPin = async (pinCode, email, dispatch) => {
   if (data.valid) dispatch(authActions.logUser(data.token));
 
   return data;
+};
+
+export const initialize = (token, dispatch) => {
+  if (token) dispatch(authActions.logUser(token));
+  else logout(dispatch);
+};
+
+export const logout = dispatch => {
+  localStorage.removeItem('jwt');
+  dispatch(authActions.logout());
 };
 
 export const getPinValidity = async (email, dispatch) => {

@@ -1,11 +1,15 @@
 import { authReducer } from './slices/auth';
-import testReducer from './slices/test';
+import navbarReducer from './slices/navbar';
+import { parkingReducer } from './slices/parking';
+import usersReducer from './slices/users';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    test: testReducer,
+    parking: parkingReducer,
+    navbar: navbarReducer,
+    users: usersReducer,
   },
 });
 

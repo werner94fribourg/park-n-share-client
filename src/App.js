@@ -1,21 +1,35 @@
+import Theme from './components/Theme/Theme';
 import AppRouter from './routers/AppRouter';
-import { getPinValidity, updateTimeout } from './store/slices/auth';
-import { LightMode } from '@mui/icons-material';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { IconButton } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
+import { getMe } from './store/slices/users';
+import mapboxgl from 'mapbox-gl';
+// eslint-disable-line import/no-webpack-loader-syntax
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
 function App() {
+  const {
+    auth: { jwt },
+    users: { loading },
+  } = useSelector(state => state);
   const { pinExpirationDate, correctCredentials } = useSelector(
     state => state.auth,
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedTheme, setSelectedTheme] = useState('light'); // Initialize with 'light'
+
+  useEffect(() => {
+    const setup = async () => {
+      const token = jwt || localStorage.getItem('jwt');
+      if (await getMe(token, dispatch)) initialize(token, dispatch);
+      else localStorage.removeItem('jwt');
+    };
+
+    setup();
+  }, [jwt, dispatch]);
 
   useEffect(() => {
     const email = localStorage.getItem('email');
@@ -29,62 +43,13 @@ function App() {
     }
   }, [dispatch, pinExpirationDate, correctCredentials, navigate]);
 
-  if (!correctCredentials && localStorage.getItem('email')) return <div></div>;
-
-  // Define light theme
-  const lightTheme = createTheme({
-    palette: {
-      type: 'light',
-      // Define your light theme palette options
-      // bac
-    },
-  });
-
-  // Define dark theme
-  const darkTheme = createTheme({
-    palette: {
-      type: 'dark',
-      // Define your dark theme palette options
-      // background to dark to everything that has white background
-      background: {
-        default: '#000', // Set your default dark background
-        paper: '#000', // Set your default paper background
-      },
-
-      // text to white to everything that has black text
-      text: {
-        primary: '#fff', // Set your default dark text color
-        secondary: '#fff', // Set your default secondary dark text color
-      },
-    },
-  });
-
-  const toggleTheme = () => {
-    setSelectedTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+  if ((!correctCredentials && localStorage.getItem('email')) || loading)
+    return <div></div>;
 
   return (
-    <ThemeProvider theme={selectedTheme === 'light' ? lightTheme : darkTheme}>
-      <CssBaseline />
+    <Theme>
       <AppRouter />
-      {/* You can add a button or any other UI element to toggle the theme */}
-      <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: '1000', // Ensure it's on top of other elements
-        }}
-      >
-        <IconButton color="inherit" onClick={toggleTheme}>
-          {selectedTheme === 'light' ? (
-            <LightMode sx={{ fontSize: 30 }} />
-          ) : (
-            <DarkModeIcon sx={{ fontSize: 30 }} />
-          )}
-        </IconButton>
-      </div>
-    </ThemeProvider>
+    </Theme>
   );
 }
 App.propTypes = {};

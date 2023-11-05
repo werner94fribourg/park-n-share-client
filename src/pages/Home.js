@@ -1,17 +1,15 @@
-import Section0 from '../components/Home/Section0';
-import Section1 from '../components/Home/Section1';
-import Banner from '../components/Layouts/Banner';
-import Header from '../components/Layouts/Header';
-import React from 'react';
+import Banner from '../components/Home/Banner/Banner';
+import Description from '../components/Home/Description/Description';
+import HomeActions from '../components/Home/HomeActions/HomeActions';
+import Layout from '../components/Layout/Layout';
 
 const Home = () => {
   return (
-    <React.Fragment>
-      <Header />
+    <Layout>
       <Banner />
-      <Section0 />
-      <Section1 />
-    </React.Fragment>
+      <Description />
+      <HomeActions />
+    </Layout>
   );
 };
 

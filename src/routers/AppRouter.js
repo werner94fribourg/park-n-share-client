@@ -1,48 +1,47 @@
-import Layout from '../components/Layouts/Layout';
+import Layout from '../components/Layout/Layout';
+import AboutUs from '../pages/AboutUs';
 import Home from '../pages/Home';
-import Otp from '../pages/Otp';
-import ParkingPage from '../pages/Parking';
-import PasswordReset from '../pages/PasswordForget';
-import Profile from '../pages/Profile';
-import SignIn from '../pages/Signin';
-import SignUp from '../pages/Signup';
-import RegistrationSuccess from '../pages/templates/emails/Confirmation';
-import { Route, Routes } from 'react-router-dom';
+import Parking from '../pages/Parking';
+import ParkingInfo from '../pages/ParkingInfo';
+import AuthRouter from './AuthRouter';
+import ProfileRouter from './ProfileRouter';
+import { useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router';
 
 const AppRouter = () => {
+  const isAuth = useSelector(state => state.auth.isAuth);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/otp" element={<Otp />} />
-      <Route path="/passwordReset" element={<PasswordReset />} />
-      <Route path="/successfully" element={<RegistrationSuccess />} />
       <Route
-        path="/myprofile"
+        path="/parkings"
         element={
           <Layout>
-            <Profile />
+            <Parking />
           </Layout>
         }
       />
       <Route
-        path="/myAccount"
+        path="/parkings/:id"
         element={
           <Layout>
-            <Profile />
+            <ParkingInfo />
           </Layout>
         }
       />
-
       <Route
-        path="/parking"
+        path="/about-us"
         element={
           <Layout>
-            <ParkingPage />
+            <AboutUs />
           </Layout>
         }
+      />
+      <Route
+        path="*"
+        element={isAuth ? <ProfileRouter /> : <AuthRouter />}
+        replace
       />
     </Routes>
   );
