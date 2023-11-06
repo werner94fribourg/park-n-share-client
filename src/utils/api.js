@@ -3,6 +3,7 @@ import {
   ME_URL,
   PIN_EXPIRATION_URL,
   SIGNIN_URL,
+  SIGNUP_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -11,6 +12,22 @@ export const signin = async credentials => {
     const { message, pinCodeExpires } = data;
     return { valid: true, message, pinCodeExpires };
   });
+
+  return data;
+};
+
+export const signup = async userData => {
+  const data = await makeApiCall(
+    SIGNUP_URL,
+    'post',
+    userData,
+    data => {
+      const { message, pinCodeExpires } = data;
+      return { valid: true, message, pinCodeExpires };
+    },
+    201,
+    true,
+  );
 
   return data;
 };

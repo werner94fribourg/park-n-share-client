@@ -1,5 +1,7 @@
 // SignUpForm.js component
+import { createAccount } from '../../../store/slices/auth';
 import { SIGNUP_FIELDS } from '../../../utils/globals';
+import { invalidFieldsReducer, userReducers } from '../../../utils/utils';
 import FormField from '../FormField/FormField';
 import {
   errorStyles,
@@ -9,87 +11,52 @@ import {
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 function SignUpForm() {
-  const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    phone: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const [error, setError] = useState('');
 
-  const [error, setError] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const [typedUser, dispatchUser] = useReducer(userReducers, undefined);
+  const [messages, dispatchMessages] = useReducer(
+    invalidFieldsReducer,
+    undefined,
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  useEffect(() => {
+    dispatchUser({ type: 'init' });
+    dispatchMessages({ type: 'init' });
+  }, []);
+
+  const handleInputChange = (type, e) => {
+    if (messages[type]) dispatchUser({ type: `reset_${type}` });
+    dispatchUser({ type, payload: e.target.value });
   };
 
   const handleSubmit = async event => {
     event.preventDefault();
-    setError({
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-    });
+    dispatchMessages({ type: 'reset_all' });
 
     // Perform form validation here
-    let hasError = false;
+    const { valid, message, fields } = await createAccount(typedUser, dispatch);
 
-    if (!formData.firstname) {
-      setError(prevError => ({
-        ...prevError,
-        firstname: 'First name is required',
-      }));
-      hasError = true;
-    }
-
-    if (!formData.lastname) {
-      setError(prevError => ({
-        ...prevError,
-        lastname: 'Last name is required',
-      }));
-      hasError = true;
-    }
-
-    if (!formData.email) {
-      setError(prevError => ({ ...prevError, email: 'Email is required' }));
-      hasError = true;
-    }
-
-    if (!formData.password) {
-      setError(prevError => ({
-        ...prevError,
-        password: 'Password is required',
-      }));
-      hasError = true;
-    }
-
-    if (formData.password !== formData.passwordConfirm) {
-      setError(prevError => ({
-        ...prevError,
-        passwordConfirm: 'Passwords do not match',
-      }));
-      hasError = true;
-    }
-
-    if (hasError) {
+    if (!fields && !valid) {
+      setError(message);
       return;
     }
+
+    if (fields && fields.length > 0) {
+      fields.forEach(field => {
+        const [[key, value]] = Object.entries(field);
+        dispatchMessages({ type: key, payload: value });
+      });
+      return;
+    }
+
+    navigate('/otp');
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={formStyles}>
@@ -98,16 +65,18 @@ function SignUpForm() {
           key={field.id}
           id={field.id}
           label={field.label}
-          value={formData[field.id]}
-          onChange={handleInputChange}
+          value={typedUser ? typedUser[field.id] : ''}
+          onChange={handleInputChange.bind(null, field.id)}
           type={field.type}
           xs={field.xs}
           sm={field.sm}
+          error={messages ? messages[field.id] !== '' : false}
+          helperText={messages ? messages[field.id] : ''}
         />
       ))}
-      {error.general && (
+      {error !== '' && (
         <Typography variant="body2" color="error" sx={errorStyles}>
-          {error.general}
+          {error}
         </Typography>
       )}
       <Button

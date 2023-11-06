@@ -1,4 +1,4 @@
-import { confirmPin, getPinExpiration, signin } from '../../utils/api';
+import { confirmPin, getPinExpiration, signin, signup } from '../../utils/api';
 import { sleep } from '../../utils/utils';
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment-timezone';
@@ -60,6 +60,19 @@ export const connect = async (credentials, dispatch) => {
         email: credentials.email,
       }),
     );
+  return data;
+};
+
+export const createAccount = async (userData, dispatch) => {
+  const data = await signup(userData);
+  if (data.valid)
+    dispatch(
+      authActions.signin({
+        pinCodeExpires: data.pinCodeExpires,
+        email: userData.email,
+      }),
+    );
+
   return data;
 };
 

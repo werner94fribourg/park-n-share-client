@@ -91,3 +91,57 @@ export const splitInHalf = text => {
 
   return [text.substring(0, middle), text.substring(middle + 1)];
 };
+
+export const setField = (newState, field, value) => {
+  if (field.includes('reset')) {
+    const resetField = field.split('_')[1];
+    newState[resetField] = '';
+    return newState;
+  }
+
+  newState[field] = value;
+  return newState;
+};
+
+export const userReducers = (state, action) => {
+  const user = {
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
+    passwordConfirm: '',
+    ...state,
+  };
+
+  const { type, payload } = action;
+
+  if (type === 'init') return user;
+
+  return setField(user, type, payload);
+};
+
+export const invalidFieldsReducer = (state, action) => {
+  const messages = {
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
+    passwordConfirm: '',
+    ...state,
+  };
+
+  const { type, payload } = action;
+
+  if (type === 'init') return messages;
+
+  if (type === 'reset_all')
+    return {
+      username: '',
+      email: '',
+      phone: '',
+      password: '',
+      passwordConfirm: '',
+    };
+
+  return setField(messages, type, payload);
+};
