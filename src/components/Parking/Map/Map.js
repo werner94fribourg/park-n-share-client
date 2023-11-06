@@ -1,6 +1,6 @@
 import { addParkings } from '../../../store/slices/parking';
 import styles from './Map.module.scss';
-import { mapboxStyles } from './MapMapboxStyles';
+import { mapStyles, markerStyles } from './MapMapboxStyles';
 import mapboxgl from 'mapbox-gl';
 // eslint-disable-line import/no-webpack-loader-syntax
 import { useEffect, useRef, useState } from 'react';
@@ -30,6 +30,8 @@ const Map = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
 
+  const { current } = mapRef;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       addParkings(fakeParkings, dispatch);
@@ -39,15 +41,17 @@ const Map = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const { current } = mapRef;
-    if (!current) return;
+    const getMap = current?.getMap;
+    if (!getMap) return;
 
-    current?.getMap()?.on('move', () => {
-      setLongitude(current.getCenter().lng.toFixed(4));
-      setLatitude(current.getCenter().lat.toFixed(4));
-      setZoom(current.getZoom().toFixed(2));
+    const map = getMap();
+
+    map.on('move', () => {
+      setLongitude(map.getCenter().lng.toFixed(4));
+      setLatitude(map.getCenter().lat.toFixed(4));
+      setZoom(map.getZoom().toFixed(2));
     });
-  }, []);
+  }, [current]);
 
   const markerHandler = parking => {
     navigate(`/parkings/${parking.id}`);
@@ -69,19 +73,14 @@ const Map = () => {
         ref={mapRef}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v12"
-        style={{
-          height: 'calc(100vh - 120px)',
-          width: '100vw',
-          position: 'absolute',
-          bottom: 0,
-        }}
+        style={mapStyles}
       >
         {parkings.map(parking => (
           <div key={parking.id}>
             <Marker
               longitude={parking.lng}
               latitude={parking.lat}
-              style={mapboxStyles}
+              style={markerStyles}
               onClick={markerHandler.bind(null, parking)}
             />
             <Popup longitude={parking.lng} latitude={parking.lat} offset={20}>
