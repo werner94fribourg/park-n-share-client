@@ -1,11 +1,14 @@
 import Theme from './components/Theme/Theme';
 import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
+import { closeNotification } from './store/slices/notification';
 import { getMe } from './store/slices/users';
+import Alert from '@mui/material/Alert';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 // eslint-disable-line import/no-webpack-loader-syntax
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -13,6 +16,8 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 function App() {
   const { loading } = useSelector(state => state.users);
+
+  const { message } = useSelector(state => state.notification);
 
   const { pinExpirationDate, correctCredentials, jwt } = useSelector(
     state => state.auth,
@@ -42,12 +47,23 @@ function App() {
     }
   }, [dispatch, pinExpirationDate, correctCredentials, navigate]);
 
+  const closeAlertHandler = () => {
+    closeNotification(dispatch);
+  };
+
   if ((!correctCredentials && localStorage.getItem('email')) || loading)
     return <div></div>;
 
   return (
     <Theme>
       <AppRouter />
+      {message !== '' &&
+        createPortal(
+          <Alert severity="success" onClose={closeAlertHandler}>
+            {message}
+          </Alert>,
+          document.querySelector('body'),
+        )}
     </Theme>
   );
 }

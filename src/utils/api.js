@@ -4,6 +4,7 @@ import {
   PIN_EXPIRATION_URL,
   SIGNIN_URL,
   SIGNUP_URL,
+  FORGOT_PASSWORD_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -75,6 +76,21 @@ export const getConnectedUser = async token => {
       } = data;
 
       return { valid: true, authorized: true, user };
+    },
+  );
+
+  return data;
+};
+
+export const sendForgotPassword = async email => {
+  const data = await makeApiCall(
+    FORGOT_PASSWORD_URL,
+    'post',
+    { email },
+    data => {
+      const { message } = data;
+
+      return { valid: true, message };
     },
   );
 

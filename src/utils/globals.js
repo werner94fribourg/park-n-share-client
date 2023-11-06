@@ -14,6 +14,8 @@ export const CONFIRM_PIN_URL = USERS_URL + '/confirm-pin';
 
 export const ME_URL = USERS_URL + '/me';
 
+export const FORGOT_PASSWORD_URL = USERS_URL + '/forgot-password';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

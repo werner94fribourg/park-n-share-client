@@ -3,9 +3,18 @@ import Otp from '../pages/Otp';
 import SignIn from '../pages/Signin';
 import SignUp from '../pages/Signup';
 import SuccessfulRegistration from '../pages/SuccessfulRegistration';
+import { closeNotification } from '../store/slices/notification';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router';
 
 const AuthRouter = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    closeNotification(dispatch);
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/signin" element={<SignIn />} />

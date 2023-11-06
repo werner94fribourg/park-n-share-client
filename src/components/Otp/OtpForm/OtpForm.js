@@ -1,4 +1,5 @@
 import { sendPin } from '../../../store/slices/auth';
+import { notify } from '../../../store/slices/notification';
 import { submitStyles } from './OtpFormMUIStyles';
 import { Box, Button, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -21,7 +22,10 @@ const OtpForm = () => {
       dispatch,
     );
 
-    if (data.valid) navigate('/profile');
+    if (data.valid) {
+      navigate('/profile');
+      notify(data.message, dispatch);
+    }
   };
 
   return (
