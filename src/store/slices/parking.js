@@ -12,6 +12,8 @@ const parkingSlice = createSlice({
     addParkings(state, action) {
       const { payload: parkings } = action;
       parkings.forEach(parking => state.parkings.push(parking));
+
+      parkings.filter((parking, index) => parkings.indexOf(parking) === index);
     },
   },
 });

@@ -17,12 +17,11 @@ import { NavLink } from 'react-router-dom';
 const Navbar = () => {
   const theme = useTheme();
   const {
-    users: {
-      me: { photo },
-    },
-    navbar: { isOpen },
-    auth: { isAuth },
-  } = useSelector(state => state);
+    me: { photo },
+  } = useSelector(state => state.users);
+  const { isAuth } = useSelector(state => state.auth);
+  const { isOpen } = useSelector(state => state.navbar);
+
   const dispatch = useDispatch();
   const [matches, setMatches] = useState(
     window.matchMedia('(max-width: 1200px)').matches,

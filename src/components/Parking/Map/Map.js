@@ -3,9 +3,7 @@ import styles from './Map.module.scss';
 import { mapboxStyles } from './MapMapboxStyles';
 import mapboxgl from 'mapbox-gl';
 // eslint-disable-line import/no-webpack-loader-syntax
-import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef, useState } from 'react';
-import { Fragment } from 'react';
 import MaptyMap, { Marker, Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -67,14 +65,20 @@ const Map = () => {
           latitude,
           zoom,
         }}
+        className={styles['map__container']}
         ref={mapRef}
-        mapboxAccessToken={mapboxgl.accessToken}
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v12"
+        style={{
+          height: 'calc(100vh - 120px)',
+          width: '100vw',
+          position: 'absolute',
+          bottom: 0,
+        }}
       >
         {parkings.map(parking => (
-          <Fragment key={parking.id}>
+          <div key={parking.id}>
             <Marker
-              key={parking.id}
               longitude={parking.lng}
               latitude={parking.lat}
               style={mapboxStyles}
@@ -83,11 +87,45 @@ const Map = () => {
             <Popup longitude={parking.lng} latitude={parking.lat} offset={20}>
               {parking.name}
             </Popup>
-          </Fragment>
+          </div>
         ))}
       </MaptyMap>
     </div>
   );
 };
 
+/*
+const Map = () => {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [lng, lat],
+      zoom: zoom,
+    });
+
+    map.current.on('move', () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
+  });
+
+  return (
+    <div className={styles.map}>
+      <div className={styles['map__sidebar']}>
+        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+      </div>
+      <div ref={mapContainer} className={styles['map__container']} />
+    </div>
+  );
+};
+*/
 export default Map;
