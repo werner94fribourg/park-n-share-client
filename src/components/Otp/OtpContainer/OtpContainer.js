@@ -1,5 +1,5 @@
 import { outputExpirationTime } from '../../../utils/utils';
-import { otpStyles } from './OtpContainerMUIStyles';
+import { containerStyles, otpStyles } from './OtpContainerMUIStyles';
 import { Container } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { useEffect } from 'react';
@@ -20,7 +20,7 @@ const OtpContainer = props => {
   if (!correctCredentials) return <div></div>;
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={containerStyles}>
       <div className={classes.otpContainer}>
         <div className={classes.otpLabel}>
           PIN CODE (End after {outputExpirationTime(timeout)})
