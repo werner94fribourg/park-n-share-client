@@ -1,0 +1,45 @@
+@import '../../scss/abstracts/mixins';
+@import '../../scss/abstracts/variables';
+
+.main {
+  position: absolute;
+  top: 8rem;
+  bottom: 0;
+  z-index: -1;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  width: 100%;
+  height: calc(100vh - 8rem);
+  @include respondMax(75) {
+    overflow-y: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      background-color: rgba($black-1, 0.7);
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+  }
+  &.navbar-open {
+    @include respondMax(75) {
+      .content {
+        filter: blur(8px);
+      }
+      &::after {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+    }
+  }
+}
+
+.content {
+  height: 100%;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 1000;
+  background-color: transparent;
+}

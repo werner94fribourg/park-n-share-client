@@ -1,0 +1,134 @@
+@import '../../../scss/abstracts/mixins';
+@import '../../../scss/abstracts/variables';
+
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  justify-content: space-between;
+  height: 8rem;
+  padding: 0 4.8rem;
+  @include respondMax(75) {
+    grid-template-columns: 1fr;
+  }
+  &__toggle-btn {
+    display: none;
+    color: $white;
+    @include respondMax(75) {
+      display: block;
+      position: absolute;
+      top: 4rem;
+      left: 3rem;
+      transform: translateY(-50%);
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+  &__logo {
+    width: 140px;
+  }
+  &__brand {
+    margin: auto 0;
+    font-family: 'Charm', cursive;
+    font-size: 3.2rem;
+    @include respondMax(75) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  &__links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.6rem;
+    @include respondMax(75) {
+      flex-flow: column nowrap;
+      transform: translateX(-100%);
+      transition: transform 0.5s ease-in-out;
+      &.navbar-open {
+        transition: transform 0.5s ease-in-out;
+        transform: translateX(0);
+      }
+      position: absolute;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1.5fr repeat(6, 5rem) 1.5fr;
+      justify-items: center;
+      justify-content: flex-start;
+      top: 8rem;
+      bottom: 0;
+      left: 0;
+      width: 32.875rem;
+      height: calc(100vh - 8rem);
+    }
+  }
+  &__link {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    transition: color 0.5s ease-in-out;
+    @include respondMax(75) {
+      justify-content: flex-start;
+      width: 21rem;
+      gap: 2rem;
+    }
+    &--profile {
+      justify-self: flex-end;
+      margin-right: 1rem;
+      span {
+        display: none;
+        @include respondMax(75) {
+          display: block;
+        }
+      }
+      img {
+        width: 100px;
+        border-radius: 50%;
+      }
+      &::before {
+        content: none;
+      }
+      &::after {
+        content: none;
+      }
+      &:hover {
+        color: inherit;
+        @include respondMax(75) {
+          color: inherit;
+          background-color: $white;
+          box-shadow: rgba($black-1, 0.1) 0px 0px 0px 0px;
+        }
+      }
+      img {
+        width: 6rem;
+        border-radius: 50%;
+      }
+      @include respondMax(75) {
+        grid-row-start: 1;
+        justify-self: center;
+        margin-right: 0;
+      }
+    }
+  }
+  &__logout {
+    justify-self: flex-end;
+    align-self: center;
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    &::before {
+      content: none;
+    }
+    &::after {
+      content: none;
+    }
+    &:hover {
+      color: $white;
+    }
+    @include respondMax(75) {
+      justify-self: center;
+      justify-content: center;
+      color: $white !important;
+    }
+  }
+}

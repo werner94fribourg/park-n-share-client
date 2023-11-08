@@ -1,7 +1,5 @@
 const Paragraph = () => {
-  return <p>Base App</p>;
+  return <div>About us</div>;
 };
-
-Paragraph.propTypes = {};
 
 export default Paragraph;
