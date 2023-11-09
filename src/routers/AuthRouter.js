@@ -21,7 +21,7 @@ const AuthRouter = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/otp" element={<Otp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="reset-password/:resetToken" element={<ResetPassword />} />
+      <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
       <Route path="*" element={<Navigate to="/" replace />} replace />
     </Routes>
   );
