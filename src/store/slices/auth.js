@@ -9,6 +9,7 @@ const initialState = {
   correctCredentials: false,
   pinExpirationDate: '',
   timeout: 0,
+  isResetLinkValid: false,
 };
 
 const authSlice = createSlice({
@@ -44,6 +45,9 @@ const authSlice = createSlice({
     setPinTimeout: (state, action) => {
       state.timeout = action.payload;
     },
+    setResetLinkValidity(state, action) {
+      state.isResetLinkValid = action.payload;
+    },
   },
 });
 
@@ -65,7 +69,6 @@ export const connect = async (credentials, dispatch) => {
 
 export const createAccount = async (userData, dispatch) => {
   const data = await signup(userData);
-  console.log(data);
   if (data.valid)
     dispatch(
       authActions.signin({
@@ -126,4 +129,8 @@ const decreaseTimer = async (diff, dispatch) => {
   }
 
   dispatch(authActions.resetSignin());
+};
+
+export const setResetLinkValidity = (validity, dispatch) => {
+  dispatch(authActions.setResetLinkValidity(validity));
 };

@@ -5,6 +5,7 @@ import {
   SIGNIN_URL,
   SIGNUP_URL,
   FORGOT_PASSWORD_URL,
+  RESET_PASSWORD_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -91,6 +92,37 @@ export const sendForgotPassword = async email => {
       const { message } = data;
 
       return { valid: true, message };
+    },
+  );
+
+  return data;
+};
+
+export const getResetLinkValidity = async resetToken => {
+  const data = await makeApiCall(
+    RESET_PASSWORD_URL.replace(':resetToken', resetToken),
+    'get',
+    undefined,
+    data => {
+      const {
+        data: { valid: validity },
+      } = data;
+
+      return { valid: true, validity };
+    },
+  );
+
+  return data;
+};
+
+export const resetPassword = async (resetToken, newValues) => {
+  const data = await makeApiCall(
+    RESET_PASSWORD_URL.replace(':resetToken', resetToken),
+    'patch',
+    newValues,
+    data => {
+      const { token, message } = data;
+      return { valid: true, token, message };
     },
   );
 

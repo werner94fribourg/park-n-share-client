@@ -1,7 +1,17 @@
 import SignInputField from '../../UI/SignInputField/SignInputField';
 import { Grid } from '@mui/material';
 
-function FormField({ id, label, type, value, onChange, xs, sm, helperText }) {
+function FormField({
+  id,
+  label,
+  type,
+  value,
+  onChange,
+  xs,
+  sm,
+  error,
+  helperText,
+}) {
   return (
     <Grid item xs={xs} sm={sm}>
       <SignInputField
@@ -10,6 +20,7 @@ function FormField({ id, label, type, value, onChange, xs, sm, helperText }) {
         value={value}
         onChange={onChange}
         type={type}
+        error={error}
         helperText={helperText}
       />
     </Grid>
