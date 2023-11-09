@@ -1,5 +1,9 @@
+import PermanentSideBar from "../components/Profile/PermanentSideBar";
+
 const Profile = () => {
-  return <div>Profile page</div>;
+  return (
+    <PermanentSideBar />
+  );
 };
 
 export default Profile;

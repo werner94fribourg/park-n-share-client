@@ -10,7 +10,7 @@ export const makeApiCall = async (
   signup = false,
 ) => {
   try {
-    const response = await axios[method](url, sendData);
+    const response = await axios.request({ url, method, ...sendData });
 
     const { status: statusCode, data } = response;
     console.log(data);
