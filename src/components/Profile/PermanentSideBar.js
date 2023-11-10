@@ -9,12 +9,12 @@ export default function PermanentSideBar() {
     <Box sx={{ display: 'flex', width: '1OO%' }}>
       <SideBar />
       <Box
-        component="main"
+        component="div"
         sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: '100vh',
+          minHeight: '100%',
           bgcolor: 'background.default',
           p: 20,
         }}
