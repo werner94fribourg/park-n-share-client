@@ -10,10 +10,15 @@ import {
 import { makeApiCall } from './utils';
 
 export const signin = async credentials => {
-  const data = await makeApiCall(SIGNIN_URL, 'post', credentials, data => {
-    const { message, pinCodeExpires } = data;
-    return { valid: true, message, pinCodeExpires };
-  });
+  const data = await makeApiCall(
+    SIGNIN_URL,
+    'post',
+    { data: credentials },
+    data => {
+      const { message, pinCodeExpires } = data;
+      return { valid: true, message, pinCodeExpires };
+    },
+  );
 
   return data;
 };
@@ -22,7 +27,7 @@ export const signup = async userData => {
   const data = await makeApiCall(
     SIGNUP_URL,
     'post',
-    userData,
+    { data: userData },
     data => {
       const { message, pinCodeExpires } = data;
       return { valid: true, message, pinCodeExpires };
@@ -52,7 +57,7 @@ export const confirmPin = async pinData => {
   const data = await makeApiCall(
     CONFIRM_PIN_URL,
     'post',
-    pinData,
+    { data: pinData },
     data => {
       const { token, message } = data;
 
@@ -87,7 +92,7 @@ export const sendForgotPassword = async email => {
   const data = await makeApiCall(
     FORGOT_PASSWORD_URL,
     'post',
-    { email },
+    { data: { email } },
     data => {
       const { message } = data;
 

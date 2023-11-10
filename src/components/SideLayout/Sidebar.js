@@ -1,9 +1,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyIcon from '@mui/icons-material/Key';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -22,7 +19,7 @@ const drawerWidth = 240;
 export default function SideBar() {
   return (
     <div>
-        <CssBaseline />
+      <CssBaseline />
       <AppBar
         position="fixed"
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
@@ -48,29 +45,32 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List sx={{ top: 10 }}>
-          {['My Profiles', 'Change Password', 'My parking', 'Quoi encore ?'].map(
-            (text, index) => {
-              const formattedText = text.toLowerCase().replace(/\s/g, '-'); // Convertir en minuscules et remplacer les espaces par des tirets
+          {[
+            'My Profiles',
+            'Change Password',
+            'My parking',
+            'Quoi encore ?',
+          ].map((text, index) => {
+            const formattedText = text.toLowerCase().replace(/\s/g, '-'); // Convertir en minuscules et remplacer les espaces par des tirets
 
-              return (
-                <ListItem key={text} disablePadding>
-                  <Link
-                    to={`/${formattedText}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    {' '}
-                    {/* Style pour supprimer le soulignement */}
-                    <ListItemButton>
-                      <ListItemIcon>
-                        {index % 2 === 0 ? <AccountCircleIcon /> : <KeyIcon />}
-                      </ListItemIcon>
-                      <ListItemText primary={text} />
-                    </ListItemButton>
-                  </Link>
-                </ListItem>
-              );
-            },
-          )}
+            return (
+              <ListItem key={text} disablePadding>
+                <Link
+                  to={`/${formattedText}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  {' '}
+                  {/* Style pour supprimer le soulignement */}
+                  <ListItemButton>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <AccountCircleIcon /> : <KeyIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            );
+          })}
         </List>
         <Divider />
         <List>
