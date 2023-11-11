@@ -41,7 +41,7 @@ function App() {
       getPinValidity(email, dispatch);
       navigate('/otp');
     }
-    if (pinExpirationDate !== '') {
+    if (pinExpirationDate && pinExpirationDate !== '') {
       updateTimeout(pinExpirationDate, dispatch);
       navigate('/otp');
     }

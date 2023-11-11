@@ -1,0 +1,18 @@
+@import '../../../../../scss/abstracts/mixins';
+@import '../../../../../scss/abstracts/variables';
+
+.profile-picture {
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__avatar {
+    position: relative;
+    display: inline-block;
+  }
+  &__input {
+    display: none;
+  }
+}

@@ -13,7 +13,6 @@ export const makeApiCall = async (
     const response = await axios.request({ url, method, ...sendData });
 
     const { status: statusCode, data } = response;
-    console.log(data);
     if (statusCode === successCode) return successDataHandler(data);
 
     throw new AxiosError('Error', null, response);

@@ -1,14 +1,14 @@
-import { notify } from '../../store/slices/notification';
-import { sendConfirmationEmail } from '../../utils/api';
-import RadiusSimpleButton from '../UI/RadiusButton/RadiusSimpleButton';
-import SignInputField from '../UI/SignInputField/SignInputField';
-import { formStyles } from './ProfileFormMUIStyles';
-import UserProfilePhoto from './UserAvatar';
-import { Box } from '@mui/material';
+import { notify } from '../../../../store/slices/notification';
+import { sendConfirmationEmail } from '../../../../utils/api';
+import RadiusButton from '../../../UI/RadiusButton/RadiusButton';
+import SignInputField from '../../../UI/SignInputField/SignInputField';
+import { formStyles, inputStyles } from './UserProfileMUIStyles';
+import UserProfilePicture from './UserProfilePicture/UserProfilePicture';
+import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 
-function MyProfile() {
+function UserProfile() {
   const { username, phone, email } = useSelector(state => state.users.me);
   const { jwt } = useSelector(state => state.auth);
 
@@ -20,20 +20,22 @@ function MyProfile() {
       notify(response.message, dispatch);
     }
   };
+
   return (
     <Box noValidate sx={formStyles}>
-      <UserProfilePhoto />
+      <UserProfilePicture />
       <SignInputField
         id="email"
         label="Email"
         value={email}
-        InputProps={{ readOnly: true }}
+        InputProps={inputStyles}
       />
 
       <Typography variant="h6" gutterBottom component="div">
         Your Email is not confirmed
       </Typography>
-      <RadiusSimpleButton
+      <RadiusButton
+        type={Button}
         onClick={handleConfirmationEmail}
         text="Send Confirmation Link"
       />
@@ -41,16 +43,16 @@ function MyProfile() {
         id="username"
         label="Username"
         value={username}
-        InputProps={{ readOnly: true }}
+        InputProps={inputStyles}
       />
       <SignInputField
         id="phone"
         label="Phone Number"
         value={phone}
-        InputProps={{ readOnly: true }}
+        InputProps={inputStyles}
       />
     </Box>
   );
 }
 
-export default MyProfile;
+export default UserProfile;

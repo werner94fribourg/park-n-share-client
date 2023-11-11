@@ -1,11 +1,11 @@
-import { notify } from '../../store/slices/notification';
-import { updatePassword } from '../../utils/api';
+import { notify } from '../../../../../store/slices/notification';
+import { updatePassword } from '../../../../../utils/api';
 import {
   boxStyles,
   buttonStyles,
-} from '../ForgotPassword/ForgotPasswordForm/ForgotPasswordFormMUIStyles';
-import SignInputField from '../UI/SignInputField/SignInputField';
-import { errorStyles } from './ProfileFormMUIStyles';
+} from '../../../../ForgotPassword/ForgotPasswordForm/ForgotPasswordFormMUIStyles';
+import SignInputField from '../../../../UI/SignInputField/SignInputField';
+import { errorStyles } from './UpdatePasswordMUIStyles';
 import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -55,9 +55,6 @@ export default function FormUpdatedPassword() {
       return;
     }
     setError(data.message);
-
-    // Add your password reset logic here
-    // Redirect to a confirmation page or display a message
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={boxStyles}>

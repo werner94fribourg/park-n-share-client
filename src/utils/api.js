@@ -112,7 +112,6 @@ export const sendConfirmationEmail = async token => {
       headers: { Authorization: `Bearer ${token}` },
     },
     data => {
-      console.log(data);
       const { message } = data;
 
       return { valid: true, message };
@@ -123,7 +122,6 @@ export const sendConfirmationEmail = async token => {
 };
 
 export const changeProfile = async (token, formData) => {
-  console.log(token);
   const data = await makeApiCall(
     ME_URL,
     'patch',

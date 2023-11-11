@@ -65,7 +65,6 @@ export const connect = async (credentials, dispatch) => {
 
 export const createAccount = async (userData, dispatch) => {
   const data = await signup(userData);
-  console.log(data);
   if (data.valid)
     dispatch(
       authActions.signin({

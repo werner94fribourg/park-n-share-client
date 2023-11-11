@@ -1,3 +1,5 @@
+import { AccountCircle, CarRental, Key } from '@mui/icons-material';
+
 export const BACKEND_URL = 'http://localhost:3001';
 
 export const API_URL = `${BACKEND_URL}/api/v1`;
@@ -33,6 +35,24 @@ export const NAV_ITEMS = [
   {
     title: 'About Us',
     url: '/about-us',
+  },
+];
+
+export const PROFILE_NAV_ITEMS = [
+  {
+    title: 'Profile',
+    url: '/profile',
+    icon: <AccountCircle />,
+  },
+  {
+    title: 'Change Password',
+    url: '/profile/password',
+    icon: <Key />,
+  },
+  {
+    title: 'My parkings',
+    url: '/profile/parkings',
+    icon: <CarRental />,
   },
 ];
 
