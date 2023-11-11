@@ -19,6 +19,8 @@ export const FORGOT_PASSWORD_URL = USERS_URL + '/forgot-password';
 export const SEND_CONFIRMATION_EMAIL_URL =
   USERS_URL + '/send-confirmation-email';
 
+export const UPDATE_PASSWORD_URL = USERS_URL + '/change-password';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

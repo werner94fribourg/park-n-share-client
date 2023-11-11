@@ -6,6 +6,7 @@ import {
   SIGNUP_URL,
   FORGOT_PASSWORD_URL,
   SEND_CONFIRMATION_EMAIL_URL,
+  UPDATE_PASSWORD_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -144,5 +145,34 @@ export const changeProfile = async (token, formData) => {
       };
     },
   );
+  return data;
+};
+
+export const updatePassword = async (
+  token,
+  passwordCurrent,
+  password,
+  passwordConfirm,
+) => {
+  const data = await makeApiCall(
+    UPDATE_PASSWORD_URL,
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+    },
+    data => {
+      const { message } = data;
+      return { valid: true, message };
+    },
+  );
+
   return data;
 };
