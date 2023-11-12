@@ -9,10 +9,13 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 
 function UserProfile() {
-  const { username, phone, email } = useSelector(state => state.users.me);
+  const { username, phone, email, isEmailConfirmed } = useSelector(
+    state => state.users.me,
+  );
   const { jwt } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
+  console.log(isEmailConfirmed);
 
   const handleConfirmationEmail = async () => {
     const response = await sendConfirmationEmail(jwt);
@@ -31,14 +34,18 @@ function UserProfile() {
         InputProps={inputStyles}
       />
 
-      <Typography variant="h6" gutterBottom component="div">
-        Your Email is not confirmed
-      </Typography>
-      <RadiusButton
-        type={Button}
-        onClick={handleConfirmationEmail}
-        text="Send Confirmation Link"
-      />
+      {!isEmailConfirmed && (
+        <>
+          <Typography variant="h6" gutterBottom component="div">
+            Your Email is not confirmed
+          </Typography>
+          <RadiusButton
+            type={Button}
+            onClick={handleConfirmationEmail}
+            text="Send Confirmation Link"
+          />
+        </>
+      )}
       <SignInputField
         id="username"
         label="Username"

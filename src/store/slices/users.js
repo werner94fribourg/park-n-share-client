@@ -9,6 +9,7 @@ const initialState = {
     phone: '',
     photo: '',
     role: '',
+    isEmailConfirmed: false,
   },
   loading: true,
 };
@@ -19,7 +20,7 @@ const usersSlice = createSlice({
   reducers: {
     setMe(state, action) {
       const {
-        payload: { _id, email, username, phone, photo, role },
+        payload: { _id, email, username, phone, photo, role, isEmailConfirmed },
       } = action;
       state.me = {
         _id,
@@ -28,10 +29,11 @@ const usersSlice = createSlice({
         phone,
         photo,
         role,
+        isEmailConfirmed,
       };
       state.loading = false;
     },
-    setLoading(state, action) {
+    setLoading(state) {
       state.loading = false;
     },
 

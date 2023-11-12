@@ -1,6 +1,6 @@
 import Layout from '../components/Layout/Layout';
-import UpdatePassword from '../components/Profile/pages/UpdatePassword/UpdatePassword';
 import AboutUs from '../pages/AboutUs';
+import ConfirmEmail from '../pages/ConfirmEmail';
 import Home from '../pages/Home';
 import Parking from '../pages/Parking';
 import ParkingInfo from '../pages/ParkingInfo';
@@ -39,6 +39,7 @@ const AppRouter = () => {
           </Layout>
         }
       />
+      <Route path="/confirm-email/:confToken" element={<ConfirmEmail />} />
       <Route
         path="*"
         element={
@@ -49,15 +50,6 @@ const AppRouter = () => {
           )
         }
         replace
-      />
-
-      <Route
-        path="/change-password"
-        element={
-          <Layout>
-            <UpdatePassword />
-          </Layout>
-        }
       />
     </Routes>
   );

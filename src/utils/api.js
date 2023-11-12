@@ -7,6 +7,7 @@ import {
   FORGOT_PASSWORD_URL,
   SEND_CONFIRMATION_EMAIL_URL,
   UPDATE_PASSWORD_URL,
+  CONFIRM_EMAIL_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -111,6 +112,21 @@ export const sendConfirmationEmail = async token => {
     {
       headers: { Authorization: `Bearer ${token}` },
     },
+    data => {
+      const { message } = data;
+
+      return { valid: true, message };
+    },
+  );
+
+  return data;
+};
+
+export const confirmEmail = async confToken => {
+  const data = await makeApiCall(
+    CONFIRM_EMAIL_URL.replace(':confToken', confToken),
+    'patch',
+    undefined,
     data => {
       const { message } = data;
 
