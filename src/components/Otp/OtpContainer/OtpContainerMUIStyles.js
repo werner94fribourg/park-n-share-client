@@ -14,3 +14,5 @@ export const otpStyles = {
     // Define your custom styles for the OTP input here.
   },
 };
+
+export const mainContainerStyles = { position: 'fixed', left: 0, right: 0 };

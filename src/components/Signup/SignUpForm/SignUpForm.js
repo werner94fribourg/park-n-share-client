@@ -1,23 +1,17 @@
 // SignUpForm.js component
 import { createAccount } from '../../../store/slices/auth';
+import { notifyError } from '../../../store/slices/notification';
 import { SIGNUP_FIELDS } from '../../../utils/globals';
 import { invalidFieldsReducer, userReducers } from '../../../utils/utils';
 import FormField from '../FormField/FormField';
-import {
-  errorStyles,
-  formStyles,
-  signupButtonStyles,
-} from './SignUpFormMUIStyles';
+import { formStyles, signupButtonStyles } from './SignUpFormMUIStyles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 function SignUpForm() {
-  const [error, setError] = useState('');
-
   const [typedUser, dispatchUser] = useReducer(userReducers, undefined);
   const [messages, dispatchMessages] = useReducer(
     invalidFieldsReducer,
@@ -44,7 +38,7 @@ function SignUpForm() {
     const { valid, message, fields } = await createAccount(typedUser, dispatch);
 
     if (!fields && !valid) {
-      setError(message);
+      notifyError(message, dispatch);
       return;
     }
 
@@ -74,11 +68,6 @@ function SignUpForm() {
           helperText={messages ? messages[field.id] : ''}
         />
       ))}
-      {error !== '' && (
-        <Typography variant="body2" color="error" sx={errorStyles}>
-          {error}
-        </Typography>
-      )}
       <Button
         type="submit"
         fullWidth

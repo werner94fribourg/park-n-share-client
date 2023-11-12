@@ -1,12 +1,14 @@
-import { notify } from '../../../../../store/slices/notification';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../../../../store/slices/notification';
 import { updatePassword } from '../../../../../utils/api';
 import {
   boxStyles,
   buttonStyles,
 } from '../../../../ForgotPassword/ForgotPasswordForm/ForgotPasswordFormMUIStyles';
 import SignInputField from '../../../../UI/SignInputField/SignInputField';
-import { errorStyles } from './UpdatePasswordMUIStyles';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,8 +18,6 @@ export default function FormUpdatedPassword() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const dispatch = useDispatch();
   const { jwt } = useSelector(state => state.auth);
-
-  const [error, setError] = useState('');
 
   const PasswordChangeHandler = (field, value) => {
     switch (field) {
@@ -51,10 +51,10 @@ export default function FormUpdatedPassword() {
 
     if (data.valid) {
       //  navigate('/');
-      notify(data.message, dispatch);
+      notifySuccess(data.message, dispatch);
       return;
     }
-    setError(data.message);
+    notifyError(data.message, dispatch);
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={boxStyles}>
@@ -81,12 +81,6 @@ export default function FormUpdatedPassword() {
         onChange={handleChange}
         type="password"
       />
-
-      {error && (
-        <Typography variant="body2" color="error" sx={errorStyles}>
-          {error}
-        </Typography>
-      )}
       <Button type="submit" fullWidth variant="contained" sx={buttonStyles}>
         Update Password
       </Button>

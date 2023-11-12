@@ -2,7 +2,6 @@ import ForgotPassword from '../pages/ForgotPassword';
 import Otp from '../pages/Otp';
 import SignIn from '../pages/Signin';
 import SignUp from '../pages/Signup';
-import SuccessfulRegistration from '../pages/SuccessfulRegistration';
 import { closeNotification } from '../store/slices/notification';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -21,10 +20,6 @@ const AuthRouter = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/otp" element={<Otp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route
-        path="/successful-registration"
-        element={<SuccessfulRegistration />}
-      />
       <Route path="*" element={<Navigate to="/" replace />} replace />
     </Routes>
   );

@@ -1,6 +1,10 @@
-import { notify } from '../../../../../store/slices/notification';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../../../../store/slices/notification';
 import { setProfilePicture } from '../../../../../store/slices/users';
 import styles from './UserProfilePicture.module.scss';
+import { inputStyles } from './UserProfilePictureMUIStyles';
 import { avatarStyles } from './UserProfilePictureMUIStyles';
 import { Avatar, Box, IconButton, Input } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,8 +24,11 @@ const UserProfilePhoto = () => {
 
     const response = await setProfilePicture(jwt, formData, dispatch);
     if (response.valid) {
-      notify(response.message, dispatch);
+      notifySuccess(response.message, dispatch);
+      return;
     }
+
+    notifyError(response.message, dispatch);
   };
 
   return (
@@ -33,7 +40,7 @@ const UserProfilePhoto = () => {
         <Input
           type="file"
           onChange={handleFileSelect}
-          className={styles['profile-picture__input']}
+          sx={inputStyles}
           id="photo"
         />
         <label htmlFor="photo">

@@ -1,4 +1,4 @@
-import { notify } from '../../../../store/slices/notification';
+import { notifySuccess } from '../../../../store/slices/notification';
 import { sendConfirmationEmail } from '../../../../utils/api';
 import RadiusButton from '../../../UI/RadiusButton/RadiusButton';
 import SignInputField from '../../../UI/SignInputField/SignInputField';
@@ -17,7 +17,7 @@ function UserProfile() {
   const handleConfirmationEmail = async () => {
     const response = await sendConfirmationEmail(jwt);
     if (response.valid) {
-      notify(response.message, dispatch);
+      notifySuccess(response.message, dispatch);
     }
   };
 
