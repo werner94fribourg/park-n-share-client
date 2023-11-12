@@ -17,7 +17,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 function App() {
   const { loading } = useSelector(state => state.users);
 
-  const { message } = useSelector(state => state.notification);
+  const { message, type } = useSelector(state => state.notification);
 
   const { pinExpirationDate, correctCredentials, jwt } = useSelector(
     state => state.auth,
@@ -41,7 +41,7 @@ function App() {
       getPinValidity(email, dispatch);
       navigate('/otp');
     }
-    if (pinExpirationDate !== '') {
+    if (pinExpirationDate && pinExpirationDate !== '') {
       updateTimeout(pinExpirationDate, dispatch);
       navigate('/otp');
     }
@@ -59,7 +59,7 @@ function App() {
       <AppRouter />
       {message !== '' &&
         createPortal(
-          <Alert severity="success" onClose={closeAlertHandler}>
+          <Alert severity={type} onClose={closeAlertHandler}>
             {message}
           </Alert>,
           document.querySelector('body'),

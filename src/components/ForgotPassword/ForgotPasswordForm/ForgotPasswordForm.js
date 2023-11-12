@@ -1,9 +1,8 @@
-import { notify } from '../../../store/slices/notification';
+import { notifyError, notifySuccess } from '../../../store/slices/notification';
 import { sendForgotPassword } from '../../../utils/api';
-import { errorStyles } from '../../Signup/SignUpForm/SignUpFormMUIStyles';
 import SignInputField from '../../UI/SignInputField/SignInputField';
 import { boxStyles, buttonStyles } from './ForgotPasswordFormMUIStyles';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -12,7 +11,6 @@ const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState('');
 
   const emailChangeHandler = event => {
     setEmail(event.target.value);
@@ -24,10 +22,10 @@ const ForgotPasswordForm = () => {
 
     if (data.valid) {
       navigate('/');
-      notify(data.message, dispatch);
+      notifySuccess(data.message, dispatch);
       return;
     }
-    setError(data.message);
+    notifyError(data.messsage, dispatch);
 
     // Add your password reset logic here
     // Redirect to a confirmation page or display a message
@@ -41,11 +39,6 @@ const ForgotPasswordForm = () => {
         onChange={emailChangeHandler}
         type="email"
       />
-      {error && (
-        <Typography variant="body2" color="error" sx={errorStyles}>
-          {error}
-        </Typography>
-      )}
       <Button type="submit" fullWidth variant="contained" sx={buttonStyles}>
         Send Reset Link
       </Button>

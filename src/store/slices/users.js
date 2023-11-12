@@ -1,4 +1,4 @@
-import { getConnectedUser } from '../../utils/api';
+import { changeProfile, getConnectedUser } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
     phone: '',
     photo: '',
     role: '',
+    isEmailConfirmed: false,
   },
   loading: true,
 };
@@ -19,31 +20,25 @@ const usersSlice = createSlice({
   reducers: {
     setMe(state, action) {
       const {
-        payload: {
-          _id,
-          email,
-          username,
-          firstname,
-          lastname,
-          photo,
-          role,
-          supervisor,
-        },
+        payload: { _id, email, username, phone, photo, role, isEmailConfirmed },
       } = action;
       state.me = {
         _id,
         email,
         username,
-        firstname,
-        lastname,
+        phone,
         photo,
         role,
-        supervisor,
+        isEmailConfirmed,
       };
       state.loading = false;
     },
-    setLoading(state, action) {
+    setLoading(state) {
       state.loading = false;
+    },
+
+    setProfilePicture(state, action) {
+      state.me.photo = action.payload;
     },
   },
 });
@@ -60,4 +55,12 @@ export const getMe = async (token, dispatch) => {
   else dispatch(usersActions.setLoading());
 
   return authorized;
+};
+
+export const setProfilePicture = async (jwt, formData, dispatch) => {
+  const { valid, message, user } = await changeProfile(jwt, formData);
+  if (valid) {
+    dispatch(usersActions.setProfilePicture(user.photo));
+  }
+  return { message, valid };
 };

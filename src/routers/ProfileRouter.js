@@ -6,9 +6,7 @@ const ProfileRouter = () => {
   return (
     <Layout>
       <Routes>
-        {/** TODO: modularize Profile page */}
-        <Route path="/profile" element={<Profile />} />
-        {/** TODO: implement /logout route */}
+        <Route path="/profile/*" element={<Profile />} />
         <Route path="*" element={<Navigate to="/" replace />} replace />
       </Routes>
     </Layout>

@@ -13,3 +13,5 @@ export const boxStyles = {
 };
 
 export const avatarStyles = { m: 1, bgcolor: 'secondary.main' };
+
+export const mainContainerStyles = { position: 'fixed', left: 0, right: 0 };

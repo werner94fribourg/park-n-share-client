@@ -20,7 +20,7 @@ const OtpContainer = props => {
   if (!correctCredentials) return <div></div>;
 
   return (
-    <Container component="main" maxWidth="xs" sx={containerStyles}>
+    <Container component="main" maxWidth="xs" sx={mainContainerStyles}>
       <div className={classes.otpContainer}>
         <div className={classes.otpLabel}>
           PIN CODE (End after {outputExpirationTime(timeout)})

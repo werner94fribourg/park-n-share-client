@@ -1,5 +1,5 @@
-import { TextField, createStyles } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { TextField } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
 );
 
 const SignInputField = props => {
-  const { id, label, value, onChange, type, error, helperText } = props;
+  const { id, label, value, onChange, type, error, helperText, InputProps } = props;
 
   const styles = useStyles();
 
@@ -33,6 +33,7 @@ const SignInputField = props => {
       type={type}
       error={error}
       helperText={helperText}
+      InputProps={InputProps}
     />
   );
 };

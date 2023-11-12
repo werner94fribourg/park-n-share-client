@@ -1,14 +1,10 @@
 import { connect } from '../../../store/slices/auth';
+import { notifyError } from '../../../store/slices/notification';
 import { SIGNIN_FIELDS } from '../../../utils/globals';
 import SignInputField from '../../UI/SignInputField/SignInputField';
-import {
-  errorStyles,
-  formStyles,
-  submitButtonStyles,
-} from './SignInFormMUIStyles';
+import { formStyles, submitButtonStyles } from './SignInFormMUIStyles';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -23,8 +19,6 @@ function SignInForm() {
     email: '',
     password: '',
   });
-
-  const [error, setError] = useState(null);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -47,7 +41,7 @@ function SignInForm() {
     if (data.valid) {
       navigate('/otp');
     } else {
-      setError(data.message);
+      notifyError(data.message, dispatch);
     }
   };
 
@@ -63,11 +57,6 @@ function SignInForm() {
           type={field.type}
         />
       ))}
-      {error && (
-        <Typography variant="body2" color="error" sx={errorStyles}>
-          {error}
-        </Typography>
-      )}
       <Button
         type="submit"
         fullWidth
