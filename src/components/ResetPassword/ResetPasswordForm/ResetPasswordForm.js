@@ -1,17 +1,17 @@
 import { initialize, setResetLinkValidity } from '../../../store/slices/auth';
+import { notifyError, notifySuccess } from '../../../store/slices/notification';
 import { getResetLinkValidity, resetPassword } from '../../../utils/api';
 import { RESET_PASSWORD_FIELDS } from '../../../utils/globals';
 import { invalidFieldsReducer, userReducers } from '../../../utils/utils';
 import SignInputField from '../../UI/SignInputField/SignInputField';
-import { buttonStyles, errorStyles } from './ResetPasswordFormMUIStyles';
-import { Box, Button, Typography } from '@mui/material';
-import { useEffect, useReducer, useState } from 'react';
+import { buttonStyles } from './ResetPasswordFormMUIStyles';
+import { Box, Button } from '@mui/material';
+import { useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
 const ResetPasswordForm = () => {
   const { resetToken } = useParams();
-  const [error, setError] = useState('');
   const [typedUser, dispatchUser] = useReducer(userReducers, undefined);
   const [messages, dispatchMessages] = useReducer(
     invalidFieldsReducer,
@@ -58,7 +58,7 @@ const ResetPasswordForm = () => {
     });
 
     if (!fields && !valid) {
-      setError(message);
+      notifyError(message, dispatch);
       return;
     }
 
@@ -71,6 +71,7 @@ const ResetPasswordForm = () => {
     }
 
     initialize(token, dispatch);
+    notifySuccess(message, dispatch);
     navigate('/profile');
     setResetLinkValidity(false, dispatch);
   };
@@ -91,11 +92,6 @@ const ResetPasswordForm = () => {
           helperText={messages ? messages[field.id] : ''}
         />
       ))}
-      {error !== '' && (
-        <Typography variant="body2" color="error" sx={errorStyles}>
-          {error}
-        </Typography>
-      )}
       <Button type="submit" fullWidth variant="contained" sx={buttonStyles}>
         Reset password
       </Button>

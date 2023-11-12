@@ -1,5 +1,5 @@
 import {
-  containerStyles,
+  mainContainerStyles,
   resetPasswordStyles,
 } from './ResetPasswordContainerMUIStyles';
 import { Container } from '@mui/material';
@@ -9,7 +9,7 @@ const ResetPasswordContainer = props => {
   const { children, classes } = props;
 
   return (
-    <Container component="main" maxWidth="xs" sx={containerStyles}>
+    <Container component="main" maxWidth="xs" sx={mainContainerStyles}>
       <div className={classes.container}>{children}</div>
     </Container>
   );

@@ -213,7 +213,7 @@ export const resetPassword = async (resetToken, newValues) => {
   const data = await makeApiCall(
     RESET_PASSWORD_URL.replace(':resetToken', resetToken),
     'patch',
-    newValues,
+    { data: newValues },
     data => {
       const { token, message } = data;
       return { valid: true, token, message };
