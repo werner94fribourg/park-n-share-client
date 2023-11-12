@@ -186,6 +186,11 @@ export const updatePassword = async (
     data => {
       const { message } = data;
       return { valid: true, message };
+    },
+  );
+
+  return data;
+};
 
 export const getResetLinkValidity = async resetToken => {
   const data = await makeApiCall(

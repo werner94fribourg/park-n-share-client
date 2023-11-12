@@ -1,5 +1,5 @@
 import { outputExpirationTime } from '../../../utils/utils';
-import { containerStyles, otpStyles } from './OtpContainerMUIStyles';
+import { mainContainerStyles, otpStyles } from './OtpContainerMUIStyles';
 import { Container } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { useEffect } from 'react';
