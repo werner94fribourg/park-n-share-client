@@ -8,6 +8,7 @@ import {
   SEND_CONFIRMATION_EMAIL_URL,
   UPDATE_PASSWORD_URL,
   CONFIRM_EMAIL_URL,
+  RESET_PASSWORD_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -185,6 +186,32 @@ export const updatePassword = async (
     data => {
       const { message } = data;
       return { valid: true, message };
+
+export const getResetLinkValidity = async resetToken => {
+  const data = await makeApiCall(
+    RESET_PASSWORD_URL.replace(':resetToken', resetToken),
+    'get',
+    undefined,
+    data => {
+      const {
+        data: { valid: validity },
+      } = data;
+
+      return { valid: true, validity };
+    },
+  );
+
+  return data;
+};
+
+export const resetPassword = async (resetToken, newValues) => {
+  const data = await makeApiCall(
+    RESET_PASSWORD_URL.replace(':resetToken', resetToken),
+    'patch',
+    newValues,
+    data => {
+      const { token, message } = data;
+      return { valid: true, token, message };
     },
   );
 

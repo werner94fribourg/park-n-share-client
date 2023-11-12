@@ -25,6 +25,8 @@ export const CONFIRM_EMAIL_URL = USERS_URL + '/confirm-email/:confToken';
 
 export const UPDATE_PASSWORD_URL = USERS_URL + '/change-password';
 
+export const RESET_PASSWORD_URL = USERS_URL + '/reset-password/:resetToken';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',
@@ -111,6 +113,23 @@ export const SIGNUP_FIELDS = [
     xs: 12,
     sm: 12,
   },
+  {
+    id: 'password',
+    label: 'Password',
+    type: 'password',
+    xs: 12,
+    sm: 12,
+  },
+  {
+    id: 'passwordConfirm',
+    label: 'Confirm Password',
+    type: 'password',
+    xs: 12,
+    sm: 12,
+  },
+];
+
+export const RESET_PASSWORD_FIELDS = [
   {
     id: 'password',
     label: 'Password',

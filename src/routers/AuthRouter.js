@@ -1,5 +1,6 @@
 import ForgotPassword from '../pages/ForgotPassword';
 import Otp from '../pages/Otp';
+import ResetPassword from '../pages/ResetPassword';
 import SignIn from '../pages/Signin';
 import SignUp from '../pages/Signup';
 import { closeNotification } from '../store/slices/notification';
@@ -20,6 +21,7 @@ const AuthRouter = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/otp" element={<Otp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
       <Route path="*" element={<Navigate to="/" replace />} replace />
     </Routes>
   );
