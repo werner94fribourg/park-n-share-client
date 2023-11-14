@@ -9,6 +9,7 @@ import {
   UPDATE_PASSWORD_URL,
   CONFIRM_EMAIL_URL,
   RESET_PASSWORD_URL,
+  PARKINGS_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 
@@ -219,6 +220,17 @@ export const resetPassword = async (resetToken, newValues) => {
       return { valid: true, token, message };
     },
   );
+
+  return data;
+};
+
+export const getAllParkings = async () => {
+  const data = await makeApiCall(PARKINGS_URL, 'get', undefined, data => {
+    const {
+      data: { parkings },
+    } = data;
+    return { valid: true, parkings };
+  });
 
   return data;
 };

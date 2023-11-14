@@ -27,6 +27,8 @@ export const UPDATE_PASSWORD_URL = USERS_URL + '/change-password';
 
 export const RESET_PASSWORD_URL = USERS_URL + '/reset-password/:resetToken';
 
+export const PARKINGS_URL = API_URL + '/parkings';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

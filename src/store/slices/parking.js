@@ -1,3 +1,4 @@
+import { getAllParkings } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -11,9 +12,11 @@ const parkingSlice = createSlice({
   reducers: {
     addParkings(state, action) {
       const { payload: parkings } = action;
-      parkings.forEach(parking => state.parkings.push(parking));
+      parkings.filter(parking => state.parkings.find(p => p.id === parking.id));
 
-      parkings.filter((parking, index) => parkings.indexOf(parking) === index);
+      parkings.forEach(parking => {
+        state.parkings.push(parking);
+      });
     },
   },
 });
@@ -24,4 +27,12 @@ export const parkingReducer = parkingSlice.reducer;
 
 export const addParkings = (parkings, dispatch) => {
   dispatch(parkingActions.addParkings(parkings));
+};
+
+export const loadAllParkings = async dispatch => {
+  const { valid, parkings, message } = await getAllParkings();
+
+  if (valid) dispatch(parkingActions.addParkings(parkings));
+
+  return [valid, message];
 };

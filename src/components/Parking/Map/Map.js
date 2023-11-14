@@ -1,4 +1,4 @@
-import { addParkings } from '../../../store/slices/parking';
+import { loadAllParkings } from '../../../store/slices/parking';
 import styles from './Map.module.scss';
 import { mapStyles, markerStyles } from './MapMapboxStyles';
 import mapboxgl from 'mapbox-gl';
@@ -8,19 +8,6 @@ import MaptyMap, { Marker, Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-const fakeParkings = [
-  {
-    id: 1,
-    name: `Parking Spot 1`,
-    description: 'Test',
-    capacity: '10',
-    availability: '8',
-    details: `This is a free parking spot available for 10 cars. Currently, 8 spaces are available for parking.`,
-    lng: 7.1545435,
-    lat: 46.846456456,
-  },
-];
-
 const Map = () => {
   const parkings = useSelector(state => state.parking.parkings);
   const dispatch = useDispatch();
@@ -29,15 +16,11 @@ const Map = () => {
   const [zoom, setZoom] = useState(9);
   const mapRef = useRef(null);
   const navigate = useNavigate();
-
+  console.log(parkings);
   const { current } = mapRef;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      addParkings(fakeParkings, dispatch);
-    }, 5000);
-
-    return () => clearTimeout(timer);
+    loadAllParkings(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
@@ -53,8 +36,8 @@ const Map = () => {
     });
   }, [current]);
 
-  const markerHandler = parking => {
-    navigate(`/parkings/${parking.id}`);
+  const markerHandler = id => {
+    navigate(`/parkings/${id}`);
   };
 
   return (
@@ -75,56 +58,31 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v12"
         style={mapStyles}
       >
-        {parkings.map(parking => (
-          <div key={parking.id}>
-            <Marker
-              longitude={parking.lng}
-              latitude={parking.lat}
-              style={markerStyles}
-              onClick={markerHandler.bind(null, parking)}
-            />
-            <Popup longitude={parking.lng} latitude={parking.lat} offset={20}>
-              {parking.name}
-            </Popup>
-          </div>
-        ))}
+        {parkings.map(parking => {
+          const {
+            _id: id,
+            name,
+            location: {
+              coordinates: [lat, lng],
+            },
+          } = parking;
+          return (
+            <div key={id}>
+              <Marker
+                longitude={lng}
+                latitude={lat}
+                style={markerStyles}
+                onClick={markerHandler.bind(null, id)}
+              />
+              <Popup longitude={lng} latitude={lat} offset={20}>
+                {name}
+              </Popup>
+            </div>
+          );
+        })}
       </MaptyMap>
     </div>
   );
 };
 
-/*
-const Map = () => {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
-
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [lng, lat],
-      zoom: zoom,
-    });
-
-    map.current.on('move', () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-    });
-  });
-
-  return (
-    <div className={styles.map}>
-      <div className={styles['map__sidebar']}>
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
-      <div ref={mapContainer} className={styles['map__container']} />
-    </div>
-  );
-};
-*/
 export default Map;

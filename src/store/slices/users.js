@@ -22,6 +22,7 @@ const usersSlice = createSlice({
       const {
         payload: { _id, email, username, phone, photo, role, isEmailConfirmed },
       } = action;
+
       state.me = {
         _id,
         email,
