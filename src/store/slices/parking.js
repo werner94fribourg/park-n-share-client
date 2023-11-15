@@ -35,8 +35,8 @@ export const addParkings = (parkings, dispatch) => {
   dispatch(parkingActions.addParkings(parkings));
 };
 
-export const loadAllParkings = async dispatch => {
-  const { valid, parkings, message } = await getAllParkings();
+export const loadAllParkings = async (lat, lng, dist, dispatch) => {
+  const { valid, parkings, message } = await getAllParkings(lat, lng, dist);
 
   if (valid) dispatch(parkingActions.addParkings(parkings));
 

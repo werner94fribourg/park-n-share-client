@@ -1,6 +1,6 @@
 import { notifyError } from '../../../store/slices/notification';
 import { loadAllParkings } from '../../../store/slices/parking';
-import { getUserLocation } from '../../../utils/utils';
+import { calculateDistance, getUserLocation } from '../../../utils/utils';
 import styles from './Map.module.scss';
 import { mapStyles, markerStyles } from './MapMapboxStyles';
 import mapboxgl from 'mapbox-gl';
@@ -17,34 +17,20 @@ const Map = () => {
   const [latitude, setLatitude] = useState(NaN);
   const [initialLoading, setInitialLoading] = useState(true);
   const [mapLoading, setMapLoading] = useState(true);
-  const [zoom, setZoom] = useState(16);
+  const [mapSetting, setMapSetting] = useState(true);
+  const [zoom, setZoom] = useState(15);
   const mapRef = useRef(null);
   const navigate = useNavigate();
   const { current } = mapRef;
 
   useEffect(() => {
-    const getAllParkings = async () => {
-      const { valid, message } = await loadAllParkings(dispatch);
-
-      if (!valid) {
-        notifyError(message, dispatch);
-      }
-    };
-    getAllParkings();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const getPosition = async () => {
-      if (!initialLoading) return;
-      const { lat, lng } = await getUserLocation();
-
+    if (!initialLoading) return;
+    getUserLocation().then(({ lat, lng }) => {
       setLatitude(lat);
       setLongitude(lng);
       setInitialLoading(false);
-    };
-
-    getPosition();
-  }, [initialLoading]);
+    });
+  }, [initialLoading, dispatch]);
 
   useEffect(() => {
     const getMap = current?.getMap;
@@ -53,15 +39,44 @@ const Map = () => {
       return;
     }
 
+    if (!mapSetting) return;
     const map = getMap();
+    const border = map.getBounds().getNorthWest();
 
-    map.on('move', () => {
-      setLongitude(map.getCenter().lng.toFixed(4));
-      setLatitude(map.getCenter().lat.toFixed(4));
-      setZoom(map.getZoom().toFixed(2));
+    const distance = calculateDistance(
+      { lat: latitude, lng: longitude },
+      border,
+    );
+
+    loadAllParkings(latitude, longitude, distance, dispatch).then(
+      ({ valid, message }) => {
+        if (!valid) notifyError(message, dispatch);
+      },
+    );
+    map.on('move', async () => {
+      const latitude = map.getCenter().lat.toFixed(4);
+      const longitude = map.getCenter().lng.toFixed(4);
+      const zoom = map.getZoom().toFixed(2);
+      setLongitude(longitude);
+      setLatitude(latitude);
+      setZoom(zoom);
+
+      const border = map.getBounds().getNorthWest();
+      const distance = calculateDistance(
+        { lat: latitude, lng: longitude },
+        border,
+      );
+      const { valid, message } = await loadAllParkings(
+        latitude,
+        longitude,
+        distance,
+        dispatch,
+      );
+      if (!valid) notifyError(message, dispatch);
     });
     setMapLoading(false);
-  }, [mapLoading, current]);
+    setMapSetting(false);
+  }, [latitude, longitude, mapSetting, mapLoading, current, dispatch]);
 
   const markerHandler = id => {
     navigate(`/parkings/${id}`);

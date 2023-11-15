@@ -174,3 +174,23 @@ export const getUserLocation = async () => {
     return { lat: 46.8, lng: 7.15 };
   }
 };
+
+export const calculateDistance = (point1, point2) => {
+  const { lat: lat1, lng: lng1 } = point1;
+  const { lat: lat2, lng: lng2 } = point2;
+
+  const dLat = toRadians(lat2) - toRadians(lat1);
+  const dLng = toRadians(lng2) - toRadians(lng1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const earthRadius = 6371;
+
+  return earthRadius * c;
+};
+
+export const toRadians = deg => deg * (Math.PI / 180);
