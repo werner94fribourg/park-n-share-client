@@ -15,7 +15,6 @@ function UserProfile() {
   const { jwt } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
-  console.log(isEmailConfirmed);
 
   const handleConfirmationEmail = async () => {
     const response = await sendConfirmationEmail(jwt);

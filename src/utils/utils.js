@@ -144,3 +144,33 @@ export const invalidFieldsReducer = (state, action) => {
 
   return setField(messages, type, payload);
 };
+
+export const getPosition = () =>
+  new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      // Success callback function
+      position => {
+        // Get the user's latitude and longitude coordinates
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        resolve({ lat, lng });
+      },
+      // Error callback function
+      error => {
+        reject(error);
+      },
+    );
+  });
+
+export const getUserLocation = async () => {
+  try {
+    if ('geolocation' in navigator) {
+      const coords = await getPosition();
+
+      return coords;
+    } else return { lat: 46.8, lng: 7.15 };
+  } catch (err) {
+    return { lat: 46.8, lng: 7.15 };
+  }
+};

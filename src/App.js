@@ -3,7 +3,7 @@ import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
 import { closeNotification } from './store/slices/notification';
 import { getMe } from './store/slices/users';
-import Alert from '@mui/material/Alert';
+import loadable from '@loadable/component';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 // eslint-disable-line import/no-webpack-loader-syntax
@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+const Alert = loadable(() => import('@mui/material/Alert'));
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 function App() {

@@ -1,6 +1,8 @@
 import Layout from '../components/Layout/Layout';
-import Profile from '../pages/Profile';
+import loadable from '@loadable/component';
 import { Navigate, Route, Routes } from 'react-router';
+
+const Profile = loadable(() => import('../pages/Profile'));
 
 const ProfileRouter = () => {
   return (
