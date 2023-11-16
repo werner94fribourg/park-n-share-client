@@ -1,10 +1,11 @@
 .map {
   position: relative;
-  top: 120px;
-  height: calc(100vh - 200px);
+  top: 0;
+  height: calc(100vh - 8rem);
   width: 100vw;
   left: 0;
   right: 0;
+  bottom: 0;
   overflow: hidden;
   &__sidebar {
     background-color: rgba(35, 55, 75, 0.9);
@@ -19,9 +20,13 @@
     border-radius: 4px;
   }
   &__container {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 8rem);
     width: 100vw;
     position: absolute;
-    bottom: 0;
+    top: 0;
+    canvas {
+      width: 100vw;
+      height: calc(100vh - 8rem);
+    }
   }
 }

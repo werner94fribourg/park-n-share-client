@@ -2,7 +2,8 @@ import { notifyError } from '../../../store/slices/notification';
 import { loadAllParkings } from '../../../store/slices/parking';
 import { calculateDistance, getUserLocation } from '../../../utils/utils';
 import styles from './Map.module.scss';
-import { mapStyles, markerStyles } from './MapMapboxStyles';
+import { filterStyles, mapStyles, markerStyles } from './MapMapboxStyles';
+import { FilterAlt } from '@mui/icons-material';
 import mapboxgl from 'mapbox-gl';
 // eslint-disable-line import/no-webpack-loader-syntax
 import { useEffect, useRef, useState } from 'react';
@@ -89,6 +90,7 @@ const Map = () => {
           <div className={styles['map__sidebar']}>
             Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}
           </div>
+          <FilterAlt sx={filterStyles} />
           <MaptyMap
             mapLib={mapboxgl}
             initialViewState={{
