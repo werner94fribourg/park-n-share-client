@@ -1,12 +1,19 @@
 import { notifyError } from '../../../store/slices/notification';
 import { loadAllParkings } from '../../../store/slices/parking';
 import { calculateDistance, getUserLocation } from '../../../utils/utils';
+import FilterForm from '../FilterForm/FilterForm';
 import styles from './Map.module.scss';
-import { filterStyles, mapStyles, markerStyles } from './MapMapboxStyles';
-import { FilterAlt } from '@mui/icons-material';
+import {
+  filterStyles,
+  locationStyles,
+  mapStyles,
+  markerStyles,
+} from './MapMapboxStyles';
+import { FilterAlt, MyLocation } from '@mui/icons-material';
 import mapboxgl from 'mapbox-gl';
 // eslint-disable-line import/no-webpack-loader-syntax
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import MaptyMap, { Marker, Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -23,6 +30,15 @@ const Map = () => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
   const { current } = mapRef;
+  const [formVisible, setFormVisible] = useState(false);
+
+  const closeFormHandler = () => {
+    setFormVisible(false);
+  };
+
+  const filterHandler = () => {
+    setFormVisible(true);
+  };
 
   useEffect(() => {
     if (!initialLoading) return;
@@ -90,7 +106,8 @@ const Map = () => {
           <div className={styles['map__sidebar']}>
             Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}
           </div>
-          <FilterAlt sx={filterStyles} />
+          <FilterAlt sx={filterStyles} onClick={filterHandler} />
+          <MyLocation sx={locationStyles} />
           <MaptyMap
             mapLib={mapboxgl}
             initialViewState={{
@@ -128,6 +145,10 @@ const Map = () => {
             })}
           </MaptyMap>
         </>
+      )}
+      {createPortal(
+        <FilterForm visible={formVisible} onClose={closeFormHandler} />,
+        document.querySelector('body'),
       )}
     </div>
   );

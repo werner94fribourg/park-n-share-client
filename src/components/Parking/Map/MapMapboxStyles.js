@@ -19,8 +19,17 @@ export const mapStyles = {
 export const filterStyles = {
   zIndex: 1000,
   position: 'relative',
-  transform: 'scale(4) translateX(-50%)',
-  top: '2rem',
+  transform: 'scale(2.5) translateX(-50%)',
+  top: '7rem',
   left: 'calc(100vw - 2rem)',
+  cursor: 'pointer',
+};
+
+export const locationStyles = {
+  zIndex: 1000,
+  position: 'relative',
+  transform: 'scale(2.5) translateX(-50%)',
+  top: '2rem',
+  left: 'calc(100vw - 3.5rem)',
   cursor: 'pointer',
 };
