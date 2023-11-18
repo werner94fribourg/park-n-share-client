@@ -147,7 +147,11 @@ const Map = () => {
         </>
       )}
       {createPortal(
-        <FilterForm visible={formVisible} onClose={closeFormHandler} />,
+        <FilterForm
+          visible={formVisible}
+          onClose={closeFormHandler}
+          setFormVisible={setFormVisible}
+        />,
         document.querySelector('body'),
       )}
     </div>

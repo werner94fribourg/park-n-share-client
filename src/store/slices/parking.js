@@ -3,6 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   parkings: [],
+  filters: {
+    type: undefined,
+    maxPrice: 25,
+  },
 };
 
 const parkingSlice = createSlice({
@@ -24,6 +28,14 @@ const parkingSlice = createSlice({
           state.parkings.indexOf(p => p.id === parking.id) === index,
       );
     },
+    setFilters(state, action) {
+      const {
+        payload: { type, maxPrice },
+      } = action;
+
+      state.filters.type = type;
+      state.filters.maxPrice = maxPrice;
+    },
   },
 });
 
@@ -41,4 +53,8 @@ export const loadAllParkings = async (lat, lng, dist, dispatch) => {
   if (valid) dispatch(parkingActions.addParkings(parkings));
 
   return { valid, message };
+};
+
+export const setFilters = (values, dispatch) => {
+  dispatch(parkingActions.setFilters(values));
 };

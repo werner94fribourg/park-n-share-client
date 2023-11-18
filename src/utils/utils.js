@@ -145,6 +145,36 @@ export const invalidFieldsReducer = (state, action) => {
   return setField(messages, type, payload);
 };
 
+export const parkingFiltersReducer = (state, action) => {
+  const filters = {
+    indoor: state.type === 'indoor',
+    maxPrice: state.maxPrice,
+  };
+
+  const { type, payload } = action;
+
+  if (type === 'init') return filters;
+
+  if (type === 'reset_all') {
+    return { indoor: payload.type === 'indoor', maxPrice: payload.maxPrice };
+  }
+
+  if (type === 'indoor' && typeof payload === 'boolean') {
+    return {
+      ...filters,
+      indoor: payload,
+    };
+  }
+
+  if (type === 'dot') {
+    return { ...filters, dot: true };
+  }
+
+  if (type === 'maxPrice' && typeof payload === 'number') {
+    return { ...filters, maxPrice: payload };
+  }
+};
+
 export const getPosition = () =>
   new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
