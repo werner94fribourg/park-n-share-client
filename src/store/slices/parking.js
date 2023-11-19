@@ -6,6 +6,9 @@ const initialState = {
   filters: {
     type: undefined,
     maxPrice: 25,
+    lat: 0,
+    lng: 0,
+    distance: 0,
   },
 };
 
@@ -14,7 +17,9 @@ const parkingSlice = createSlice({
   initialState,
   reducers: {
     addParkings(state, action) {
-      const { payload: parkings } = action;
+      const {
+        payload: { parkings, lat, lng, distance },
+      } = action;
 
       parkings.forEach(parking => {
         let storedIndex = state.parkings.findIndex(p => p._id === parking._id);
@@ -23,10 +28,15 @@ const parkingSlice = createSlice({
         } else state.parkings.push(parking);
       });
 
-      state.parkings.filter(
-        (parking, index) =>
-          state.parkings.indexOf(p => p.id === parking.id) === index,
-      );
+      state.filters.lat = lat;
+      state.filters.lng = lng;
+      state.filters.distance = distance;
+    },
+    reloadParkings(state, action) {
+      const {
+        payload: { parkings },
+      } = action;
+      state.parkings = parkings;
     },
     setFilters(state, action) {
       const {
@@ -47,10 +57,34 @@ export const addParkings = (parkings, dispatch) => {
   dispatch(parkingActions.addParkings(parkings));
 };
 
-export const loadAllParkings = async (lat, lng, dist, dispatch) => {
-  const { valid, parkings, message } = await getAllParkings(lat, lng, dist);
-
-  if (valid) dispatch(parkingActions.addParkings(parkings));
+export const loadAllParkings = async (
+  lat,
+  lng,
+  distance,
+  filters,
+  dispatch,
+  reload = false,
+) => {
+  const filterObj = {
+    maxPrice: filters.maxPrice,
+  };
+  if (filters.type !== undefined) filterObj['type'] = filters.type;
+  const params = {
+    lat,
+    lng,
+    distance,
+    ...filterObj,
+  };
+  const { valid, parkings, message } = await getAllParkings(params);
+  if (valid)
+    dispatch(
+      parkingActions[reload ? 'reloadParkings' : 'addParkings']({
+        lat,
+        lng,
+        distance,
+        parkings,
+      }),
+    );
 
   return { valid, message };
 };

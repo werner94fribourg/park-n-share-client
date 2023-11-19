@@ -224,11 +224,11 @@ export const resetPassword = async (resetToken, newValues) => {
   return data;
 };
 
-export const getAllParkings = async (lat, lng, distance) => {
+export const getAllParkings = async params => {
   const data = await makeApiCall(
     PARKINGS_URL,
     'get',
-    { params: { lat, lng, distance } },
+    { params: { minPrice: 0, ...params } },
     data => {
       const {
         data: { parkings },

@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 const Map = () => {
-  const parkings = useSelector(state => state.parking.parkings);
+  const {
+    parkings,
+    filters: { type, maxPrice, lat, lng, distance },
+  } = useSelector(state => state.parking);
   const dispatch = useDispatch();
   const [longitude, setLongitude] = useState(NaN);
   const [latitude, setLatitude] = useState(NaN);
@@ -33,6 +36,20 @@ const Map = () => {
   const [formVisible, setFormVisible] = useState(false);
 
   const closeFormHandler = () => {
+    setFormVisible(false);
+  };
+
+  const submitFormHandler = async filters => {
+    const { valid, message } = await loadAllParkings(
+      lat,
+      lng,
+      distance,
+      filters,
+      dispatch,
+      true,
+    );
+
+    if (!valid) notifyError(message, dispatch);
     setFormVisible(false);
   };
 
@@ -61,15 +78,19 @@ const Map = () => {
     const border = map.getBounds().getNorthWest();
 
     const distance = calculateDistance(
-      { lat: latitude, lng: longitude },
+      { lat: Number.parseFloat(latitude), lng: Number.parseFloat(longitude) },
       border,
     );
 
-    loadAllParkings(latitude, longitude, distance, dispatch).then(
-      ({ valid, message }) => {
-        if (!valid) notifyError(message, dispatch);
-      },
-    );
+    loadAllParkings(
+      latitude,
+      longitude,
+      distance,
+      { type, maxPrice },
+      dispatch,
+    ).then(({ valid, message }) => {
+      if (!valid) notifyError(message, dispatch);
+    });
     map.on('move', async () => {
       const latitude = map.getCenter().lat.toFixed(4);
       const longitude = map.getCenter().lng.toFixed(4);
@@ -79,21 +100,33 @@ const Map = () => {
       setZoom(zoom);
 
       const border = map.getBounds().getNorthWest();
+
       const distance = calculateDistance(
-        { lat: latitude, lng: longitude },
+        { lat: Number.parseFloat(latitude), lng: Number.parseFloat(longitude) },
         border,
       );
+
       const { valid, message } = await loadAllParkings(
         latitude,
         longitude,
         distance,
+        { type, maxPrice },
         dispatch,
       );
       if (!valid) notifyError(message, dispatch);
     });
     setMapLoading(false);
     setMapSetting(false);
-  }, [latitude, longitude, mapSetting, mapLoading, current, dispatch]);
+  }, [
+    latitude,
+    longitude,
+    mapSetting,
+    mapLoading,
+    current,
+    maxPrice,
+    type,
+    dispatch,
+  ]);
 
   const markerHandler = id => {
     navigate(`/parkings/${id}`);
@@ -150,6 +183,7 @@ const Map = () => {
         <FilterForm
           visible={formVisible}
           onClose={closeFormHandler}
+          onSubmit={submitFormHandler}
           setFormVisible={setFormVisible}
         />,
         document.querySelector('body'),

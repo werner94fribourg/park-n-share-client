@@ -15,8 +15,8 @@ import { useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const FilterForm = props => {
-  const { visible, onClose } = props;
-  const filters = useSelector(state => state.parking.filters);
+  const { visible, onClose, onSubmit } = props;
+  const { filters } = useSelector(state => state.parking);
   const [selectedFilters, dispatchSelectedFilters] = useReducer(
     parkingFiltersReducer,
     filters,
@@ -34,6 +34,10 @@ const FilterForm = props => {
 
   const submitHandler = async event => {
     event.preventDefault();
+    const newFilters = {
+      type: selectedFilters.indoor ? 'indoor' : undefined,
+      maxPrice: selectedFilters.maxPrice,
+    };
     setFilters(
       {
         type: selectedFilters.indoor ? 'indoor' : undefined,
@@ -41,7 +45,7 @@ const FilterForm = props => {
       },
       dispatch,
     );
-    onClose();
+    onSubmit(newFilters);
   };
 
   const indoorHandler = event => {
