@@ -10,8 +10,10 @@ import {
   CONFIRM_EMAIL_URL,
   RESET_PASSWORD_URL,
   PARKINGS_URL,
+  GEOAPI_AUTOCOMPLETE_URL,
 } from './globals';
 import { makeApiCall } from './utils';
+import axios from 'axios';
 
 export const signin = async credentials => {
   const data = await makeApiCall(
@@ -238,4 +240,27 @@ export const getAllParkings = async params => {
   );
 
   return data;
+};
+
+export const getSuggestions = async query => {
+  const {
+    data: { features },
+  } = await axios.get(GEOAPI_AUTOCOMPLETE_URL, {
+    params: {
+      text: `${query}`,
+      apiKey: process.env.REACT_APP_GEOAPIFY_API_KEY,
+      limit: 30,
+      bbox: 'bbox=5.95592%2C-45.8183%3B10.49212%2C-47.8085&',
+    },
+  });
+
+  const suggestions = features
+    .map(feature => ({
+      coordinates: feature.geometry.coordinates,
+      country: feature.properties.country,
+      suggestion: feature.properties.formatted,
+    }))
+    .filter(suggestion => suggestion.country === 'Switzerland');
+
+  return suggestions.filter((_, index) => index < 5);
 };

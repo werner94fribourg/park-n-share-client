@@ -2,6 +2,10 @@ import { AccountCircle, CarRental, Key } from '@mui/icons-material';
 
 export const BACKEND_URL = 'http://localhost:3001';
 
+export const GEOAPI_URL = 'https://api.geoapify.com/v1/geocode';
+
+export const GEOAPI_AUTOCOMPLETE_URL = GEOAPI_URL + '/autocomplete';
+
 export const API_URL = `${BACKEND_URL}/api/v1`;
 
 export const USERS_URL = API_URL + '/users';

@@ -2,6 +2,7 @@ import { notifyError } from '../../../store/slices/notification';
 import { loadAllParkings } from '../../../store/slices/parking';
 import { calculateDistance, getUserLocation } from '../../../utils/utils';
 import FilterForm from '../FilterForm/FilterForm';
+import LocationForm from '../LocationForm/LocationForm';
 import styles from './Map.module.scss';
 import {
   filterStyles,
@@ -34,6 +35,7 @@ const Map = () => {
   const navigate = useNavigate();
   const { current } = mapRef;
   const [formVisible, setFormVisible] = useState(false);
+  const [locationFormVisible, setLocationFormVisible] = useState(false);
 
   const closeFormHandler = () => {
     setFormVisible(false);
@@ -53,8 +55,31 @@ const Map = () => {
     setFormVisible(false);
   };
 
+  const closeLocationFormHandler = () => {
+    setLocationFormVisible(false);
+  };
+
+  const submitLocationFormHandler = async (lat, lng) => {
+    //TODO: get location from geoapify (coordinates) and then set coordinates here (lat/lng)
+    setLatitude(lat);
+    setLongitude(lng);
+    setLocationFormVisible(false);
+    const map = mapRef.current.getMap();
+    map.flyTo({
+      center: [lat, lng],
+      zoom,
+      speed: 1.5, // Animation speed
+    });
+  };
+
   const filterHandler = () => {
+    setLocationFormVisible(false);
     setFormVisible(true);
+  };
+
+  const locationHandler = () => {
+    setFormVisible(false);
+    setLocationFormVisible(true);
   };
 
   useEffect(() => {
@@ -140,7 +165,7 @@ const Map = () => {
             Longitude: {longitude} | Latitude: {latitude} | Zoom: {zoom}
           </div>
           <FilterAlt sx={filterStyles} onClick={filterHandler} />
-          <MyLocation sx={locationStyles} />
+          <MyLocation sx={locationStyles} onClick={locationHandler} />
           <MaptyMap
             mapLib={mapboxgl}
             initialViewState={{
@@ -184,7 +209,14 @@ const Map = () => {
           visible={formVisible}
           onClose={closeFormHandler}
           onSubmit={submitFormHandler}
-          setFormVisible={setFormVisible}
+        />,
+        document.querySelector('body'),
+      )}
+      {createPortal(
+        <LocationForm
+          visible={locationFormVisible}
+          onClose={closeLocationFormHandler}
+          onSubmit={submitLocationFormHandler}
         />,
         document.querySelector('body'),
       )}
