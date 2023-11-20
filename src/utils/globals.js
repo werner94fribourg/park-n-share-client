@@ -33,6 +33,8 @@ export const RESET_PASSWORD_URL = USERS_URL + '/reset-password/:resetToken';
 
 export const PARKINGS_URL = API_URL + '/parkings';
 
+export const SINGLE_PARKING_URL = PARKINGS_URL + '/:id';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

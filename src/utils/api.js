@@ -11,6 +11,7 @@ import {
   RESET_PASSWORD_URL,
   PARKINGS_URL,
   GEOAPI_AUTOCOMPLETE_URL,
+  SINGLE_PARKING_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -236,6 +237,23 @@ export const getAllParkings = async params => {
         data: { parkings },
       } = data;
       return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
+export const getParking = async id => {
+  const data = await makeApiCall(
+    SINGLE_PARKING_URL.replace(':id', id),
+    'get',
+    undefined,
+    data => {
+      const {
+        data: { parking },
+      } = data;
+
+      return { valid: true, parking };
     },
   );
 
