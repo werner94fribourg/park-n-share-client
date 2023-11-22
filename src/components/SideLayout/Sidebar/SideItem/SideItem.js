@@ -10,7 +10,10 @@ const SideItem = props => {
   const { item } = props;
   return (
     <ListItem key={item.url} disablePadding>
-      <NavLink to={item.url} style={{ textDecoration: 'none' }}>
+      <NavLink
+        to={item.url}
+        style={{ textDecoration: 'none', display: 'block', width: '100%' }}
+      >
         <ListItemButton>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.title} />
