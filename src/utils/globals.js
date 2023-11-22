@@ -55,23 +55,27 @@ export const PROFILE_NAV_ITEMS = [
     title: 'Profile',
     url: '/profile',
     icon: <AccountCircle />,
+    roles: ['client', 'provider'],
   },
   {
     title: 'Change Password',
     url: '/profile/password',
     icon: <Key />,
+    roles: ['client', 'provider'],
   },
   {
     title: 'My parkings',
     url: '/profile/parkings',
     icon: <CarRental />,
+    roles: ['provider'],
   },
 ];
 
 export const LOGGED_ITEMS = [
   {
     title: 'Become a provider',
-    url: '/provider',
+    url: '/parking/new',
+    roles: ['client'],
   },
 ];
 
