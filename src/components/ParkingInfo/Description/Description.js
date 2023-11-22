@@ -3,8 +3,12 @@ import styles from './Description.module.scss';
 import { buttonStyles } from './DescriptionMUIStyles';
 import Item from './Item/Item';
 import { Typography, Rating, Box, Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Description = props => {
+  const {
+    me: { _id },
+  } = useSelector(state => state.users);
   const {
     parking: {
       name,
@@ -61,15 +65,17 @@ const Description = props => {
         alignItems="center"
         justifyContent="flex-end"
       >
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          sx={buttonStyles}
-          onClick={reserveHandler}
-        >
-          Reserve
-        </Button>
+        {parking.owner._id !== _id && (
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={buttonStyles}
+            onClick={reserveHandler}
+          >
+            Reserve
+          </Button>
+        )}
       </Box>
     </div>
   );

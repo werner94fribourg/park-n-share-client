@@ -12,4 +12,6 @@ export const contentStyles = {
   alignItems: 'center',
   minHeight: '100%',
   bgcolor: 'background.default',
+  position: 'relative',
+  width: '100%',
 };

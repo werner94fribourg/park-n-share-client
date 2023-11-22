@@ -1,3 +1,4 @@
+import { linkStyles } from './SideItemMUIStyles';
 import {
   ListItem,
   ListItemButton,
@@ -10,10 +11,7 @@ const SideItem = props => {
   const { item } = props;
   return (
     <ListItem key={item.url} disablePadding>
-      <NavLink
-        to={item.url}
-        style={{ textDecoration: 'none', display: 'block', width: '100%' }}
-      >
+      <NavLink to={item.url} style={linkStyles}>
         <ListItemButton>
           <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.title} />

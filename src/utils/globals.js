@@ -35,6 +35,8 @@ export const PARKINGS_URL = API_URL + '/parkings';
 
 export const SINGLE_PARKING_URL = PARKINGS_URL + '/:id';
 
+export const OWN_PARKINGS_URL = PARKINGS_URL + '/my-parkings';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

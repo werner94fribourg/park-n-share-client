@@ -1,4 +1,4 @@
-import { getAllParkings } from '../../utils/api';
+import { getAllParkings, getOwnParkings } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
     lng: 0,
     distance: 0,
   },
+  own: [],
 };
 
 const parkingSlice = createSlice({
@@ -45,6 +46,13 @@ const parkingSlice = createSlice({
 
       state.filters.type = type;
       state.filters.maxPrice = maxPrice;
+    },
+    addOwnParkings(state, action) {
+      const {
+        payload: { parkings },
+      } = action;
+
+      state.own = parkings;
     },
   },
 });
@@ -85,6 +93,14 @@ export const loadAllParkings = async (
         parkings,
       }),
     );
+
+  return { valid, message };
+};
+
+export const loadOwnParkings = async (jwt, dispatch) => {
+  const { valid, message, parkings } = await getOwnParkings(jwt);
+
+  if (valid) dispatch(parkingActions.addOwnParkings({ parkings }));
 
   return { valid, message };
 };
