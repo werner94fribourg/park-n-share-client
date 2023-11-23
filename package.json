@@ -60,7 +60,6 @@
     "@mui/icons-material": "^5.14.14",
     "@mui/material": "^5.0.0",
     "@mui/styles": "^5.14.14",
-    "@mui/x-data-grid": "^6.18.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -94,9 +93,5 @@
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "url-loader": "^4.1.1"
-  },
-  "peerDependencies": {
-    "@mui/material": "^5.0.0",
-    "react": "^17.0.0"
   }
 }

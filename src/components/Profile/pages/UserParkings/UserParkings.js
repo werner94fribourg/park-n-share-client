@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -63,7 +62,7 @@ const UserParkings = () => {
   //TODO: get my parkings + update state
   return (
     <>
-      <DataGrid
+      {/*<DataGrid
         columns={columns}
         rows={processedParkings}
         sx={{ position: 'absolute', width: '100%' }}
@@ -71,7 +70,7 @@ const UserParkings = () => {
           pagination: { paginationModel: { page: 0, pageSize: 5 } },
         }}
         pageSizeOptions={[5, 10]}
-      />
+      />*/}
       <Button type="button" onClick={newParkingHandler}>
         New Parking Request
       </Button>
