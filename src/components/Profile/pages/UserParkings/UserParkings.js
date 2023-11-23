@@ -1,3 +1,21 @@
+import {
+  addressCellStyles,
+  chipStyles,
+  descriptionCellStyles,
+  tableContainerStyles,
+  textContentCellStyles,
+} from './UserParkingsMUIStyles';
+import {
+  Chip,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -14,78 +32,82 @@ const UserParkings = () => {
     navigate('/parking-request');
   };
 
-  const processedParkings = own.map(parking => ({
-    id: parking._id,
-    name: parking.name,
-    description: parking.description,
-    type: parking.type,
-    price: parking.price,
-    address: `${parking.location.street}${
-      parking.location.housenumber ? ' ' + parking.location.housenumber : ''
-    }, ${parking.location.postcode} ${parking.location.city}`,
-    validated: parking.isValidated ? 'Yes' : 'No',
-  }));
+  const processedParkings = own
+    ? own?.map(parking => ({
+        id: parking._id,
+        name: parking.name,
+        description: parking.description,
+        type: parking.type,
+        price: parking.price,
+        address: `${parking.location.street}${
+          parking.location.housenumber ? ' ' + parking.location.housenumber : ''
+        }, ${parking.location.postcode} ${parking.location.city}`,
+        validated: parking.isValidated ? 'Yes' : 'No',
+      }))
+    : [];
 
   const getBadge = validated => {
     switch (validated) {
       case 'Yes':
-        return 'success';
+        return <Chip label="Yes" color="success" sx={chipStyles} />;
       case 'No':
-        return 'danger';
+        return <Chip label="No" color="error" sx={chipStyles} />;
       default:
-        return 'danger';
+        return <Chip label="No" color="error" sx={chipStyles} />;
     }
   };
 
   return (
     <div>
-      <table className="parkings-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>CHF/H</th>
-            <th>Address</th>
-            <th>Validation</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {processedParkings.map(parking => (
-            <tr key={parking.id}>
-              <td>{parking.id}</td>
-              <td>{parking.name}</td>
-              <td>{parking.description}</td>
-              <td>{parking.type}</td>
-              <td style={{ textAlign: 'center' }}>{parking.price}</td>
-              <td>{parking.address}</td>
-              <td>
-                <span className={`badge badge-${getBadge(parking.validated)}`}>
-                  {parking.validated}
-                </span>
-              </td>
-              <td>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => viewParkingHandler(parking.id)}
-                >
-                  View
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={newParkingHandler}
-      >
+      <TableContainer component={Paper} sx={tableContainerStyles}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell sx={descriptionCellStyles}>Description</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>CHF/H</TableCell>
+              <TableCell sx={addressCellStyles}>Address</TableCell>
+              <TableCell>Validation</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {processedParkings.map(parking => (
+              <TableRow key={parking.id}>
+                <TableCell>{parking.id}</TableCell>
+                <TableCell>{parking.name}</TableCell>
+                <TableCell sx={textContentCellStyles}>
+                  {parking.description}
+                </TableCell>
+                <TableCell>{parking.type}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
+                  {parking.price}
+                </TableCell>
+                <TableCell sx={textContentCellStyles}>
+                  {parking.address}
+                </TableCell>
+                <TableCell>{getBadge(parking.validated)}</TableCell>
+                <TableCell>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    onClick={() => {
+                      viewParkingHandler(parking.id);
+                    }}
+                  >
+                    View
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button type="button" variant="contained" onClick={newParkingHandler}>
         New Parking Request
-      </button>
+      </Button>
     </div>
   );
 };
