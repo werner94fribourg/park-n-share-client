@@ -1,4 +1,7 @@
 import { Button } from '@mui/material';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { AgGridReact } from 'ag-grid-react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -36,10 +39,10 @@ const UserParkings = () => {
       field: 'view',
       headerName: '',
       hide: true,
-      renderCell: params => (
+      cellRendererFramework: params => (
         <Button
           type="button"
-          onClick={viewParkingHandler.bind(null, params.id)}
+          onClick={viewParkingHandler.bind(null, params.data.id)}
         >
           View
         </Button>
@@ -71,6 +74,15 @@ const UserParkings = () => {
         }}
         pageSizeOptions={[5, 10]}
       />*/}
+      <div style={{ height: 400, width: '100%' }}>
+        <AgGridReact
+          columnDefs={columns}
+          rowData={processedParkings}
+          domLayout="autoHeight"
+          pagination={true}
+          paginationPageSize={5}
+        />
+      </div>
       <Button type="button" onClick={newParkingHandler}>
         New Parking Request
       </Button>
