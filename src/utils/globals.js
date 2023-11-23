@@ -76,7 +76,7 @@ export const PROFILE_NAV_ITEMS = [
 export const LOGGED_ITEMS = [
   {
     title: 'Become a provider',
-    url: '/parking/new',
+    url: '/parking-request',
     roles: ['client'],
   },
 ];
@@ -158,4 +158,13 @@ export const RESET_PASSWORD_FIELDS = [
     xs: 12,
     sm: 12,
   },
+];
+
+export const NEW_PARKING_FIELDS = [
+  { id: 'name', label: 'Name', type: 'text' },
+  { id: 'description', label: 'Description', type: 'textfield' },
+  { id: 'type', label: 'Type', type: 'select', values: ['indoor', 'outdoor'] },
+  { id: 'price', label: 'Price', type: 'number' },
+  { id: 'address', label: 'Address', type: 'autocomplete' },
+  { id: 'photos', label: 'Photos', type: 'file' },
 ];

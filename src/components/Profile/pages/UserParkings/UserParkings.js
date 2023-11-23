@@ -6,8 +6,13 @@ import { useNavigate } from 'react-router';
 const UserParkings = () => {
   const { own } = useSelector(state => state.parking);
   const navigate = useNavigate();
+
   const viewParkingHandler = id => {
     navigate(`/parkings/${id}`);
+  };
+
+  const newParkingHandler = () => {
+    navigate('/parking-request');
   };
 
   const columns = [
@@ -67,6 +72,9 @@ const UserParkings = () => {
         }}
         pageSizeOptions={[5, 10]}
       />
+      <Button type="button" onClick={newParkingHandler}>
+        New Parking Request
+      </Button>
     </>
   );
 };
