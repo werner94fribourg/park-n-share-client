@@ -1,3 +1,4 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -12,47 +13,6 @@ const UserParkings = () => {
   const newParkingHandler = () => {
     navigate('/parking-request');
   };
-
-  const columns = [
-    {
-      key: 'avatar',
-      label: 'ID',
-    },
-    {
-      key: 'name',
-      label: 'Name',
-    },
-
-    {
-      key: 'description',
-      label: 'Description',
-      _style: { width: 200 },
-    },
-    {
-      key: 'type',
-      label: 'Type',
-      _style: { width: 50 },
-    },
-    {
-      key: 'price',
-      label: 'CHF/H',
-      _style: { width: 50, textAlign: 'center' },
-    },
-    {
-      key: 'address',
-      label: 'Address',
-      _style: { width: 200 },
-    },
-    {
-      key: 'validated',
-      label: 'Validation',
-      _style: { width: 50 },
-    },
-    {
-      key: 'view',
-      label: '',
-    },
-  ];
 
   const processedParkings = own.map(parking => ({
     id: parking._id,
@@ -77,7 +37,57 @@ const UserParkings = () => {
     }
   };
 
-  return <div></div>;
+  return (
+    <div>
+      <table className="parkings-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>CHF/H</th>
+            <th>Address</th>
+            <th>Validation</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {processedParkings.map(parking => (
+            <tr key={parking.id}>
+              <td>{parking.id}</td>
+              <td>{parking.name}</td>
+              <td>{parking.description}</td>
+              <td>{parking.type}</td>
+              <td style={{ textAlign: 'center' }}>{parking.price}</td>
+              <td>{parking.address}</td>
+              <td>
+                <span className={`badge badge-${getBadge(parking.validated)}`}>
+                  {parking.validated}
+                </span>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => viewParkingHandler(parking.id)}
+                >
+                  View
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={newParkingHandler}
+      >
+        New Parking Request
+      </button>
+    </div>
+  );
 };
 
 export default UserParkings;
