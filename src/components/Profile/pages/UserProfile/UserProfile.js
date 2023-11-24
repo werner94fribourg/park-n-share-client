@@ -30,7 +30,7 @@ function UserProfile() {
         id="email"
         label="Email"
         value={email}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
 
       {!isEmailConfirmed && (
@@ -49,13 +49,13 @@ function UserProfile() {
         id="username"
         label="Username"
         value={username}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
       <SignInputField
         id="phone"
         label="Phone Number"
         value={phone}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
     </Box>
   );

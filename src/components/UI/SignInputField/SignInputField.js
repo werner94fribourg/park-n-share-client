@@ -15,7 +15,17 @@ const useStyles = makeStyles(() =>
 );
 
 const SignInputField = props => {
-  const { id, label, value, onChange, type, error, helperText, InputProps } = props;
+  const {
+    id,
+    label,
+    value,
+    onChange,
+    type,
+    error,
+    helperText,
+    inputProps,
+    multiple,
+  } = props;
 
   const styles = useStyles();
 
@@ -24,6 +34,7 @@ const SignInputField = props => {
       margin="normal"
       required
       fullWidth
+      multiple={multiple}
       id={id}
       label={label}
       name={id}
@@ -33,7 +44,7 @@ const SignInputField = props => {
       type={type}
       error={error}
       helperText={helperText}
-      InputProps={InputProps}
+      inputProps={inputProps}
     />
   );
 };

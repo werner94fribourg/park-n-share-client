@@ -145,6 +145,50 @@ export const invalidFieldsReducer = (state, action) => {
   return setField(messages, type, payload);
 };
 
+export const parkingReducers = (state, action) => {
+  const parking = {
+    name: '',
+    description: '',
+    price: 0,
+    type: 'outdoor',
+    coordinates: [],
+    photos: [],
+    ...state,
+  };
+
+  const { type, payload } = action;
+
+  if (type === 'init') return parking;
+
+  return setField(parking, type, payload);
+};
+
+export const invalidParkingFieldsReducer = (state, action) => {
+  const messages = {
+    name: '',
+    description: '',
+    price: '',
+    type: '',
+    address: '',
+    ...state,
+  };
+
+  const { type, payload } = action;
+
+  if (type === 'init') return messages;
+
+  if (type === 'reset_all')
+    return {
+      name: '',
+      description: '',
+      price: '',
+      type: '',
+      address: '',
+    };
+
+  return setField(messages, type, payload);
+};
+
 export const parkingFiltersReducer = (state, action) => {
   const filters = {
     indoor: state.type === 'indoor',
