@@ -3,6 +3,7 @@ import {
   getUnvalidatedParkings,
   getOwnParkings,
   validateParking,
+  sendParking,
 } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -59,6 +60,15 @@ const parkingSlice = createSlice({
       } = action;
 
       state.own = parkings;
+    },
+    addNewPersonalParking(state, action) {
+      const {
+        payload: { parking },
+      } = action;
+
+      const storedIndex = state.own.findIndex(p => p._id === parking._id);
+      if (storedIndex !== -1) state.own[storedIndex] = parking;
+      else state.own.push(parking);
     },
     addUnvalidatedParkings(state, action) {
       const {
@@ -146,4 +156,12 @@ export const acceptParkingRequest = async (jwt, id, dispatch) => {
 
 export const setFilters = (values, dispatch) => {
   dispatch(parkingActions.setFilters(values));
+};
+
+export const newParkingRequest = async (jwt, parkingData, dispatch) => {
+  const { valid, message, parking } = await sendParking(jwt, parkingData);
+
+  if (valid) dispatch(parkingActions.addNewPersonalParking({ parking }));
+
+  return { valid, message };
 };

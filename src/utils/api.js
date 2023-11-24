@@ -341,6 +341,38 @@ export const validateParking = async (token, id) => {
   return data;
 };
 
+export const sendParking = async (token, parking) => {
+  const data = await makeApiCall(
+    PARKINGS_URL,
+    'post',
+    {
+      data: parking,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'mutipart/form-data',
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { parking },
+      } = data;
+
+      console.log(message);
+      console.log(data);
+
+      return {
+        valid: true,
+        message,
+        parking,
+      };
+    },
+    201,
+  );
+
+  return data;
+};
+
 export const getSuggestions = async query => {
   const {
     data: { features },

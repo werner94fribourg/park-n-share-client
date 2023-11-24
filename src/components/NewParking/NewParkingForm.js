@@ -1,3 +1,5 @@
+import { notifyError, notifySuccess } from '../../store/slices/notification';
+import { newParkingRequest } from '../../store/slices/parking';
 import { getSuggestions } from '../../utils/api';
 import {
   invalidParkingFieldsReducer,
@@ -7,25 +9,27 @@ import SignInputField from '../UI/SignInputField/SignInputField';
 import {
   Box,
   Button,
-  Select,
   MenuItem,
-  InputLabel,
-  TextareaAutosize,
   Autocomplete,
   TextField,
+  Typography,
 } from '@mui/material';
 import React, { useEffect, useReducer, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const NewParkingForm = () => {
+  const { jwt } = useSelector(state => state.auth);
   const [typedParking, dispatchParking] = useReducer(
     parkingReducers,
     undefined,
   );
-
   const [messages, dispatchMessages] = useReducer(
     invalidParkingFieldsReducer,
     undefined,
   );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatchParking({ type: 'init' });
@@ -61,16 +65,57 @@ const NewParkingForm = () => {
 
   const addressChangeHandler = (_, selectedAddress) => {
     setAddress(selectedAddress);
+    if (selectedAddress === null) {
+      dispatchParking({ type: 'coordinates', payload: [] });
+      return;
+    }
     const {
       coordinates: [lat, lng],
     } = selectedAddress;
     dispatchParking({ type: 'coordinates', payload: [lat, lng] });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    // Handle the form submission with formValues
-    console.log(typedParking);
+
+    dispatchMessages({ type: 'reset_all' });
+
+    const formData = new FormData();
+
+    Object.entries(typedParking).forEach(([key, value]) => {
+      if (key === 'photos')
+        value.forEach(photo => formData.append(key, photo, photo.name));
+      else if (Array.isArray(value))
+        value.forEach((v, index) => formData.append(`${key}[${index}]`, v));
+      else formData.append(key, value);
+    });
+
+    const { valid, message, fields } = await newParkingRequest(
+      jwt,
+      formData,
+      dispatch,
+    );
+
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    if (!fields && !valid) {
+      notifyError(message, dispatch);
+      return;
+    }
+
+    if (fields && fields.length > 0) {
+      fields.forEach(field => {
+        const [[key, value]] = Object.entries(field);
+        dispatchMessages({ type: key, payload: value });
+      });
+      return;
+    }
+
+    notifySuccess(message, dispatch);
+
+    navigate('/profile');
   };
 
   return (
@@ -80,6 +125,13 @@ const NewParkingForm = () => {
       sx={{ mt: 5, width: '100%', paddingLeft: '20%', paddingRight: '20%' }}
       onSubmit={handleSubmit}
     >
+      <Typography
+        variant="h3"
+        component="h1"
+        sx={{ marginTop: '2rem', marginBottom: '1rem', fontWeight: 'bold' }}
+      >
+        New Parking Request
+      </Typography>
       <SignInputField
         id="name"
         label="Name"
@@ -90,18 +142,17 @@ const NewParkingForm = () => {
       />
 
       {/* Textarea Input Field for Description */}
-      <InputLabel htmlFor="description">Description</InputLabel>
-      <TextareaAutosize
+      <SignInputField
         id="description"
-        minRows={8}
-        placeholder="Enter description..."
+        label="Description"
+        type="textarea"
+        rows={8}
         style={{ width: '100%' }}
         value={typedParking ? typedParking.description : ''}
         onChange={handleInputChange.bind(null, 'description')}
         error={messages ? messages.description !== '' : false}
         helperText={messages ? messages.description : ''}
       />
-
       <SignInputField
         id="price"
         label="Price"
@@ -111,14 +162,10 @@ const NewParkingForm = () => {
         error={messages ? messages.price !== '' : false}
         helperText={messages ? messages.price : ''}
       />
-
-      {/* Select Input Field for Type */}
-      <InputLabel htmlFor="type">Type</InputLabel>
-      <Select
-        label="Type"
+      <SignInputField
         id="type"
-        name="type"
-        fullWidth
+        label="Type"
+        type="select"
         value={typedParking ? typedParking.type : ''}
         onChange={handleInputChange.bind(null, 'type')}
         error={messages ? messages.type !== '' : false}
@@ -130,10 +177,7 @@ const NewParkingForm = () => {
         <MenuItem name="type" value="outdoor">
           Outdoor
         </MenuItem>
-      </Select>
-
-      {/* Autocomplete Input Field for Address */}
-      <InputLabel htmlFor="address">Address</InputLabel>
+      </SignInputField>
       <Autocomplete
         options={suggestions}
         getOptionLabel={option => option.suggestion}
@@ -141,7 +185,7 @@ const NewParkingForm = () => {
           <TextField
             {...params}
             id="address"
-            label="Search address"
+            label="Address"
             value={location}
             onChange={locationChangeHandler}
             type="text"
@@ -151,9 +195,6 @@ const NewParkingForm = () => {
         onChange={addressChangeHandler}
         sx={{ mb: 2 }}
       />
-
-      {/* File Input Field */}
-
       <SignInputField
         id="photos"
         label="Photos"
