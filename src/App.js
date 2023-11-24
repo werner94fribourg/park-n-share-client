@@ -2,7 +2,10 @@ import Theme from './components/Theme/Theme';
 import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
 import { closeNotification } from './store/slices/notification';
-import { loadOwnParkings } from './store/slices/parking';
+import {
+  loadOwnParkings,
+  loadUnvalidatedParkings,
+} from './store/slices/parking';
 import { getMe } from './store/slices/users';
 import loadable from '@loadable/component';
 import mapboxgl from 'mapbox-gl';
@@ -30,9 +33,11 @@ function App() {
   useEffect(() => {
     const setup = async () => {
       const token = jwt || localStorage.getItem('jwt');
-      if (await getMe(token, dispatch)) {
+      const [authorized, role] = await getMe(token, dispatch);
+      if (authorized) {
         initialize(token, dispatch);
-        await loadOwnParkings(jwt, dispatch);
+        if (role === 'provider') await loadOwnParkings(jwt, dispatch);
+        if (role === 'admin') await loadUnvalidatedParkings(jwt, dispatch);
       } else localStorage.removeItem('jwt');
     };
 

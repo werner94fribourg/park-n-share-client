@@ -13,6 +13,7 @@ import {
   GEOAPI_AUTOCOMPLETE_URL,
   SINGLE_PARKING_URL,
   OWN_PARKINGS_URL,
+  VALIDATE_PARKING_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -244,6 +245,28 @@ export const getAllParkings = async params => {
   return data;
 };
 
+export const getUnvalidatedParkings = async token => {
+  const data = await makeApiCall(
+    PARKINGS_URL,
+    'get',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      params: { isValidated: false },
+    },
+    data => {
+      const {
+        data: { parkings },
+      } = data;
+      return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
 export const getParking = async (id, token = '') => {
   const queryObj =
     token !== ''
@@ -286,6 +309,32 @@ export const getOwnParkings = async token => {
       } = data;
 
       return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
+export const validateParking = async (token, id) => {
+  const data = await makeApiCall(
+    VALIDATE_PARKING_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+    data => {
+      const {
+        data: { parking },
+      } = data;
+
+      return {
+        valid: true,
+        message: 'Parking successfully validated.',
+        parking,
+      };
     },
   );
 

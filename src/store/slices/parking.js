@@ -1,4 +1,9 @@
-import { getAllParkings, getOwnParkings } from '../../utils/api';
+import {
+  getAllParkings,
+  getUnvalidatedParkings,
+  getOwnParkings,
+  validateParking,
+} from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -11,6 +16,7 @@ const initialState = {
     distance: 0,
   },
   own: [],
+  unvalidated: [],
 };
 
 const parkingSlice = createSlice({
@@ -53,6 +59,23 @@ const parkingSlice = createSlice({
       } = action;
 
       state.own = parkings;
+    },
+    addUnvalidatedParkings(state, action) {
+      const {
+        payload: { parkings },
+      } = action;
+
+      state.unvalidated = parkings;
+    },
+    validateParking(state, action) {
+      const {
+        payload: { parking },
+      } = action;
+
+      state.unvalidated = state.unvalidated.filter(p => p._id !== parking._id);
+
+      const storedIndex = state.parkings.findIndex(p => p._id === parking._id);
+      if (storedIndex !== -1) state.parkings[storedIndex] = parking;
     },
   },
 });
@@ -101,6 +124,22 @@ export const loadOwnParkings = async (jwt, dispatch) => {
   const { valid, message, parkings } = await getOwnParkings(jwt);
 
   if (valid) dispatch(parkingActions.addOwnParkings({ parkings }));
+
+  return { valid, message };
+};
+
+export const loadUnvalidatedParkings = async (jwt, dispatch) => {
+  const { valid, message, parkings } = await getUnvalidatedParkings(jwt);
+
+  if (valid) dispatch(parkingActions.addUnvalidatedParkings({ parkings }));
+
+  return { valid, message };
+};
+
+export const acceptParkingRequest = async (jwt, id, dispatch) => {
+  const { valid, message, parking } = await validateParking(jwt, id);
+
+  if (valid) dispatch(parkingActions.validateParking({ parking }));
 
   return { valid, message };
 };

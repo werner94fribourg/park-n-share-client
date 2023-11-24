@@ -1,31 +1,51 @@
+import { notifyError, notifySuccess } from '../../../store/slices/notification';
+import { acceptParkingRequest } from '../../../store/slices/parking';
 import Owner from '../Owner/Owner';
 import styles from './Description.module.scss';
 import { buttonStyles } from './DescriptionMUIStyles';
 import Item from './Item/Item';
 import { Typography, Rating, Box, Button } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Description = props => {
   const {
-    me: { _id },
+    me: { _id, role },
   } = useSelector(state => state.users);
+  const { jwt } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const {
     parking: {
+      _id: id,
       name,
       description,
       price,
       type,
+      isValidated,
       location: { street, housenumber, postcode, city },
     },
     parking,
   } = props;
+  const [validation, setValidation] = useState(isValidated);
 
   const address = `${street}${
     housenumber ? ' ' + housenumber : ''
   }, ${postcode} ${city}`;
 
-  const reserveHandler = () => {
+  const reserveHandler = id => {
     console.log('Reserve clicked');
+  };
+
+  const validateHandler = async id => {
+    const { valid, message } = await acceptParkingRequest(jwt, id, dispatch);
+
+    if (!valid) {
+      notifyError(message, dispatch);
+      return;
+    }
+
+    notifySuccess(message, dispatch);
+    setValidation(true);
   };
 
   return (
@@ -65,15 +85,26 @@ const Description = props => {
         alignItems="center"
         justifyContent="flex-end"
       >
-        {parking.owner._id !== _id && (
+        {parking.owner._id !== _id && role !== 'admin' && (
           <Button
             type="button"
             fullWidth
             variant="contained"
             sx={buttonStyles}
-            onClick={reserveHandler}
+            onClick={reserveHandler.bind(null, id)}
           >
             Reserve
+          </Button>
+        )}
+        {role === 'admin' && !validation && (
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={buttonStyles}
+            onClick={validateHandler.bind(null, id)}
+          >
+            Validate
           </Button>
         )}
       </Box>

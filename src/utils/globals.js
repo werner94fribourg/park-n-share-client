@@ -1,4 +1,9 @@
-import { AccountCircle, CarRental, Key } from '@mui/icons-material';
+import {
+  AccountCircle,
+  CarRental,
+  Key,
+  LocalParking,
+} from '@mui/icons-material';
 
 export const BACKEND_URL = 'http://localhost:3001';
 
@@ -35,6 +40,8 @@ export const PARKINGS_URL = API_URL + '/parkings';
 
 export const SINGLE_PARKING_URL = PARKINGS_URL + '/:id';
 
+export const VALIDATE_PARKING_URL = SINGLE_PARKING_URL + '/validate';
+
 export const OWN_PARKINGS_URL = PARKINGS_URL + '/my-parkings';
 
 export const NAV_ITEMS = [
@@ -57,19 +64,25 @@ export const PROFILE_NAV_ITEMS = [
     title: 'Profile',
     url: '/profile',
     icon: <AccountCircle />,
-    roles: ['client', 'provider'],
+    roles: ['client', 'provider', 'admin'],
   },
   {
     title: 'Change Password',
     url: '/profile/password',
     icon: <Key />,
-    roles: ['client', 'provider'],
+    roles: ['client', 'provider', 'admin'],
   },
   {
     title: 'My parkings',
     url: '/profile/parkings',
     icon: <CarRental />,
     roles: ['provider'],
+  },
+  {
+    title: 'Parking requests',
+    url: '/profile/requests',
+    icon: <LocalParking />,
+    roles: ['admin'],
   },
 ];
 

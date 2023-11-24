@@ -55,7 +55,7 @@ export const getMe = async (token, dispatch) => {
   if (valid) dispatch(usersActions.setMe(user));
   else dispatch(usersActions.setLoading());
 
-  return authorized;
+  return [authorized, user?.role];
 };
 
 export const setProfilePicture = async (jwt, formData, dispatch) => {
