@@ -193,7 +193,7 @@ const Description = props => {
               Reserve
             </Button>
           )}
-        {isOccupied && parkingOccupation?.endDate !== undefined && (
+        {isAuth && isOccupied && parkingOccupation?.endDate !== undefined && (
           <Button
             type="button"
             fullWidth
@@ -204,17 +204,20 @@ const Description = props => {
             Occupied
           </Button>
         )}
-        {isOccupied && parkingOccupation?.endDate === undefined && (
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            sx={buttonStyles}
-            onClick={endReservationHandler.bind(null, id)}
-          >
-            End Reservation
-          </Button>
-        )}
+        {isAuth &&
+          isOccupied &&
+          parkingOccupation &&
+          parkingOccupation.endDate === undefined && (
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              sx={buttonStyles}
+              onClick={endReservationHandler.bind(null, id)}
+            >
+              End Reservation
+            </Button>
+          )}
         {role === 'admin' && !validation && (
           <Button
             type="button"
