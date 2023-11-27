@@ -42,6 +42,10 @@ export const SINGLE_PARKING_URL = PARKINGS_URL + '/:id';
 
 export const VALIDATE_PARKING_URL = SINGLE_PARKING_URL + '/validate';
 
+export const RESERVE_PARKING_URL = SINGLE_PARKING_URL + '/start-reservation';
+
+export const END_RESERVATION_URL = SINGLE_PARKING_URL + '/end-reservation';
+
 export const OWN_PARKINGS_URL = PARKINGS_URL + '/my-parkings';
 
 export const NAV_ITEMS = [

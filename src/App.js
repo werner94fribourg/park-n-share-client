@@ -1,3 +1,4 @@
+import { confirmNotificationStyles } from './AppMUIStyles';
 import Theme from './components/Theme/Theme';
 import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
@@ -8,6 +9,7 @@ import {
 } from './store/slices/parking';
 import { getMe } from './store/slices/users';
 import loadable from '@loadable/component';
+import { Modal, Typography, Box, CircularProgress } from '@mui/material';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 // eslint-disable-line import/no-webpack-loader-syntax
@@ -22,7 +24,9 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 function App() {
   const { loading } = useSelector(state => state.users);
 
-  const { message, type } = useSelector(state => state.notification);
+  const { message, type, confirmNotification } = useSelector(
+    state => state.notification,
+  );
 
   const { pinExpirationDate, correctCredentials, jwt } = useSelector(
     state => state.auth,
@@ -71,6 +75,18 @@ function App() {
           <Alert severity={type} onClose={closeAlertHandler}>
             {message}
           </Alert>,
+          document.querySelector('body'),
+        )}
+      {confirmNotification !== '' &&
+        createPortal(
+          <Modal open={true}>
+            <Box sx={confirmNotificationStyles}>
+              <Typography component="h2" variant="h4">
+                {confirmNotification}
+              </Typography>
+              <CircularProgress />
+            </Box>
+          </Modal>,
           document.querySelector('body'),
         )}
     </Theme>

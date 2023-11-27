@@ -10,6 +10,7 @@ const initialState = {
   pinExpirationDate: '',
   timeout: 0,
   isResetLinkValid: false,
+  sessionID: '',
 };
 
 const authSlice = createSlice({
@@ -47,6 +48,11 @@ const authSlice = createSlice({
     },
     setResetLinkValidity(state, action) {
       state.isResetLinkValid = action.payload;
+    },
+    setSessionID(state, action) {
+      const sessionID = action.payload;
+
+      state.sessionID = sessionID;
     },
   },
 });
@@ -133,4 +139,12 @@ const decreaseTimer = async (diff, dispatch) => {
 
 export const setResetLinkValidity = (validity, dispatch) => {
   dispatch(authActions.setResetLinkValidity(validity));
+};
+
+export const setSessionID = (sessionID, dispatch) => {
+  dispatch(authActions.setSessionID(sessionID));
+};
+
+export const resetSessionID = dispatch => {
+  dispatch(authActions.setSessionID(''));
 };

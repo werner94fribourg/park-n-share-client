@@ -4,6 +4,8 @@ import {
   getOwnParkings,
   validateParking,
   sendParking,
+  reserveParking,
+  endReservation,
 } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -18,6 +20,7 @@ const initialState = {
   },
   own: [],
   unvalidated: [],
+  occupations: [],
 };
 
 const parkingSlice = createSlice({
@@ -86,6 +89,18 @@ const parkingSlice = createSlice({
 
       const storedIndex = state.parkings.findIndex(p => p._id === parking._id);
       if (storedIndex !== -1) state.parkings[storedIndex] = parking;
+    },
+    addOccupation(state, action) {
+      const {
+        payload: { occupation },
+      } = action;
+
+      const storedIndex = state.occupations.findIndex(
+        o => o._id === occupation._id,
+      );
+
+      if (storedIndex !== -1) state.occupations[storedIndex] = occupation;
+      else state.occupations.push(occupation);
     },
   },
 });
@@ -162,6 +177,30 @@ export const newParkingRequest = async (jwt, parkingData, dispatch) => {
   const { valid, message, parking } = await sendParking(jwt, parkingData);
 
   if (valid) dispatch(parkingActions.addNewPersonalParking({ parking }));
+
+  return { valid, message };
+};
+
+export const startParkingReservation = async (jwt, id, sessionID, dispatch) => {
+  const { valid, message, occupation } = await reserveParking(
+    jwt,
+    id,
+    sessionID,
+  );
+
+  if (valid) dispatch(parkingActions.addOccupation({ occupation }));
+
+  return { valid, message };
+};
+
+export const endParkingReservation = async (jwt, id, sessionID, dispatch) => {
+  const { valid, message, occupation } = await endReservation(
+    jwt,
+    id,
+    sessionID,
+  );
+
+  if (valid) dispatch(parkingActions.addOccupation({ occupation }));
 
   return { valid, message };
 };

@@ -1,5 +1,16 @@
-import { notifyError, notifySuccess } from '../../../store/slices/notification';
-import { acceptParkingRequest } from '../../../store/slices/parking';
+import { resetSessionID } from '../../../store/slices/auth';
+import {
+  notifyError,
+  notifySuccess,
+  resetConfirmNotification,
+  setConfirmNotification,
+} from '../../../store/slices/notification';
+import {
+  acceptParkingRequest,
+  endParkingReservation,
+  startParkingReservation,
+} from '../../../store/slices/parking';
+import { disconnectSocket, setSocket } from '../../../utils/utils';
 import Owner from '../Owner/Owner';
 import styles from './Description.module.scss';
 import { buttonStyles } from './DescriptionMUIStyles';
@@ -7,12 +18,19 @@ import Item from './Item/Item';
 import { Typography, Rating, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const Description = props => {
   const {
     me: { _id, role },
   } = useSelector(state => state.users);
-  const { jwt } = useSelector(state => state.auth);
+  const { jwt, isAuth } = useSelector(state => state.auth);
+  const { occupations } = useSelector(state => state.parking);
+
+  const parkingOccupation = occupations.find(
+    occupation => occupation.client._id === _id,
+  );
+
   const dispatch = useDispatch();
   const {
     parking: {
@@ -22,18 +40,94 @@ const Description = props => {
       price,
       type,
       isValidated,
+      isOccupied,
       location: { street, housenumber, postcode, city },
     },
     parking,
   } = props;
   const [validation, setValidation] = useState(isValidated);
+  const navigate = useNavigate();
 
   const address = `${street}${
     housenumber ? ' ' + housenumber : ''
   }, ${postcode} ${city}`;
 
-  const reserveHandler = id => {
-    console.log('Reserve clicked');
+  const reserveHandler = async id => {
+    const socket = setSocket();
+    socket.on('connexion_established', async data => {
+      const { sessionID } = data;
+
+      const { valid, message } = await startParkingReservation(
+        jwt,
+        id,
+        sessionID,
+        dispatch,
+      );
+
+      if (valid) {
+        navigate('/parkings');
+        notifySuccess(message, dispatch);
+        return;
+      }
+
+      notifyError(message, dispatch);
+    });
+
+    socket.on('confirmation_message', data => {
+      const { message } = data;
+      setConfirmNotification(message, dispatch);
+    });
+
+    socket.on('successful_reservation', () => {
+      resetConfirmNotification(dispatch);
+      resetSessionID(dispatch);
+      disconnectSocket(socket);
+    });
+
+    socket.on('unsuccessful_reservation', () => {
+      resetConfirmNotification(dispatch);
+      resetSessionID(dispatch);
+      disconnectSocket(socket);
+    });
+  };
+
+  const endReservationHandler = async id => {
+    const socket = setSocket();
+    socket.on('connexion_established', async data => {
+      const { sessionID } = data;
+
+      const { valid, message } = await endParkingReservation(
+        jwt,
+        id,
+        sessionID,
+        dispatch,
+      );
+
+      if (valid) {
+        navigate('/parkings');
+        notifySuccess(message, dispatch);
+        return;
+      }
+
+      notifyError(message, dispatch);
+    });
+
+    socket.on('confirmation_message', data => {
+      const { message } = data;
+      setConfirmNotification(message, dispatch);
+    });
+
+    socket.on('successful_end', () => {
+      resetConfirmNotification(dispatch);
+      resetSessionID(dispatch);
+      disconnectSocket(socket);
+    });
+
+    socket.on('unsuccessful_end', () => {
+      resetConfirmNotification(dispatch);
+      resetSessionID(dispatch);
+      disconnectSocket(socket);
+    });
   };
 
   const validateHandler = async id => {
@@ -85,15 +179,40 @@ const Description = props => {
         alignItems="center"
         justifyContent="flex-end"
       >
-        {parking.owner._id !== _id && role !== 'admin' && (
+        {isAuth &&
+          !isOccupied &&
+          parking.owner._id !== _id &&
+          role !== 'admin' && (
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              sx={buttonStyles}
+              onClick={reserveHandler.bind(null, id)}
+            >
+              Reserve
+            </Button>
+          )}
+        {isOccupied && parkingOccupation?.endDate !== undefined && (
           <Button
             type="button"
             fullWidth
             variant="contained"
             sx={buttonStyles}
-            onClick={reserveHandler.bind(null, id)}
+            disabled
           >
-            Reserve
+            Occupied
+          </Button>
+        )}
+        {isOccupied && parkingOccupation?.endDate === undefined && (
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            sx={buttonStyles}
+            onClick={endReservationHandler.bind(null, id)}
+          >
+            End Reservation
           </Button>
         )}
         {role === 'admin' && !validation && (

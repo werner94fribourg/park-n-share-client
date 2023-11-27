@@ -1,5 +1,7 @@
+import { BACKEND_URL } from './globals';
 import axios, { AxiosError } from 'axios';
 import moment from 'moment-timezone';
+import { io } from 'socket.io-client';
 
 export const makeApiCall = async (
   url,
@@ -271,3 +273,11 @@ export const calculateDistance = (point1, point2) => {
 };
 
 export const toRadians = deg => deg * (Math.PI / 180);
+
+export const setSocket = () => {
+  return io.connect(BACKEND_URL, {});
+};
+
+export const disconnectSocket = socket => {
+  socket.disconnect();
+};

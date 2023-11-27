@@ -14,6 +14,8 @@ import {
   SINGLE_PARKING_URL,
   OWN_PARKINGS_URL,
   VALIDATE_PARKING_URL,
+  RESERVE_PARKING_URL,
+  END_RESERVATION_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -358,9 +360,6 @@ export const sendParking = async (token, parking) => {
         data: { parking },
       } = data;
 
-      console.log(message);
-      console.log(data);
-
       return {
         valid: true,
         message,
@@ -368,6 +367,62 @@ export const sendParking = async (token, parking) => {
       };
     },
     201,
+  );
+
+  return data;
+};
+
+export const reserveParking = async (token, id, sessionID) => {
+  const data = await makeApiCall(
+    RESERVE_PARKING_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { occupation },
+      } = data;
+
+      return {
+        valid: true,
+        message,
+        occupation,
+      };
+    },
+  );
+
+  return data;
+};
+
+export const endReservation = async (token, id, sessionID) => {
+  const data = await makeApiCall(
+    END_RESERVATION_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { occupation },
+      } = data;
+
+      return {
+        valid: true,
+        message,
+        occupation,
+      };
+    },
   );
 
   return data;
