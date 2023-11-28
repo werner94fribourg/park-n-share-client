@@ -48,6 +48,10 @@ export const END_RESERVATION_URL = SINGLE_PARKING_URL + '/end-reservation';
 
 export const OWN_PARKINGS_URL = PARKINGS_URL + '/my-parkings';
 
+export const OCCUPATIONS_URL = API_URL + '/occupations';
+
+export const OWN_OCCUPATIONS_URL = OCCUPATIONS_URL + '/my-occupations';
+
 export const NAV_ITEMS = [
   {
     title: 'Home',

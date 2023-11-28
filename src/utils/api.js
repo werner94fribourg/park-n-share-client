@@ -16,6 +16,7 @@ import {
   VALIDATE_PARKING_URL,
   RESERVE_PARKING_URL,
   END_RESERVATION_URL,
+  OWN_OCCUPATIONS_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -422,6 +423,28 @@ export const endReservation = async (token, id, sessionID) => {
         message,
         occupation,
       };
+    },
+  );
+
+  return data;
+};
+
+export const getOwnOccupations = async token => {
+  const data = await makeApiCall(
+    OWN_OCCUPATIONS_URL,
+    'get',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+    data => {
+      const {
+        data: { occupations },
+      } = data;
+
+      return { valid: true, occupations };
     },
   );
 

@@ -6,6 +6,7 @@ import {
   sendParking,
   reserveParking,
   endReservation,
+  getOwnOccupations,
 } from '../../utils/api';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -90,6 +91,20 @@ const parkingSlice = createSlice({
       const storedIndex = state.parkings.findIndex(p => p._id === parking._id);
       if (storedIndex !== -1) state.parkings[storedIndex] = parking;
     },
+    addOccupations(state, action) {
+      const {
+        payload: { occupations },
+      } = action;
+
+      occupations.forEach(occupation => {
+        let storedIndex = state.occupations.findIndex(
+          o => o._id === occupation._id,
+        );
+        if (storedIndex !== -1) {
+          state.occupations[storedIndex] = occupation;
+        } else state.occupations.push(occupation);
+      });
+    },
     addOccupation(state, action) {
       const {
         payload: { occupation },
@@ -149,6 +164,14 @@ export const loadOwnParkings = async (jwt, dispatch) => {
   const { valid, message, parkings } = await getOwnParkings(jwt);
 
   if (valid) dispatch(parkingActions.addOwnParkings({ parkings }));
+
+  return { valid, message };
+};
+
+export const loadOwnOccupations = async (jwt, dispatch) => {
+  const { valid, message, occupations } = await getOwnOccupations(jwt);
+
+  if (valid) dispatch(parkingActions.addOccupations({ occupations }));
 
   return { valid, message };
 };

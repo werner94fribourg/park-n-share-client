@@ -4,6 +4,7 @@ import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
 import { closeNotification } from './store/slices/notification';
 import {
+  loadOwnOccupations,
   loadOwnParkings,
   loadUnvalidatedParkings,
 } from './store/slices/parking';
@@ -42,6 +43,7 @@ function App() {
         initialize(token, dispatch);
         if (role === 'provider') await loadOwnParkings(jwt, dispatch);
         if (role === 'admin') await loadUnvalidatedParkings(jwt, dispatch);
+        if (role !== 'admin') await loadOwnOccupations(jwt, dispatch);
       } else localStorage.removeItem('jwt');
     };
 
