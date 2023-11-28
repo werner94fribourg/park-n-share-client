@@ -25,7 +25,7 @@ const ForgotPasswordForm = () => {
       notifySuccess(data.message, dispatch);
       return;
     }
-    notifyError(data.messsage, dispatch);
+    notifyError(data.message, dispatch);
 
     // Add your password reset logic here
     // Redirect to a confirmation page or display a message

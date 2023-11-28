@@ -1,6 +1,15 @@
-import { AccountCircle, CarRental, Key } from '@mui/icons-material';
+import {
+  AccountCircle,
+  CarRental,
+  Key,
+  LocalParking,
+} from '@mui/icons-material';
 
 export const BACKEND_URL = 'http://localhost:3001';
+
+export const GEOAPI_URL = 'https://api.geoapify.com/v1/geocode';
+
+export const GEOAPI_AUTOCOMPLETE_URL = GEOAPI_URL + '/autocomplete';
 
 export const API_URL = `${BACKEND_URL}/api/v1`;
 
@@ -9,6 +18,8 @@ export const USERS_URL = API_URL + '/users';
 export const SIGNIN_URL = USERS_URL + '/signin';
 
 export const SIGNUP_URL = USERS_URL + '/signup';
+
+export const GET_GOOGLE_SIGNUP_LINK_URL = USERS_URL + '/google/signup/link';
 
 export const PIN_EXPIRATION_URL = USERS_URL + '/:email/pin-expiration';
 
@@ -26,6 +37,22 @@ export const CONFIRM_EMAIL_URL = USERS_URL + '/confirm-email/:confToken';
 export const UPDATE_PASSWORD_URL = USERS_URL + '/change-password';
 
 export const RESET_PASSWORD_URL = USERS_URL + '/reset-password/:resetToken';
+
+export const PARKINGS_URL = API_URL + '/parkings';
+
+export const SINGLE_PARKING_URL = PARKINGS_URL + '/:id';
+
+export const VALIDATE_PARKING_URL = SINGLE_PARKING_URL + '/validate';
+
+export const RESERVE_PARKING_URL = SINGLE_PARKING_URL + '/start-reservation';
+
+export const END_RESERVATION_URL = SINGLE_PARKING_URL + '/end-reservation';
+
+export const OWN_PARKINGS_URL = PARKINGS_URL + '/my-parkings';
+
+export const OCCUPATIONS_URL = API_URL + '/occupations';
+
+export const OWN_OCCUPATIONS_URL = OCCUPATIONS_URL + '/my-occupations';
 
 export const NAV_ITEMS = [
   {
@@ -47,23 +74,33 @@ export const PROFILE_NAV_ITEMS = [
     title: 'Profile',
     url: '/profile',
     icon: <AccountCircle />,
+    roles: ['client', 'provider', 'admin'],
   },
   {
     title: 'Change Password',
     url: '/profile/password',
     icon: <Key />,
+    roles: ['client', 'provider', 'admin'],
   },
   {
     title: 'My parkings',
     url: '/profile/parkings',
     icon: <CarRental />,
+    roles: ['provider'],
+  },
+  {
+    title: 'Parking requests',
+    url: '/profile/requests',
+    icon: <LocalParking />,
+    roles: ['admin'],
   },
 ];
 
 export const LOGGED_ITEMS = [
   {
     title: 'Become a provider',
-    url: '/provider',
+    url: '/parking-request',
+    roles: ['client'],
   },
 ];
 
@@ -98,6 +135,7 @@ export const SIGNUP_FIELDS = [
     type: 'text',
     xs: 12,
     sm: 6,
+    hideWithGoogle: false,
   },
   {
     id: 'email',
@@ -105,6 +143,7 @@ export const SIGNUP_FIELDS = [
     type: 'email',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
   {
     id: 'phone',
@@ -112,6 +151,7 @@ export const SIGNUP_FIELDS = [
     type: 'tel',
     xs: 12,
     sm: 12,
+    hideWithGoogle: false,
   },
   {
     id: 'password',
@@ -119,6 +159,7 @@ export const SIGNUP_FIELDS = [
     type: 'password',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
   {
     id: 'passwordConfirm',
@@ -126,6 +167,7 @@ export const SIGNUP_FIELDS = [
     type: 'password',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
 ];
 
@@ -144,4 +186,13 @@ export const RESET_PASSWORD_FIELDS = [
     xs: 12,
     sm: 12,
   },
+];
+
+export const NEW_PARKING_FIELDS = [
+  { id: 'name', label: 'Name', type: 'text' },
+  { id: 'description', label: 'Description', type: 'textfield' },
+  { id: 'type', label: 'Type', type: 'select', values: ['indoor', 'outdoor'] },
+  { id: 'price', label: 'Price', type: 'number' },
+  { id: 'address', label: 'Address', type: 'autocomplete' },
+  { id: 'photos', label: 'Photos', type: 'file' },
 ];

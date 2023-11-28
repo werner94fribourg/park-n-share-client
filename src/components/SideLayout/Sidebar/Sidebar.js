@@ -9,8 +9,12 @@ import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function SideBar() {
+  const {
+    me: { role },
+  } = useSelector(state => state.users);
   return (
     <div>
       <CssBaseline />
@@ -25,9 +29,11 @@ export default function SideBar() {
         <Toolbar />
         <Divider />
         <List sx={listStyles}>
-          {PROFILE_NAV_ITEMS.map(item => {
-            return <SideItem key={item.url} item={item} />;
-          })}
+          {PROFILE_NAV_ITEMS.filter(item => item.roles.includes(role)).map(
+            item => {
+              return <SideItem key={item.url} item={item} />;
+            },
+          )}
         </List>
       </Drawer>
     </div>

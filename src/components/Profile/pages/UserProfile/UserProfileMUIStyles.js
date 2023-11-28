@@ -1,4 +1,4 @@
-export const formStyles = { mt: 3 };
+export const formStyles = { width: '100%', maxWidth: '500px' };
 
 export const submitButtonStyles = { mt: 3, mb: 2 };
 

@@ -1,4 +1,10 @@
-export const containerStyles = { display: 'flex', width: '1OO%' };
+export const containerStyles = {
+  display: 'flex',
+  width: '1OO%',
+  height: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
 
 export const contentStyles = {
   display: 'flex',
@@ -6,5 +12,6 @@ export const contentStyles = {
   alignItems: 'center',
   minHeight: '100%',
   bgcolor: 'background.default',
-  p: 20,
+  position: 'relative',
+  width: '100%',
 };

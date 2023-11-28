@@ -1,7 +1,8 @@
 import RectangularButton from '../../UI/RectangularButton/RectangularButton';
 import styles from './Banner.module.scss';
 import { typography } from './BannerMUIStyles';
-import { Container, Grid, Typography, Link } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
   return (

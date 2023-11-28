@@ -1,0 +1,81 @@
+@import '../../../scss/abstracts/mixins';
+
+.slideshow {
+  width: 100%;
+  height: 41.5rem;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  position: relative;
+  @include respond(mobile) {
+    border-radius: 1.25rem;
+    height: 31.875rem;
+  }
+  &__item {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    transition: transform 500ms ease-in-out;
+    &-img {
+      width: 100%;
+      min-height: 41.5rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: gray;
+      @include respond(mobile) {
+        min-height: 31.875rem;
+      }
+    }
+    &-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-size: 2.4rem;
+    }
+  }
+  &__control {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    &--prev {
+      left: 2.3rem;
+      .slideshow__control-img {
+        transform: translateX(-2rem);
+      }
+    }
+    &--next {
+      right: 2.3rem;
+      .slideshow__control-img {
+        transform: translateX(2rem);
+      }
+    }
+    &-img {
+      height: 8rem;
+      @include respond(mobile) {
+        height: 2.5rem;
+      }
+    }
+  }
+  &__enum {
+    font-size: 1.8rem;
+    font-weight: 500;
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffffff;
+    @include respond(tab-portrait) {
+      visibility: hidden;
+    }
+  }
+}

@@ -17,7 +17,7 @@ import { NavLink } from 'react-router-dom';
 const Navbar = () => {
   const theme = useTheme();
   const {
-    me: { photo },
+    me: { photo, role },
   } = useSelector(state => state.users);
   const { isAuth } = useSelector(state => state.auth);
   const { isOpen } = useSelector(state => state.navbar);
@@ -85,7 +85,7 @@ const Navbar = () => {
           );
         })}
         {isAuth &&
-          LOGGED_ITEMS.map(item => {
+          LOGGED_ITEMS.filter(item => item.roles.includes(role)).map(item => {
             return (
               <NavItem
                 key={item.url}
