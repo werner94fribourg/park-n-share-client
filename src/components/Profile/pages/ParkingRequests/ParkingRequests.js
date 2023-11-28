@@ -44,17 +44,27 @@ const ParkingRequests = () => {
   };
 
   const processedParkings = unvalidated
-    ? unvalidated?.map(parking => ({
-        id: parking._id,
-        name: parking.name,
-        description: parking.description,
-        type: parking.type,
-        price: parking.price,
-        address: `${parking.location.street}${
-          parking.location.housenumber ? ' ' + parking.location.housenumber : ''
-        }, ${parking.location.postcode} ${parking.location.city}`,
-        validated: parking.isValidated ? 'Yes' : 'No',
-      }))
+    ? unvalidated?.map(parking => {
+        const {
+          location: { street, housenumber, postcode, city },
+        } = parking;
+        const streetNumber = `${street ? street + ' ' : ''}${
+          housenumber ? housenumber : ''
+        }`;
+
+        const address = `${streetNumber ? streetNumber + ', ' : ''}${
+          postcode ? postcode + ' ' : ''
+        }${city ? city : ''}`;
+        return {
+          id: parking._id,
+          name: parking.name,
+          description: parking.description,
+          type: parking.type,
+          price: parking.price,
+          address,
+          validated: parking.isValidated ? 'Yes' : 'No',
+        };
+      })
     : [];
 
   return (

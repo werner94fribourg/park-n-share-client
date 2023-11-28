@@ -41,6 +41,7 @@ const Description = props => {
       type,
       isValidated,
       isOccupied,
+      rating,
       location: { street, housenumber, postcode, city },
     },
     parking,
@@ -48,9 +49,13 @@ const Description = props => {
   const [validation, setValidation] = useState(isValidated);
   const navigate = useNavigate();
 
-  const address = `${street}${
-    housenumber ? ' ' + housenumber : ''
-  }, ${postcode} ${city}`;
+  const streetNumber = `${street ? street + ' ' : ''}${
+    housenumber ? housenumber : ''
+  }`;
+
+  const address = `${streetNumber ? streetNumber + ', ' : ''}${
+    postcode ? postcode + ' ' : ''
+  }${city ? city : ''}`;
 
   const reserveHandler = async id => {
     const socket = setSocket();
@@ -159,14 +164,18 @@ const Description = props => {
         gap={1}
         sx={{ marginBottom: '2rem', fontSize: '1.6rem' }}
       >
-        <Rating
-          name="rating"
-          defaultValue={2.2}
-          precision={0.5}
-          size="large"
-          readOnly
-        />
-        2.5
+        {rating && (
+          <>
+            <Rating
+              name="rating"
+              defaultValue={rating}
+              precision={0.5}
+              size="large"
+              readOnly
+            />
+            {rating}
+          </>
+        )}
       </Box>
       <Item title="Description" content={description} />
       <Item title="Address" content={address} />

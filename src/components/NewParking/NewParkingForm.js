@@ -70,7 +70,7 @@ const NewParkingForm = () => {
       return;
     }
     const {
-      coordinates: [lat, lng],
+      coordinates: [lng, lat],
     } = selectedAddress;
     dispatchParking({ type: 'coordinates', payload: [lat, lng] });
   };
@@ -80,6 +80,7 @@ const NewParkingForm = () => {
 
     dispatchMessages({ type: 'reset_all' });
 
+    console.log(typedParking);
     const formData = new FormData();
 
     Object.entries(typedParking).forEach(([key, value]) => {
