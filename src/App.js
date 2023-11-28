@@ -1,9 +1,16 @@
+import { confirmNotificationStyles } from './AppMUIStyles';
 import Theme from './components/Theme/Theme';
 import AppRouter from './routers/AppRouter';
 import { getPinValidity, initialize, updateTimeout } from './store/slices/auth';
 import { closeNotification } from './store/slices/notification';
+import {
+  loadOwnOccupations,
+  loadOwnParkings,
+  loadUnvalidatedParkings,
+} from './store/slices/parking';
 import { getMe } from './store/slices/users';
-import Alert from '@mui/material/Alert';
+import loadable from '@loadable/component';
+import { Modal, Typography, Box, CircularProgress } from '@mui/material';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 // eslint-disable-line import/no-webpack-loader-syntax
@@ -12,12 +19,15 @@ import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+const Alert = loadable(() => import('@mui/material/Alert'));
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 function App() {
   const { loading } = useSelector(state => state.users);
 
-  const { message, type } = useSelector(state => state.notification);
+  const { message, type, confirmNotification } = useSelector(
+    state => state.notification,
+  );
 
   const { pinExpirationDate, correctCredentials, jwt } = useSelector(
     state => state.auth,
@@ -28,8 +38,13 @@ function App() {
   useEffect(() => {
     const setup = async () => {
       const token = jwt || localStorage.getItem('jwt');
-      if (await getMe(token, dispatch)) initialize(token, dispatch);
-      else localStorage.removeItem('jwt');
+      const [authorized, role] = await getMe(token, dispatch);
+      if (authorized) {
+        initialize(token, dispatch);
+        if (role === 'provider') await loadOwnParkings(jwt, dispatch);
+        if (role === 'admin') await loadUnvalidatedParkings(jwt, dispatch);
+        if (role !== 'admin') await loadOwnOccupations(jwt, dispatch);
+      } else localStorage.removeItem('jwt');
     };
 
     setup();
@@ -62,6 +77,18 @@ function App() {
           <Alert severity={type} onClose={closeAlertHandler}>
             {message}
           </Alert>,
+          document.querySelector('body'),
+        )}
+      {confirmNotification !== '' &&
+        createPortal(
+          <Modal open={true}>
+            <Box sx={confirmNotificationStyles}>
+              <Typography component="h2" variant="h4">
+                {confirmNotification}
+              </Typography>
+              <CircularProgress />
+            </Box>
+          </Modal>,
           document.querySelector('body'),
         )}
     </Theme>

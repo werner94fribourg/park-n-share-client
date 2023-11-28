@@ -1,12 +1,14 @@
-import ForgotPassword from '../pages/ForgotPassword';
-import Otp from '../pages/Otp';
-import ResetPassword from '../pages/ResetPassword';
-import SignIn from '../pages/Signin';
-import SignUp from '../pages/Signup';
 import { closeNotification } from '../store/slices/notification';
+import loadable from '@loadable/component';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router';
+
+const ForgotPassword = loadable(() => import('../pages/ForgotPassword'));
+const Otp = loadable(() => import('../pages/Otp'));
+const ResetPassword = loadable(() => import('../pages/ResetPassword'));
+const SignIn = loadable(() => import('../pages/Signin'));
+const SignUp = loadable(() => import('../pages/Signup'));
 
 const AuthRouter = () => {
   const dispatch = useDispatch();

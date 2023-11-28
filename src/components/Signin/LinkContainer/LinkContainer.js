@@ -1,14 +1,12 @@
+import GoogleLoginButton from '../../UI/GoogleLoginButton/GoogleLoginButton';
 import SignLink from '../../UI/SignLink/SignLink';
-import GoogleLoginButton from '../GoogleLoginButton/GoogleLoginButton';
 import { linksWrapper, mainWrapper } from './LinkContainerMUIStyles';
 import { Grid } from '@mui/material';
 
-//import { GoogleLogin } from 'react-google-login';
-//TODO: Add GoogleLogin component
 const LinkContainer = () => {
   return (
     <Grid container style={mainWrapper}>
-      <GoogleLoginButton />
+      <GoogleLoginButton buttonText="Sign in with Google" type="signin" />
       <Grid container style={linksWrapper}>
         <SignLink url="/forgot-password" title="Forgot Password ?" />
         <SignLink url="/signup" title="Don't have an account? Sign Up" />

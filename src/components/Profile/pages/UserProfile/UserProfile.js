@@ -15,7 +15,6 @@ function UserProfile() {
   const { jwt } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
-  console.log(isEmailConfirmed);
 
   const handleConfirmationEmail = async () => {
     const response = await sendConfirmationEmail(jwt);
@@ -31,7 +30,7 @@ function UserProfile() {
         id="email"
         label="Email"
         value={email}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
 
       {!isEmailConfirmed && (
@@ -50,13 +49,13 @@ function UserProfile() {
         id="username"
         label="Username"
         value={username}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
       <SignInputField
         id="phone"
         label="Phone Number"
         value={phone}
-        InputProps={inputStyles}
+        inputProps={inputStyles}
       />
     </Box>
   );

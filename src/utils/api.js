@@ -9,8 +9,18 @@ import {
   UPDATE_PASSWORD_URL,
   CONFIRM_EMAIL_URL,
   RESET_PASSWORD_URL,
+  PARKINGS_URL,
+  GEOAPI_AUTOCOMPLETE_URL,
+  SINGLE_PARKING_URL,
+  OWN_PARKINGS_URL,
+  VALIDATE_PARKING_URL,
+  RESERVE_PARKING_URL,
+  END_RESERVATION_URL,
+  OWN_OCCUPATIONS_URL,
+  GET_GOOGLE_SIGNUP_LINK_URL,
 } from './globals';
 import { makeApiCall } from './utils';
+import axios from 'axios';
 
 export const signin = async credentials => {
   const data = await makeApiCall(
@@ -26,11 +36,22 @@ export const signin = async credentials => {
   return data;
 };
 
-export const signup = async userData => {
+export const signup = async (userData, googleID = '') => {
+  const params =
+    googleID === ''
+      ? {
+          data: userData,
+        }
+      : {
+          headers: {
+            googleID,
+          },
+          data: userData,
+        };
   const data = await makeApiCall(
     SIGNUP_URL,
     'post',
-    { data: userData },
+    params,
     data => {
       const { message, pinCodeExpires } = data;
       return { valid: true, message, pinCodeExpires };
@@ -221,4 +242,269 @@ export const resetPassword = async (resetToken, newValues) => {
   );
 
   return data;
+};
+
+export const getAllParkings = async params => {
+  const data = await makeApiCall(
+    PARKINGS_URL,
+    'get',
+    { params: { minPrice: 0, ...params } },
+    data => {
+      const {
+        data: { parkings },
+      } = data;
+      return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
+export const getUnvalidatedParkings = async token => {
+  const data = await makeApiCall(
+    PARKINGS_URL,
+    'get',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      params: { isValidated: false },
+    },
+    data => {
+      const {
+        data: { parkings },
+      } = data;
+      return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
+export const getParking = async (id, token = '') => {
+  const queryObj =
+    token !== ''
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      : undefined;
+  const data = await makeApiCall(
+    SINGLE_PARKING_URL.replace(':id', id),
+    'get',
+    queryObj,
+    data => {
+      const {
+        data: { parking },
+      } = data;
+
+      return { valid: true, parking };
+    },
+  );
+
+  return data;
+};
+
+export const getOwnParkings = async token => {
+  const data = await makeApiCall(
+    OWN_PARKINGS_URL,
+    'get',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+    data => {
+      const {
+        data: { parkings },
+      } = data;
+
+      return { valid: true, parkings };
+    },
+  );
+
+  return data;
+};
+
+export const validateParking = async (token, id) => {
+  const data = await makeApiCall(
+    VALIDATE_PARKING_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+    data => {
+      const {
+        data: { parking },
+      } = data;
+
+      return {
+        valid: true,
+        message: 'Parking successfully validated.',
+        parking,
+      };
+    },
+  );
+
+  return data;
+};
+
+export const sendParking = async (token, parking) => {
+  const data = await makeApiCall(
+    PARKINGS_URL,
+    'post',
+    {
+      data: parking,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'mutipart/form-data',
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { parking },
+      } = data;
+
+      return {
+        valid: true,
+        message,
+        parking,
+      };
+    },
+    201,
+  );
+
+  return data;
+};
+
+export const reserveParking = async (token, id, sessionID) => {
+  const data = await makeApiCall(
+    RESERVE_PARKING_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { occupation },
+      } = data;
+
+      return {
+        valid: true,
+        message,
+        occupation,
+      };
+    },
+  );
+
+  return data;
+};
+
+export const endReservation = async (token, id, sessionID) => {
+  const data = await makeApiCall(
+    END_RESERVATION_URL.replace(':id', id),
+    'patch',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const {
+        message,
+        data: { occupation },
+      } = data;
+
+      return {
+        valid: true,
+        message,
+        occupation,
+      };
+    },
+  );
+
+  return data;
+};
+
+export const getOwnOccupations = async token => {
+  const data = await makeApiCall(
+    OWN_OCCUPATIONS_URL,
+    'get',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    },
+    data => {
+      const {
+        data: { occupations },
+      } = data;
+
+      return { valid: true, occupations };
+    },
+  );
+
+  return data;
+};
+
+export const getSignupLink = async sessionID => {
+  const data = await makeApiCall(
+    GET_GOOGLE_SIGNUP_LINK_URL,
+    'get',
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const { url } = data;
+
+      return {
+        valid: true,
+        url,
+      };
+    },
+  );
+
+  return data;
+};
+
+export const getSuggestions = async query => {
+  const {
+    data: { features },
+  } = await axios.get(GEOAPI_AUTOCOMPLETE_URL, {
+    params: {
+      text: `${query}`,
+      apiKey: process.env.REACT_APP_GEOAPIFY_API_KEY,
+      limit: 30,
+      bbox: 'bbox=5.95592%2C-45.8183%3B10.49212%2C-47.8085&',
+    },
+  });
+
+  const suggestions = features
+    .map(feature => ({
+      coordinates: feature.geometry.coordinates,
+      country: feature.properties.country,
+      suggestion: feature.properties.formatted,
+    }))
+    .filter(suggestion => suggestion.country === 'Switzerland');
+
+  return suggestions.filter((_, index) => index < 5);
 };

@@ -1,13 +1,15 @@
-import Layout from '../components/Layout/Layout';
-import AboutUs from '../pages/AboutUs';
-import ConfirmEmail from '../pages/ConfirmEmail';
-import Home from '../pages/Home';
-import Parking from '../pages/Parking';
-import ParkingInfo from '../pages/ParkingInfo';
-import AuthRouter from './AuthRouter';
-import ProfileRouter from './ProfileRouter';
+import loadable from '@loadable/component';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router';
+
+const AboutUs = loadable(() => import('../pages/AboutUs'));
+const ConfirmEmail = loadable(() => import('../pages/ConfirmEmail'));
+const Home = loadable(() => import('../pages/Home'));
+const Parking = loadable(() => import('../pages/Parking'));
+const ParkingInfo = loadable(() => import('../pages/ParkingInfo'));
+const AuthRouter = loadable(() => import('./AuthRouter'));
+const ProfileRouter = loadable(() => import('./ProfileRouter'));
+const Layout = loadable(() => import('../components/Layout/Layout'));
 
 const AppRouter = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
