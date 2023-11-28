@@ -60,7 +60,6 @@ const Map = () => {
   };
 
   const submitLocationFormHandler = async (lat, lng) => {
-    //TODO: get location from geoapify (coordinates) and then set coordinates here (lat/lng)
     setLatitude(lat);
     setLongitude(lng);
     setLocationFormVisible(false);

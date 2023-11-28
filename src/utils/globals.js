@@ -19,6 +19,8 @@ export const SIGNIN_URL = USERS_URL + '/signin';
 
 export const SIGNUP_URL = USERS_URL + '/signup';
 
+export const GET_GOOGLE_SIGNUP_LINK_URL = USERS_URL + '/google/signup/link';
+
 export const PIN_EXPIRATION_URL = USERS_URL + '/:email/pin-expiration';
 
 export const CONFIRM_PIN_URL = USERS_URL + '/confirm-pin';
@@ -133,6 +135,7 @@ export const SIGNUP_FIELDS = [
     type: 'text',
     xs: 12,
     sm: 6,
+    hideWithGoogle: false,
   },
   {
     id: 'email',
@@ -140,6 +143,7 @@ export const SIGNUP_FIELDS = [
     type: 'email',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
   {
     id: 'phone',
@@ -147,6 +151,7 @@ export const SIGNUP_FIELDS = [
     type: 'tel',
     xs: 12,
     sm: 12,
+    hideWithGoogle: false,
   },
   {
     id: 'password',
@@ -154,6 +159,7 @@ export const SIGNUP_FIELDS = [
     type: 'password',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
   {
     id: 'passwordConfirm',
@@ -161,6 +167,7 @@ export const SIGNUP_FIELDS = [
     type: 'password',
     xs: 12,
     sm: 12,
+    hideWithGoogle: true,
   },
 ];
 

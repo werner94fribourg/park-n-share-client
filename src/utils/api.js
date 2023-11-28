@@ -17,6 +17,7 @@ import {
   RESERVE_PARKING_URL,
   END_RESERVATION_URL,
   OWN_OCCUPATIONS_URL,
+  GET_GOOGLE_SIGNUP_LINK_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -35,11 +36,22 @@ export const signin = async credentials => {
   return data;
 };
 
-export const signup = async userData => {
+export const signup = async (userData, googleID = '') => {
+  const params =
+    googleID === ''
+      ? {
+          data: userData,
+        }
+      : {
+          headers: {
+            googleID,
+          },
+          data: userData,
+        };
   const data = await makeApiCall(
     SIGNUP_URL,
     'post',
-    { data: userData },
+    params,
     data => {
       const { message, pinCodeExpires } = data;
       return { valid: true, message, pinCodeExpires };
@@ -445,6 +457,29 @@ export const getOwnOccupations = async token => {
       } = data;
 
       return { valid: true, occupations };
+    },
+  );
+
+  return data;
+};
+
+export const getSignupLink = async sessionID => {
+  const data = await makeApiCall(
+    GET_GOOGLE_SIGNUP_LINK_URL,
+    'get',
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        sessionID,
+      },
+    },
+    data => {
+      const { url } = data;
+
+      return {
+        valid: true,
+        url,
+      };
     },
   );
 

@@ -11,6 +11,8 @@ const initialState = {
   timeout: 0,
   isResetLinkValid: false,
   sessionID: '',
+  isGoogleAuth: false,
+  googleID: '',
 };
 
 const authSlice = createSlice({
@@ -54,6 +56,13 @@ const authSlice = createSlice({
 
       state.sessionID = sessionID;
     },
+    setGoogleID(state, action) {
+      const {
+        payload: { googleID, auth },
+      } = action;
+      state.isGoogleAuth = auth;
+      state.googleID = googleID;
+    },
   },
 });
 
@@ -73,8 +82,8 @@ export const connect = async (credentials, dispatch) => {
   return data;
 };
 
-export const createAccount = async (userData, dispatch) => {
-  const data = await signup(userData);
+export const createAccount = async (userData, dispatch, googleID = '') => {
+  const data = await signup(userData, googleID);
   if (data.valid)
     dispatch(
       authActions.signin({
@@ -147,4 +156,12 @@ export const setSessionID = (sessionID, dispatch) => {
 
 export const resetSessionID = dispatch => {
   dispatch(authActions.setSessionID(''));
+};
+
+export const setGoogleID = (googleID, dispatch) => {
+  dispatch(authActions.setGoogleID({ googleID, auth: true }));
+};
+
+export const disconnectFromGoogle = dispatch => {
+  dispatch(authActions.setGoogleID({ googleID: '', auth: true }));
 };
