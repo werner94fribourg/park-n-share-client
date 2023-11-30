@@ -19,6 +19,13 @@ import MaptyMap, { Marker, Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * Component representing the Parkings Map in the application.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Map = () => {
   const {
     parkings,
@@ -223,4 +230,5 @@ const Map = () => {
   );
 };
 
+Map.propTypes = {};
 export default Map;

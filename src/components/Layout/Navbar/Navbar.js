@@ -14,6 +14,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+/**
+ * Component representing the Navbar of the application.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Navbar = () => {
   const theme = useTheme();
   const {
@@ -134,4 +141,5 @@ const Navbar = () => {
   );
 };
 
+Navbar.propTypes = {};
 export default Navbar;

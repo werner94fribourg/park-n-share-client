@@ -3,6 +3,13 @@ import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+/**
+ * HomeActions component in the Home page, containing the buttons to navigate to the Parkings page, Sign Up page and Sign In page.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const HomeActions = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   return (
@@ -14,4 +21,5 @@ const HomeActions = () => {
   );
 };
 
+HomeActions.propTypes = {};
 export default HomeActions;

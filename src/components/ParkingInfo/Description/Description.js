@@ -16,10 +16,18 @@ import styles from './Description.module.scss';
 import { buttonStyles } from './DescriptionMUIStyles';
 import Item from './Item/Item';
 import { Typography, Rating, Box, Button } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * Description component in the ParkingInfo page, containing the description of a parking.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Description = props => {
   const {
     me: { _id, role },
@@ -243,4 +251,8 @@ const Description = props => {
   );
 };
 
+Description.propTypes = {
+  /** The displayed parking in the description */
+  parking: PropTypes.object,
+};
 export default Description;

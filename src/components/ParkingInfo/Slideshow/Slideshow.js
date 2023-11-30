@@ -5,8 +5,16 @@ import {
   rightNavigationStyles,
 } from './SlideshowMUIStyles';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
+/**
+ * Slideshow component in the ParkingInfo page, containing the photos of a parking in a slideshow
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Slideshow = props => {
   const { photos } = props;
 
@@ -88,4 +96,8 @@ const Slideshow = props => {
   );
 };
 
+Slideshow.propTypes = {
+  /** Array containing the photos of a parking */
+  photos: PropTypes.array,
+};
 export default Slideshow;

@@ -21,7 +21,13 @@ import { useNavigate } from 'react-router';
 
 const Alert = loadable(() => import('@mui/material/Alert'));
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-
+/**
+ * Route component of the application
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 function App() {
   const { loading } = useSelector(state => state.users);
 

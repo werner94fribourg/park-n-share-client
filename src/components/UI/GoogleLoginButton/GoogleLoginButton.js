@@ -1,6 +1,14 @@
 import { containerStyles } from './GoogleLoginButtonMUIStyles';
+import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
 
+/**
+ * GoogleLoginButton component in the SignUp page, containing the Google Login button.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 function GoogleLoginButton(props) {
   const { buttonText, onClick } = props;
 
@@ -26,5 +34,10 @@ function GoogleLoginButton(props) {
     </div>
   );
 }
-
+GoogleLoginButton.propTypes = {
+  /** Text of the Google Login button. */
+  buttonText: PropTypes.string,
+  /** Function to execute when the Google Login button is clicked. */
+  onClick: PropTypes.func,
+};
 export default GoogleLoginButton;

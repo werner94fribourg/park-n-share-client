@@ -13,6 +13,13 @@ import {
 import { Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
+/**
+ * LinkContainer component in the Signup page, that wraps the links (SignIn) of the page.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const LinkContainer = () => {
   const dispatch = useDispatch();
   const { isGoogleAuth } = useSelector(state => state.auth);
@@ -76,4 +83,5 @@ const LinkContainer = () => {
   );
 };
 
+LinkContainer.propTypes = {};
 export default LinkContainer;

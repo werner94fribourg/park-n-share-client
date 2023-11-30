@@ -14,6 +14,13 @@ const UserParkings = loadable(
   () => import('../components/Profile/pages/UserParkings/UserParkings'),
 );
 
+/**
+ * Component representing the User Profile dashboard of the application, containing Routes for dashboard navigation.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Profile = () => {
   const {
     me: { role },
@@ -36,4 +43,5 @@ const Profile = () => {
   );
 };
 
+Profile.propTypes = {};
 export default Profile;

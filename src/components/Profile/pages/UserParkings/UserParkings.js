@@ -20,6 +20,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * UserParkings component in the Profile page, containing the parkings of a user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const UserParkings = () => {
   const { own } = useSelector(state => state.parking);
   const navigate = useNavigate();
@@ -122,4 +129,5 @@ const UserParkings = () => {
   );
 };
 
+UserParkings.propTypes = {};
 export default UserParkings;

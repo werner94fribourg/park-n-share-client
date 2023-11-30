@@ -6,6 +6,13 @@ import { Navigate, Route, Routes } from 'react-router';
 
 const Profile = loadable(() => import('../pages/Profile'));
 
+/**
+ * Router containing Routes for authenticated users.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ProfileRouter = () => {
   const {
     me: { role },
@@ -23,4 +30,5 @@ const ProfileRouter = () => {
   );
 };
 
+ProfileRouter.propTypes = {};
 export default ProfileRouter;

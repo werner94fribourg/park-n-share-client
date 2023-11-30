@@ -18,6 +18,13 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * NewParkingForm component in the NewParking page, containing the form for requesting a new parking.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const NewParkingForm = () => {
   const { jwt } = useSelector(state => state.auth);
   const [typedParking, dispatchParking] = useReducer(
@@ -207,4 +214,5 @@ const NewParkingForm = () => {
   );
 };
 
+NewParkingForm.propTypes = {};
 export default NewParkingForm;

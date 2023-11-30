@@ -1,6 +1,14 @@
 import { avatarStyles } from './OwnerMUIStyles';
 import { Avatar, Box } from '@mui/material';
+import PropTypes from 'prop-types';
 
+/**
+ * Owner component in the ParkingInfo page, containing the owner of a parking.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Owner = props => {
   const {
     owner: { username, photo },
@@ -20,4 +28,8 @@ const Owner = props => {
   );
 };
 
+Owner.propTypes = {
+  /** Object containing the owner's information */
+  owner: PropTypes.object,
+};
 export default Owner;

@@ -4,6 +4,13 @@ import { typography } from './BannerMUIStyles';
 import { Container, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+/**
+ * Banner component in the Home page, containing the main title and a link to the Parkings page.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Banner = () => {
   return (
     <section id="other" className={styles.banner}>
@@ -23,4 +30,5 @@ const Banner = () => {
   );
 };
 
+Banner.propTypes = {};
 export default Banner;

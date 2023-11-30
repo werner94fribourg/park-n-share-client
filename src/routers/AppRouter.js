@@ -11,6 +11,14 @@ const AuthRouter = loadable(() => import('./AuthRouter'));
 const ProfileRouter = loadable(() => import('./ProfileRouter'));
 const Layout = loadable(() => import('../components/Layout/Layout'));
 
+/**
+ * Base router of the application. It calls ProfileRouter or AuthRouter depending on the authentication state of the user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
+
 const AppRouter = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
 

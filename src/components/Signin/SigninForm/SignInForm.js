@@ -9,6 +9,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * SignInForm component in the SignIn page, containing the form for signing in a user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 function SignInForm() {
   const dispatch = useDispatch();
   const correctCredentials = useSelector(
@@ -69,4 +76,5 @@ function SignInForm() {
   );
 }
 
+SignInForm.propTypes = {};
 export default SignInForm;

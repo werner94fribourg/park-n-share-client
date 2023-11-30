@@ -9,7 +9,13 @@ const Otp = loadable(() => import('../pages/Otp'));
 const ResetPassword = loadable(() => import('../pages/ResetPassword'));
 const SignIn = loadable(() => import('../pages/Signin'));
 const SignUp = loadable(() => import('../pages/Signup'));
-
+/**
+ * Router containing Routes for non-authenticated users.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const AuthRouter = () => {
   const dispatch = useDispatch();
 
@@ -28,5 +34,7 @@ const AuthRouter = () => {
     </Routes>
   );
 };
+
+AuthRouter.propTypes = {};
 
 export default AuthRouter;

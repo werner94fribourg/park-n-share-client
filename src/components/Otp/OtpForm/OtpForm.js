@@ -5,6 +5,13 @@ import { Box, Button, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * OtpForm component in the Otp page, containing the form for confirming the pin code.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const OtpForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,4 +53,5 @@ const OtpForm = () => {
   );
 };
 
+OtpForm.propTypes = {};
 export default OtpForm;

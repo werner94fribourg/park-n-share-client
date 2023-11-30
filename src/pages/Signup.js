@@ -2,9 +2,13 @@ import LinkContainer from '../components/Signup/LinkContainer/LinkContainer';
 import SignUpForm from '../components/Signup/SignUpForm/SignUpForm';
 import SignContainer from '../components/UI/SignContainer/SignContainer';
 
-// import { GoogleLogin } from 'react-google-login';
-// import global-styles.css
-
+/**
+ * Component representing the SignUp page of the application.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 function SignUp() {
   return (
     <SignContainer headerText="Sign Up">
@@ -14,4 +18,5 @@ function SignUp() {
   );
 }
 
+SignUp.propTypes = {};
 export default SignUp;

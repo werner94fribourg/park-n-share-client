@@ -7,8 +7,16 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
+/**
+ * LocationForm component in the Parking page, containing the form to enter a location for searching parkings.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const LocationForm = props => {
   const { visible, onClose, onSubmit } = props;
   const [location, setLocation] = useState('');
@@ -75,4 +83,12 @@ const LocationForm = props => {
   );
 };
 
+LocationForm.propTypes = {
+  /** The visibility status of the form */
+  visible: PropTypes.bool,
+  /** The handler function called when we want to close the form */
+  onClose: PropTypes.func,
+  /** The handler function called when we want to submit the form */
+  onSubmit: PropTypes.func,
+};
 export default LocationForm;

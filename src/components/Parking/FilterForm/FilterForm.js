@@ -11,9 +11,17 @@ import {
   Typography,
   Slider,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+/**
+ * FilterForm component in the Parking page, containing the form for filtering the displayed parkings.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const FilterForm = props => {
   const { visible, onClose, onSubmit } = props;
   const { filters } = useSelector(state => state.parking);
@@ -114,4 +122,12 @@ const FilterForm = props => {
   );
 };
 
+FilterForm.propTypes = {
+  /** The visibility status of the form */
+  visible: PropTypes.bool,
+  /** The handler function called when we want to close the form */
+  onClose: PropTypes.func,
+  /** The handler function called when we want to submit the form */
+  onSubmit: PropTypes.func,
+};
 export default FilterForm;

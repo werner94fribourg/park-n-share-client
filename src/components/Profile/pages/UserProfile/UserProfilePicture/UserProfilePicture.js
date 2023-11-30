@@ -9,6 +9,13 @@ import { avatarStyles } from './UserProfilePictureMUIStyles';
 import { Avatar, Box, IconButton, Input } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
+/**
+ * UserProfilePicture component in the Profile page, containing the profile picture of a user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const UserProfilePhoto = () => {
   const { photo } = useSelector(state => state.users.me);
   const { jwt } = useSelector(state => state.auth);
@@ -57,4 +64,5 @@ const UserProfilePhoto = () => {
   );
 };
 
+UserProfilePhoto.propTypes = {};
 export default UserProfilePhoto;

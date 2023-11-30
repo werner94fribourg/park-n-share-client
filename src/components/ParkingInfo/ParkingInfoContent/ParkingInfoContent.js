@@ -7,6 +7,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
+/**
+ * ParkingInfoContent component in the ParkingInfo page, containing the characteristics of a parking.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ParkingInfoContent = () => {
   const { jwt } = useSelector(state => state.auth);
   const { id } = useParams();
@@ -37,4 +44,5 @@ const ParkingInfoContent = () => {
   );
 };
 
+ParkingInfoContent.propTypes = {};
 export default ParkingInfoContent;

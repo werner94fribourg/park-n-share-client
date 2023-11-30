@@ -7,6 +7,13 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * ForgotPasswordForm component in the ForgotPassword page, containing the form for requesting a password reset link.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
@@ -26,9 +33,6 @@ const ForgotPasswordForm = () => {
       return;
     }
     notifyError(data.message, dispatch);
-
-    // Add your password reset logic here
-    // Redirect to a confirmation page or display a message
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={boxStyles}>
@@ -46,4 +50,5 @@ const ForgotPasswordForm = () => {
   );
 };
 
+ForgotPasswordForm.propTypes = {};
 export default ForgotPasswordForm;

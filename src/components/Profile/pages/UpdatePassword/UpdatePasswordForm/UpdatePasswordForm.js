@@ -12,7 +12,14 @@ import { Box, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function FormUpdatedPassword() {
+/**
+ * UpdatePasswordForm component in the UpdatePassword page, containing the form for updating the password of a user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
+export default function UpdatePasswordForm() {
   const [passwordCurrent, setPasswordCurrent] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -87,3 +94,5 @@ export default function FormUpdatedPassword() {
     </Box>
   );
 }
+
+UpdatePasswordForm.propTypes = {};

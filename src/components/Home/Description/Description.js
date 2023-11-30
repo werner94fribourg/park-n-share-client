@@ -1,5 +1,12 @@
 import Content from './Content/Content';
 
+/**
+ * Description component in the Home page.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const Description = () => {
   return (
     <Content
@@ -9,4 +16,5 @@ const Description = () => {
   );
 };
 
+Description.propTypes = {};
 export default Description;

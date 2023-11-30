@@ -10,6 +10,13 @@ import { useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
+/**
+ * ResetPasswordForm component in the ResetPassword page, containing the form for resetting the password of a user.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ResetPasswordForm = () => {
   const { resetToken } = useParams();
   const [typedUser, dispatchUser] = useReducer(userReducers, undefined);
@@ -99,4 +106,5 @@ const ResetPasswordForm = () => {
   );
 };
 
+ResetPasswordForm.propTypes = {};
 export default ResetPasswordForm;

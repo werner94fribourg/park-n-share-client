@@ -4,6 +4,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
+/**
+ * Component representing the ConfirmEmail Link of the application.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ConfirmEmail = () => {
   const { confToken } = useParams();
   const dispatch = useDispatch();
@@ -25,5 +32,5 @@ const ConfirmEmail = () => {
 
   return <div></div>;
 };
-
+ConfirmEmail.propTypes = {};
 export default ConfirmEmail;

@@ -22,6 +22,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+/**
+ * ParkingRequests component in the Profile page, containing the requests for a parking (only for admins).
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 const ParkingRequests = () => {
   const { jwt } = useSelector(state => state.auth);
   const { unvalidated } = useSelector(state => state.parking);
@@ -128,4 +135,5 @@ const ParkingRequests = () => {
   );
 };
 
+ParkingRequests.propTypes = {};
 export default ParkingRequests;

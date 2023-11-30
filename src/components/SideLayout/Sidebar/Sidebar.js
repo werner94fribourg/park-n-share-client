@@ -11,6 +11,13 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
+/**
+ * Sidebar component in the SideLayout, containing the navigation items of profile sections.
+ *
+ * @version 1.0.0
+ * @author [Gobi Ahonon](https://github.com/ahonongobia)
+ * @author [Werner Schmid](https://github.com/werner94fribourg)
+ */
 export default function SideBar() {
   const {
     me: { role },
@@ -39,3 +46,5 @@ export default function SideBar() {
     </div>
   );
 }
+
+SideBar.propTypes = {};
