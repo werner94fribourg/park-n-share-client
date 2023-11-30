@@ -27,7 +27,7 @@ export default function RadiusButton({ type, text, url, onClick }) {
 
 RadiusButton.propTypes = {
   /** The type of the button.*/
-  type: PropTypes.string,
+  type: PropTypes.object,
   /** The text of the button.*/
   text: PropTypes.string,
   /** The url of the button.*/

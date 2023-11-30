@@ -1,3 +1,4 @@
+import { initialize } from '../../../../../store/slices/auth';
 import {
   notifyError,
   notifySuccess,
@@ -49,19 +50,22 @@ export default function UpdatePasswordForm() {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const data = await updatePassword(
+
+    const { valid, message, token } = await updatePassword(
       jwt,
       passwordCurrent,
       password,
       passwordConfirm,
     );
 
-    if (data.valid) {
-      //  navigate('/');
-      notifySuccess(data.message, dispatch);
+    if (valid) {
+      notifySuccess(message, dispatch);
+      localStorage.setItem('jwt', token);
+      initialize(token, dispatch);
       return;
     }
-    notifyError(data.message, dispatch);
+
+    notifyError(message, dispatch);
   };
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={boxStyles}>

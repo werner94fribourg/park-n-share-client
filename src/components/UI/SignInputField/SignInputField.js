@@ -112,7 +112,7 @@ SignInputField.propTypes = {
   /** The label of the input field.*/
   label: PropTypes.string,
   /** The value of the input field.*/
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   /** The onChange handler function when the values of the input field change.*/
   onChange: PropTypes.func,
   /** The type of the input field.*/

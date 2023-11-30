@@ -43,7 +43,7 @@ FormField.propTypes = {
   /** Type of the field. */
   type: PropTypes.string,
   /** Value of the field. */
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   /** Function to call when the value of the field changes. */
   onChange: PropTypes.func,
   /** Number of columns to use for the field in the grid. */

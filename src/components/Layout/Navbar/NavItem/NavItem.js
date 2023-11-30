@@ -33,7 +33,7 @@ NavItem.propTypes = {
     PropTypes.node,
   ]),
   /** Class name of the NavItem. */
-  className: PropTypes.string,
+  className: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   /** Text to be displayed in the NavItem Link. */
   text: PropTypes.bool,
   /** Link Item to be displayed. */
