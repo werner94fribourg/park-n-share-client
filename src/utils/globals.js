@@ -17,7 +17,7 @@ import {
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const BACKEND_URL = 'http://localhost:3001';
+export const BACKEND_URL = 'https://park-n-share.azurewebsites.net';
 
 /**
  * Base URL of the GEO API, used to handle coordinates and addresses
