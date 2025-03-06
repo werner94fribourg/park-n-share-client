@@ -24,7 +24,6 @@ import {
   RESERVE_PARKING_URL,
   END_RESERVATION_URL,
   OWN_OCCUPATIONS_URL,
-  GET_GOOGLE_SIGNUP_LINK_URL,
 } from './globals';
 import { makeApiCall } from './utils';
 import axios from 'axios';
@@ -566,14 +565,13 @@ export const sendParking = async (token, parking) => {
  * Function used to reserve a parking slot.
  * @param {string} token the jwt authentication token of the connected user
  * @param {string} id the id of the parking the connected user wants to reserve
- * @param {string} sessionID the initialized websocket session id of the connected user
  * @returns {Promise<Object>} a promise containing the new occupation of the parking
  *
  * @version 1.0.0
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const reserveParking = async (token, id, sessionID) => {
+export const reserveParking = async (token, id) => {
   const data = await makeApiCall(
     RESERVE_PARKING_URL.replace(':id', id),
     'patch',
@@ -581,7 +579,6 @@ export const reserveParking = async (token, id, sessionID) => {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        sessionID,
       },
     },
     data => {
@@ -605,14 +602,13 @@ export const reserveParking = async (token, id, sessionID) => {
  * Function used to end a existing parking reservation.
  * @param {string} token the jwt authentication token of the connected
  * @param {string} id the id of the parking for which the connected user wants to end the reservation
- * @param {string} sessionID the initialized websocket session id of the connected user
  * @returns {Promise<Object>} a promise containing the finished occupation of the parking
  *
  * @version 1.0.0
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const endReservation = async (token, id, sessionID) => {
+export const endReservation = async (token, id) => {
   const data = await makeApiCall(
     END_RESERVATION_URL.replace(':id', id),
     'patch',
@@ -620,7 +616,6 @@ export const endReservation = async (token, id, sessionID) => {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        sessionID,
       },
     },
     data => {
@@ -665,38 +660,6 @@ export const getOwnOccupations = async token => {
       } = data;
 
       return { valid: true, occupations };
-    },
-  );
-
-  return data;
-};
-
-/**
- * Function used to get the authentication link with google on the backend application.
- * @param {string} sessionID the initialized websocket session id of the connected user
- * @returns {Promise<Object>} a promise containing the link to authenticate using google in the backend application
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const getSignupLink = async sessionID => {
-  const data = await makeApiCall(
-    GET_GOOGLE_SIGNUP_LINK_URL,
-    'get',
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        sessionID,
-      },
-    },
-    data => {
-      const { url } = data;
-
-      return {
-        valid: true,
-        url,
-      };
     },
   );
 

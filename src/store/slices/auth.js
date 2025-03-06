@@ -16,9 +16,7 @@ import moment from 'moment-timezone';
  * @property {string} pinExpirationDate the expiration date of the pin code
  * @property {number} timeout the remaining time before the pin code will expire
  * @property {boolean} isResetLinkValid the validity status of the reset password link
- * @property {string} sessionID the socket session id of the client application
  * @property {boolean} isGoogleAuth the google authentication status of the user using his gmail account
- * @property {string} googleID the google id of the user when he authenticated using his gmail account
  *
  * The initial state for the authentication store
  * @type {AuthInitialState}
@@ -34,9 +32,7 @@ const initialState = {
   pinExpirationDate: '',
   timeout: 0,
   isResetLinkValid: false,
-  sessionID: '',
   isGoogleAuth: false,
-  googleID: '',
 };
 
 /**
@@ -88,18 +84,6 @@ const authSlice = createSlice({
     },
     setResetLinkValidity(state, action) {
       state.isResetLinkValid = action.payload;
-    },
-    setSessionID(state, action) {
-      const sessionID = action.payload;
-
-      state.sessionID = sessionID;
-    },
-    setGoogleID(state, action) {
-      const {
-        payload: { googleID, auth },
-      } = action;
-      state.isGoogleAuth = auth;
-      state.googleID = googleID;
     },
   },
 });
@@ -291,54 +275,4 @@ const decreaseTimer = async (diff, dispatch) => {
  */
 export const setResetLinkValidity = (validity, dispatch) => {
   dispatch(authActions.setResetLinkValidity(validity));
-};
-
-/**
- * Function used to initialize the value of the sessionId when the client has started a websocket connection to the backend.
- * @param {string} sessionID the id of the started web socket session
- * @param {Function} dispatch the dispatcher function used to modify the store
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const setSessionID = (sessionID, dispatch) => {
-  dispatch(authActions.setSessionID(sessionID));
-};
-
-/**
- * Function used to reset the stored session id for socket connexion.
- * @param {Function} dispatch the dispatcher function used to modify the store
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const resetSessionID = dispatch => {
-  dispatch(authActions.setSessionID(''));
-};
-
-/**
- * Function used to set the googleId of the user when he successfully authenticated using gmail.
- * @param {string} googleID the google ID of the user that successfully connected used gmail
- * @param {Function} dispatch the dispatcher function used to modify the store
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const setGoogleID = (googleID, dispatch) => {
-  dispatch(authActions.setGoogleID({ googleID, auth: true }));
-};
-
-/**
- * Function used to logout the user after he authenticated using gmail.
- * @param {Function} dispatch the dispatcher function used to modify the store
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const disconnectFromGoogle = dispatch => {
-  dispatch(authActions.setGoogleID({ googleID: '', auth: false }));
 };

@@ -17,7 +17,7 @@ import {
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const BACKEND_URL = 'https://park-n-share.azurewebsites.net';
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /**
  * Base URL of the GEO API, used to handle coordinates and addresses
@@ -78,16 +78,6 @@ export const SIGNIN_URL = USERS_URL + '/signin';
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
 export const SIGNUP_URL = USERS_URL + '/signup';
-
-/**
- * URL of the users/google/signup/link endpoint
- * @type {string}
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const GET_GOOGLE_SIGNUP_LINK_URL = USERS_URL + '/google/signup/link';
 
 /**
  * URL of the users/:email/pin-expiration endpoint

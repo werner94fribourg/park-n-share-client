@@ -362,7 +362,6 @@ export const newParkingRequest = async (jwt, parkingData, dispatch) => {
  * Async function used to reserve a parking.
  * @param {string} jwt the jwt token of the connected user
  * @param {string} id the id of the parking the connected user wants to reserve
- * @param {string} sessionID the websocket session id associated with the reservation process
  * @param {Function} dispatch the dispatcher function used to modify the store
  * @returns {Promise<Object>} a promise containing the validity status of reserving a parking and its sent back message
  *
@@ -370,12 +369,8 @@ export const newParkingRequest = async (jwt, parkingData, dispatch) => {
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const startParkingReservation = async (jwt, id, sessionID, dispatch) => {
-  const { valid, message, occupation } = await reserveParking(
-    jwt,
-    id,
-    sessionID,
-  );
+export const startParkingReservation = async (jwt, id, dispatch) => {
+  const { valid, message, occupation } = await reserveParking(jwt, id);
 
   if (valid) dispatch(parkingActions.addOccupation({ occupation }));
 
@@ -386,7 +381,6 @@ export const startParkingReservation = async (jwt, id, sessionID, dispatch) => {
  * Async function used to end the reservation of a parking.
  * @param {string} jwt the jwt token of the connected user
  * @param {string} id the id of the parking the connected user wants to reserve
- * @param {string} sessionID the websocket session id associated with the reservation process
  * @param {Function} dispatch the dispatcher function used to modify the store
  * @returns {Promise<Object>} a promise containing the validity status of ending a parking reservation and its sent back message
  *
@@ -394,12 +388,8 @@ export const startParkingReservation = async (jwt, id, sessionID, dispatch) => {
  * @author [Gobi Ahonon](https://github.com/ahonongobia)
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
-export const endParkingReservation = async (jwt, id, sessionID, dispatch) => {
-  const { valid, message, occupation } = await endReservation(
-    jwt,
-    id,
-    sessionID,
-  );
+export const endParkingReservation = async (jwt, id, dispatch) => {
+  const { valid, message, occupation } = await endReservation(jwt, id);
 
   if (valid) dispatch(parkingActions.addOccupation({ occupation }));
 

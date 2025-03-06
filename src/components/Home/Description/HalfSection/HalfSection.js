@@ -32,6 +32,9 @@ HalfSection.propTypes = {
   /** Text to be displayed. */
   text: PropTypes.string,
   /** Title of the text to be displayed. */
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node, // Allows React elements or other renderable content
+  ]),
 };
 export default HalfSection;

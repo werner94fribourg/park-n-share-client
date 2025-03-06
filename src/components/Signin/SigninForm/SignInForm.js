@@ -44,9 +44,8 @@ function SignInForm() {
   const handleSubmit = async event => {
     event.preventDefault();
     const data = await connect(formData, dispatch);
-
     if (data.valid) {
-      navigate('/otp');
+      //navigate('/otp');
     } else {
       notifyError(data.message, dispatch);
     }

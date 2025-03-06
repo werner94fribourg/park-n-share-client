@@ -8,7 +8,7 @@ import { formStyles, signupButtonStyles } from './SignUpFormMUIStyles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useEffect, useReducer } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 /**
@@ -19,7 +19,6 @@ import { useNavigate } from 'react-router';
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
 function SignUpForm() {
-  const { isGoogleAuth, googleID } = useSelector(state => state.auth);
   const [typedUser, dispatchUser] = useReducer(userReducers, undefined);
   const [messages, dispatchMessages] = useReducer(
     invalidFieldsReducer,
@@ -42,14 +41,6 @@ function SignUpForm() {
     event.preventDefault();
     dispatchMessages({ type: 'reset_all' });
 
-    if (isGoogleAuth) {
-      console.log('google auth');
-      console.log(typedUser);
-      const { username, phone } = typedUser;
-      console.log({ googleID, username, phone });
-      return;
-    }
-
     // Perform form validation here
     const { valid, message, fields } = await createAccount(typedUser, dispatch);
 
@@ -69,11 +60,7 @@ function SignUpForm() {
     navigate('/otp');
   };
 
-  console.log(googleID);
-  console.log(isGoogleAuth);
-  const signupFields = !isGoogleAuth
-    ? SIGNUP_FIELDS
-    : SIGNUP_FIELDS.filter(field => !field.hideWithGoogle);
+  const signupFields = SIGNUP_FIELDS;
 
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={formStyles}>

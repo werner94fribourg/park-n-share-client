@@ -2,10 +2,8 @@
  * Store of all global helper functions used in the application
  * @module helpers
  */
-import { BACKEND_URL } from './globals';
 import axios, { AxiosError } from 'axios';
 import moment from 'moment-timezone';
-import { io } from 'socket.io-client';
 
 /**
  * Function used to make an API call to a specific url in the backend.
@@ -448,27 +446,3 @@ export const calculateDistance = (point1, point2) => {
  * @author [Werner Schmid](https://github.com/werner94fribourg)
  */
 export const toRadians = deg => deg * (Math.PI / 180);
-
-/**
- * Function used to initialize a socket connection to the backend of the application.
- * @returns {import('socket.io-client').Socket} the initialized socket connection object
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const setSocket = () => {
-  return io.connect(BACKEND_URL, {});
-};
-
-/**
- * Function used to end a socket connection to the backend of the application.
- * @param {import('socket.io-client').Socket} socket the socket connection we want to disconnect
- *
- * @version 1.0.0
- * @author [Gobi Ahonon](https://github.com/ahonongobia)
- * @author [Werner Schmid](https://github.com/werner94fribourg)
- */
-export const disconnectSocket = socket => {
-  socket.disconnect();
-};

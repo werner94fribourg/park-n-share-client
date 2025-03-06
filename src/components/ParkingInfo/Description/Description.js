@@ -1,4 +1,3 @@
-import { resetSessionID } from '../../../store/slices/auth';
 import {
   notifyError,
   notifySuccess,
@@ -10,7 +9,6 @@ import {
   endParkingReservation,
   startParkingReservation,
 } from '../../../store/slices/parking';
-import { disconnectSocket, setSocket } from '../../../utils/utils';
 import Owner from '../Owner/Owner';
 import styles from './Description.module.scss';
 import { buttonStyles } from './DescriptionMUIStyles';
@@ -66,81 +64,30 @@ const Description = props => {
   }${city ? city : ''}`;
 
   const reserveHandler = async id => {
-    const socket = setSocket();
-    socket.on('connexion_established', async data => {
-      const { sessionID } = data;
+    const { valid, message } = await startParkingReservation(jwt, id, dispatch);
 
-      const { valid, message } = await startParkingReservation(
-        jwt,
-        id,
-        sessionID,
-        dispatch,
-      );
+    if (valid) {
+      navigate('/parkings');
+      notifySuccess(message, dispatch);
+      return;
+    }
 
-      if (valid) {
-        navigate('/parkings');
-        notifySuccess(message, dispatch);
-        return;
-      }
-
-      notifyError(message, dispatch);
-    });
-
-    socket.on('confirmation_message', data => {
-      const { message } = data;
-      setConfirmNotification(message, dispatch);
-    });
-
-    socket.on('successful_reservation', () => {
-      resetConfirmNotification(dispatch);
-      resetSessionID(dispatch);
-      disconnectSocket(socket);
-    });
-
-    socket.on('unsuccessful_reservation', () => {
-      resetConfirmNotification(dispatch);
-      resetSessionID(dispatch);
-      disconnectSocket(socket);
-    });
+    notifyError(message, dispatch);
   };
 
   const endReservationHandler = async id => {
-    const socket = setSocket();
-    socket.on('connexion_established', async data => {
-      const { sessionID } = data;
+    const { valid, message } = await endParkingReservation(jwt, id, dispatch);
 
-      const { valid, message } = await endParkingReservation(
-        jwt,
-        id,
-        sessionID,
-        dispatch,
-      );
+    if (valid) {
+      navigate('/parkings');
+      notifySuccess(message, dispatch);
+      return;
+    }
 
-      if (valid) {
-        navigate('/parkings');
-        notifySuccess(message, dispatch);
-        return;
-      }
+    notifyError(message, dispatch);
 
-      notifyError(message, dispatch);
-    });
-
-    socket.on('confirmation_message', data => {
-      const { message } = data;
-      setConfirmNotification(message, dispatch);
-    });
-
-    socket.on('successful_end', () => {
-      resetConfirmNotification(dispatch);
-      resetSessionID(dispatch);
-      disconnectSocket(socket);
-    });
-
-    socket.on('unsuccessful_end', () => {
-      resetConfirmNotification(dispatch);
-      resetSessionID(dispatch);
-      disconnectSocket(socket);
-    });
+    setConfirmNotification('Reservation successfully ended.', dispatch);
+    resetConfirmNotification(dispatch);
   };
 
   const validateHandler = async id => {
